@@ -15,5 +15,5 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="vi" className={`${heading.variable} ${body.variable}`}><body><a href="#main" className="skip-link">Đến nội dung chính</a><SiteHeader />{children}<SiteFooter /></body></html>;
+  return <html lang="vi" className={`${heading.variable} ${body.variable}`}><body><a href="#main" className="skip-link" tabIndex={0}>Đến nội dung chính</a><SiteHeader />{children}<SiteFooter /></body></html>;
 }

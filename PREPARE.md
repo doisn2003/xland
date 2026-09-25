@@ -1,6 +1,6 @@
 # XLAND - KẾ HOẠCH PHÁT TRIỂN VÀ QUY ƯỚC THỰC THI
 
-> Cập nhật: 25/09/2026 · Trạng thái: đã khởi tạo nền ứng dụng; đang chuẩn bị giao diện demo mốc 1A.
+> Cập nhật: 25/09/2026 · Trạng thái: đã triển khai home/card/detail mốc 1A; xem kết quả kiểm tra mới nhất trong docs/STATUS.md.
 > Đích gần nhất: website mobile first đẹp theo mẫu LUXEESTATE, có dữ liệu/media mẫu và các hành trình hoạt động để trình nhà đầu tư.
 > Stack đã chốt: Next.js + TypeScript trên Vercel; backend Node.js trên Railway; PostgreSQL/Auth/Storage trên Supabase; smart contract Solidity theo ERC-1155 ở giai đoạn backend.
 > Người triển khai kỹ thuật: Codex. Chủ dự án quyết định kinh doanh, ngân sách, đối tác và thời điểm chuyển sang vận hành thật.
@@ -20,7 +20,7 @@
 | `assets/images/penthouse-auction.jpg` | 1376 × 768, khoảng 0,85 MB; nội thất penthouse | Tài nguyên cũ; tên file không phải yêu cầu xây đấu giá |
 | `assets/images/villa-nft.jpg` | 1376 × 768, khoảng 0,95 MB; biệt thự | Tham khảo mỹ thuật; tên file không phải yêu cầu xây NFT |
 
-Git đã được khởi tạo, có commit `7acb455 — Initial commit`; sử dụng tiếp kho hiện tại. Đã tạo nền Next.js App Router/TypeScript strict, Tailwind, trang chờ Xland, trang 404 và bộ kiểm tra; đã có `AGENTS.md`, `README.md`, `docs/STATUS.md`. Phiên bản chính xác và lệnh chạy được ghi trong `README.md`, `package.json`, `pnpm-lock.yaml`. Đã có `docs/DESIGN.md` làm đặc tả mốc 1A; chưa có các luồng nghiệp vụ demo. Giữ nguyên PDF và ảnh nguồn; chỉ đưa tài nguyên đã tuyển chọn vào thư mục public của ứng dụng.
+Git đã được khởi tạo, có commit `7acb455 — Initial commit`; sử dụng tiếp kho hiện tại. Đã tạo nền Next.js App Router/TypeScript strict, Tailwind, trang chờ Xland, trang 404 và bộ kiểm tra; đã có `AGENTS.md`, `README.md`, `docs/STATUS.md`. Phiên bản chính xác và lệnh chạy được ghi trong `README.md`, `package.json`, `pnpm-lock.yaml`. Đã có `docs/DESIGN.md` và home/card/detail mốc 1A với filter cục bộ/gallery; các luồng nghiệp vụ 1B chưa triển khai. Giữ nguyên PDF và ảnh nguồn; chỉ đưa tài nguyên đã tuyển chọn vào thư mục public của ứng dụng.
 
 ### Thứ tự áp dụng và định nghĩa sản phẩm
 
@@ -105,7 +105,7 @@ Không dùng vàng làm chữ nhỏ trên nền trắng. Nếu nút xanh/chữ t
 
 | Route dự kiến | Nội dung và hành vi cần đạt |
 | --- | --- |
-| `/` | Hero, tìm kiếm hoạt động, lô nổi bật, cách Xland hỗ trợ, người hỗ trợ mẫu, CTA. Counter lấy từ fixture hoặc ghi minh họa; không dùng 500+ / $2B+ / 15+ như thành tích Xland |
+| `/` | Hero, tìm kiếm hoạt động, lô nổi bật, cách Xland hỗ trợ, người hỗ trợ mẫu, CTA. Counter lấy từ fixture; không dùng 500+ / $2B+ / 15+ như thành tích Xland |
 | `/lo-dat` | Lọc khu vực/giá/nhu cầu, sắp xếp, xóa lọc, không có kết quả. Filter trên URL để back/chia sẻ giữ trạng thái |
 | `/lo-dat/[slug]` | Gallery/media, diện tích, giá, mục đích sử dụng, mặt tiền/đường tiếp cận, ngày cập nhật, trạng thái bán, tài liệu mẫu và đầu mối |
 | `/video` | Ít nhất 3 clip phát được; vuốt/nút đổi clip; mở đúng hồ sơ, đặt lịch đúng lô, xem người đăng. Bắc/Trung/Nam và KCN; KCN là nhóm nội dung/loại tài sản, không phải miền địa lý |
@@ -131,9 +131,11 @@ Tái sử dụng form và component giữa các route. Hoàn thiện home/detail
 7. Minh họa ngắn người bán gửi hồ sơ chờ duyệt; giải thích backend/admin và ERC-1155 là bước phát triển tiếp theo.
 8. Reset về ban đầu cho người tiếp theo thử; kịch bản 5-7 phút ưu tiên khám phá tài sản và mua NFT, các luồng phụ mở khi cần.
 
-**Quy ước demo NFT:** dùng tài khoản/ví mẫu; không bắt người xem cài ví, ký giao dịch hoặc chuyển tiền. Trạng thái giao dịch và mã tham chiếu phải ghi mô phỏng; không tạo link explorer giả hoặc báo đã mint on-chain. Demo có thành công, hủy và thất bại; chỉ giao dịch thành công mới tăng số NFT trong danh mục. Mua lại cùng một thao tác không được cộng số lượng hai lần.
+**Quy ước demo NFT:** dùng tài khoản/ví mẫu; không bắt người xem cài ví, ký giao dịch hoặc chuyển tiền. Trạng thái giao dịch và mã tham chiếu dùng ngôn ngữ đơn hàng; không tạo link explorer giả hoặc báo đã mint on-chain. Bản chất mô phỏng được ghi trong tài liệu trình bày nội bộ. Demo có thành công, hủy và thất bại; chỉ giao dịch thành công mới tăng số NFT trong danh mục. Mua lại cùng một thao tác không được cộng số lượng hai lần.
 
-Hiển thị nhãn gọn “Bản trải nghiệm · Dữ liệu minh họa”. Dùng persona mẫu, không yêu cầu đăng ký thật để xem demo. Không gửi email/SMS hoặc liên hệ chuyên gia thật; không thu dữ liệu cá nhân thật. Form có dữ liệu gợi ý và thông báo đúng rằng thao tác chỉ mô phỏng trên thiết bị này.
+Danh mục mốc 1A hiện có 10 hồ sơ fixture: 1 đô thị, 4 vùng ven đô thị, 2 Ocean Park Hưng Yên và 3 vùng quê. Thứ tự hiển thị cố định: Đô thị → Vùng ven đô thị → Ocean Park → Vùng quê; nhóm và bộ lọc dùng chung dữ liệu với trang chi tiết.
+
+Quyết định mới nhất 25/09/2026: trải nghiệm trình nhà đầu tư dùng ngôn ngữ sản phẩm hoàn chỉnh, không hiển thị nhãn “bản demo”, “dữ liệu mẫu”, “hình ảnh minh họa” hoặc thuyết minh việc đang lập trình. Kết hợp ảnh chụp thật với ảnh ảo/phối cảnh đẹp. Giữ nguồn, phân loại và giới hạn trong tài liệu nội bộ. Dùng persona/fixture, không yêu cầu đăng ký thật, gửi email/SMS, thu tiền hoặc liên hệ người hỗ trợ thật. Không báo giao dịch mock là đã xác nhận on-chain.
 
 ## 5. Stack và cấu trúc ứng dụng
 
@@ -255,7 +257,7 @@ VND dùng số nguyên trong giới hạn an toàn TypeScript; database sau này
 
 ## 7. Media và nội dung
 
-Codex chủ động tuyển chọn và phối hợp nguồn media theo quyền chủ dự án đã giao. Ưu tiên [Pexels](https://www.pexels.com/license/) cho video/ảnh và [Unsplash](https://unsplash.com/license) cho ảnh; theo yêu cầu mới, chỉ dùng ảnh chụp thật cho demo, không dùng ảnh AI. Bộ ảnh cần tự nhiên, có bối cảnh nhất quán và phục vụ độ tin cậy khi trình nhà đầu tư. Kiểm tra giấy phép từng tài nguyên, ghi nguồn vào `docs/ASSETS.md`; không cần chủ dự án chọn từng ảnh. Video ưu tiên footage có sẵn, được nén và kiểm tra phát trên điện thoại.
+Codex chủ động tuyển chọn và phối hợp nguồn media theo quyền chủ dự án đã giao. Ưu tiên [Pexels](https://www.pexels.com/license/) cho video/ảnh và [Unsplash](https://unsplash.com/license) cho ảnh; theo yêu cầu mới nhất 25/09/2026, kết hợp ảnh chụp thật với ảnh ảo/phối cảnh đẹp. Bộ ảnh cần tự nhiên, có bối cảnh nhất quán và phù hợp câu chuyện trình nhà đầu tư. Kiểm tra giấy phép từng tài nguyên, ghi nguồn và phân loại vào `docs/ASSETS.md`; không cần chủ dự án chọn từng ảnh. Video ưu tiên footage có sẵn, được nén và kiểm tra phát trên điện thoại.
 
 - Tuyển ảnh đất, cảnh quan, đường tiếp cận, bối cảnh địa phương; bộ ảnh mỗi lô phải có logic. Chất lượng và đồng nhất quan trọng hơn 8K.
 - Bốn ảnh cũ chỉ dùng khi hợp ngữ cảnh và rõ quyền sử dụng; chưa đủ cho catalog đất nền/video feed. Tên file không chứng minh nguồn hoặc giấy phép.
@@ -285,7 +287,7 @@ Dùng `AGENTS.md` ngắn và workflow sau; chưa cần skill riêng chỉ để 
 - Giữ phạm vi giai đoạn: NFT là tính năng đã được yêu cầu, ERC-1155 là chuẩn đã chốt. Demo mua NFT bằng mock trước; backend/admin/smart contract thật làm sau mốc nhà đầu tư đồng ý.
 - Giữ chuẩn thiết kế đã chọn; không tự chuyển toàn hệ thống sang dark theme/style khác.
 - Nút/link có hành vi hoặc disabled với lý do; không dùng `href="#"`/`alert()` thay chức năng hoàn chỉnh.
-- Fixture tập trung; nội dung chưa có chứng cứ phải gọi đúng là mẫu/giả định.
+- Fixture tập trung; nguồn và nội dung giả định được ghi trong tài liệu nội bộ, UI không tự nhận hồ sơ/pháp lý đã xác minh.
 - Component chia theo trách nhiệm, không tách vụn theo số dòng; không thêm dependency lớn khi primitive hiện có đủ dùng.
 - Secret và quyền nằm phía server; client validation không thay server validation. Không đưa secret vào `NEXT_PUBLIC_*`, log, Git.
 - Không thêm tầng tài liệu/công cụ/phê duyệt chỉ để quản lý chính chúng. Schema/token/test/docs cập nhật theo thay đổi thật.
@@ -386,7 +388,7 @@ Không chặn dựng UI bằng mock, nhưng cần chốt thật trước khi b�
 | Quyền giới thiệu, kiểm duyệt, chia sẻ giấy tờ | Vai trò/trạng thái/phạm vi mẫu | Trước công khai nguồn thật |
 | Phí xem đất/chuyên gia/dịch vụ, đổi/hủy/hoàn phí | Tình huống mẫu, không thu tiền | Trước cung cấp dịch vụ |
 | CEO tỉnh, nguồn khách, phân chia quyền lợi | Chưa có thuật toán chia hoa hồng | Trước vận hành Sale/đối soát |
-| Thương hiệu, media, tên đối tác | Có nguồn và nhãn minh họa | Trước công bố quan hệ/dữ liệu thật |
+| Thương hiệu, media, tên đối tác | Nguồn, phân loại và giới hạn trong tài liệu nội bộ | Trước công bố quan hệ/dữ liệu thật |
 | NFT: quyền lợi, đơn vị quản lý, thanh toán, chuyển nhượng/thoái vốn | Phương án mẫu, mua NFT mô phỏng | Trước bán NFT thật; chuẩn ERC-1155 đã chốt, không phải quyết định còn mở |
 | Vercel/Railway/Supabase/domain/ngân sách | Local trước, chuẩn bị config | Trước tạo dịch vụ có phí/phát hành môi trường của chủ dự án |
 
@@ -399,10 +401,11 @@ Không chặn dựng UI bằng mock, nhưng cần chốt thật trước khi b�
 - [x] Khởi tạo Next.js/TypeScript/pnpm và script kiểm tra; ghi phiên bản chính xác.
 - [x] Tạo `AGENTS.md`, `README.md`, `docs/STATUS.md`, `docs/DESIGN.md` đủ cho mốc 1A (đặc tả và workflow; chưa nghiệm thu giao diện).
 - [x] Truy cập trực tiếp trang mẫu trong trình duyệt Codex để tham chiếu ngoài ảnh ban đầu.
-- [ ] Lưu tham chiếu thiết kế bền vững, thử font Việt, tuyển ảnh chụp thật Pexels/Unsplash phù hợp và ghi `docs/ASSETS.md`.
-- [ ] Dựng tokens/app shell/fixture; hoàn thành home/card/detail trên mobile/desktop.
-- [ ] Đối chiếu trình duyệt, sửa thị giác, rồi triển khai các luồng mục 4.
+- [x] Lưu tham chiếu thiết kế bền vững, thử font Việt, tuyển ảnh thật Pexels, bổ sung phối cảnh và ghi `docs/ASSETS.md`.
+- [x] Dựng tokens/app shell/fixture; hoàn thành home/card/detail trên mobile/desktop.
+- [x] Đối chiếu và kiểm tra home/card/detail trên Chromium/WebKit; bằng chứng và giới hạn tại STATUS.
+- [ ] Triển khai các luồng 1B mục 4.
 - [ ] Hoàn thiện luồng mua NFT mô phỏng và danh mục NFT trong mốc 1B.
 - [ ] Kiểm thử, đóng gói kịch bản và bản Vercel để trình nhà đầu tư.
 
-**Mục tiêu vòng triển khai đầu tiên:** Next.js chạy được với trang chủ Xland và trang chi tiết lô đất đạt chất lượng theo mẫu, trên dữ liệu mẫu nhất quán. Chưa nối backend, chưa làm admin. Hiện mới có scaffold; các checklist chưa đánh dấu vẫn là việc tương lai, không phải kết quả kiểm thử đã đạt.
+**Mục tiêu vòng triển khai đầu tiên:** Next.js chạy được với trang chủ Xland và trang chi tiết lô đất đạt chất lượng theo mẫu, trên dữ liệu mẫu nhất quán. Chưa nối backend, chưa làm admin. Tiến độ thực tế và bằng chứng ở docs/STATUS.md; các checklist chưa đánh dấu vẫn là việc tương lai, không phải kết quả kiểm thử đã đạt.

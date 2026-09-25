@@ -2,7 +2,7 @@ import Link from "next/link";
 import { PropertyImage } from "@/components/property-image";
 import { PropertyExplorer } from "@/components/property-explorer";
 import { Icon } from "@/components/icon";
-import { properties } from "@/data/properties";
+import { featuredSupportProperties } from "@/data/properties";
 
 export default function Home() {
   return (
@@ -15,7 +15,7 @@ export default function Home() {
           <h1 id="hero-title">Một miền đất.<br /><em>Vạn khởi đầu.</em></h1>
           <p className="hero-description">Tìm không gian cho ước muốn của bạn.<br className="desktop-break" /> Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.</p>
           <Link className="hero-link" href="#kham-pha">Bắt đầu hành trình <Icon name="arrow" /></Link>
-          <div className="hero-bottom"><span>Bản demo · Dữ liệu mẫu</span><span className="hero-location"><Icon name="pin" /> Cảnh quan Cam Ranh, Việt Nam</span></div>
+          <div className="hero-bottom"><span>ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT</span><span className="hero-location"><Icon name="pin" /> Cam Ranh, Việt Nam</span></div>
         </div>
       </section>
       <PropertyExplorer />
@@ -29,10 +29,10 @@ export default function Home() {
         </div>
       </section>
       <section className="container section nft-section" id="nft">
-        <div className="nft-photo"><PropertyImage src="/images/cam-lam.webp" alt="Đồng ruộng bên dòng sông ở Cam Lâm" sizes="(max-width: 767px) 100vw, 600px" /><span className="photo-caption">Một góc nhìn về giá trị chung</span></div>
-        <div className="nft-copy"><p className="eyebrow">BẤT ĐỘNG SẢN NFT</p><h2>Cùng một miền đất.<br /><em>Thêm nhiều cơ hội.</em></h2><p>Một cách tiếp cận mới với bất động sản: tìm hiểu phương án phân đoạn, số lượng NFT và quyền lợi gắn với từng tài sản.</p><ul><li><Icon name="check" /> Hồ sơ tài sản và phương án đi cùng nhau</li><li><Icon name="check" /> Giá mỗi NFT và tỷ lệ được thể hiện rõ</li><li><Icon name="check" /> Bắt đầu bằng một trải nghiệm dễ hiểu</li></ul><Link className="button" href="/lo-dat/mien-xanh-ven-song#phuong-an-nft">Tìm hiểu phương án NFT <Icon name="arrow" /></Link><p className="fine-print">Phương án mẫu. Luồng mua NFT sẽ có ở bản demo tương tác.</p></div>
+        <div className="nft-photo"><PropertyImage src="/images/garden-retreat.webp" alt="Không gian nhà vườn mở ra đồng xanh và đồi núi" sizes="(max-width: 767px) 100vw, 600px" /><span className="photo-caption">Không gian cho những khởi đầu mới</span></div>
+        <div className="nft-copy"><p className="eyebrow">BẤT ĐỘNG SẢN NFT</p><h2>Cùng một miền đất.<br /><em>Thêm nhiều cơ hội.</em></h2><p>Một cách tiếp cận mới với bất động sản: tìm hiểu phương án phân đoạn, số lượng NFT và quyền lợi gắn với từng tài sản.</p><ul><li><Icon name="check" /> Hồ sơ tài sản và phương án đi cùng nhau</li><li><Icon name="check" /> Giá mỗi NFT và tỷ lệ được thể hiện rõ</li><li><Icon name="check" /> Bắt đầu bằng một trải nghiệm dễ hiểu</li></ul><Link className="button" href="/lo-dat/mien-xanh-ven-song#phuong-an-nft">Tìm hiểu phương án NFT <Icon name="arrow" /></Link></div>
       </section>
-      <section className="advisors-section section" id="nguoi-dong-hanh"><div className="container"><div className="section-heading"><div><p className="eyebrow">NGƯỜI ĐỒNG HÀNH</p><h2>Thêm góc nhìn.<br />Gần hơn với lựa chọn.</h2></div><p>Tìm hiểu vai trò của người hỗ trợ<br />trong từng hồ sơ trải nghiệm.</p></div><div className="advisors-grid">{properties.map((property, index) => <article className="advisor-card" key={property.id}><div className={`avatar avatar-${index}`}>{property.advisor.initials}</div><div><h3>{property.advisor.name}</h3><p>{property.advisor.role}</p><span className="fine-print">Nhân vật mẫu</span></div><Link className="text-link" href={`/lo-dat/${property.slug}#ho-tro`}>Xem hồ sơ hỗ trợ <Icon name="arrow" /></Link></article>)}</div></div></section>
+      <section className="advisors-section section" id="nguoi-dong-hanh"><div className="container"><div className="section-heading"><div><p className="eyebrow">NGƯỜI ĐỒNG HÀNH</p><h2>Thêm góc nhìn.<br />Gần hơn với lựa chọn.</h2></div><p>Hiểu khu vực, hiểu nhu cầu.<br />Cùng bạn tìm một nơi phù hợp.</p></div><div className="advisors-grid">{featuredSupportProperties.map((property, index) => <article className="advisor-card" key={property.id}><div className={`avatar avatar-${index}`}>{property.advisor.initials}</div><div><h3>{property.advisor.name}</h3><p>{property.advisor.role}</p></div><Link className="text-link" href={`/lo-dat/${property.slug}#ho-tro`}>Xem hồ sơ hỗ trợ <Icon name="arrow" /></Link></article>)}</div></div></section>
       <section className="container final-cta"><div><p className="eyebrow">HÀNH TRÌNH CỦA BẠN BẮT ĐẦU TỪ ĐÂY</p><h2>Miền đất tiếp theo<br />đang chờ bạn khám phá.</h2></div><Link href="#kham-pha" className="button">Khám phá các lô đất <Icon name="arrow" /></Link></section>
     </main>
   );

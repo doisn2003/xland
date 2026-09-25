@@ -1,6 +1,6 @@
 # Xland
 
-Website bất động sản và NFT, mobile first. Hiện là nền ứng dụng và trang chờ tiếng Việt; chưa phải demo LUXEESTATE hoàn chỉnh.
+Website đất nền và bất động sản NFT, mobile first, tiếng Việt. Mốc 1A có trang chủ, tìm kiếm cục bộ, card và chi tiết lô đất; dùng fixture tập trung gồm 10 bất động sản (1 đô thị, 4 vùng ven đô thị, 2 Ocean Park Hưng Yên, 3 vùng quê), ảnh thật kết hợp phối cảnh. Các hành trình mua NFT/lịch hẹn/video thuộc mốc 1B.
 
 ## Chạy local
 
@@ -12,6 +12,15 @@ pnpm dev
 ```
 
 Mở http://localhost:3000. Chưa cần `.env` hoặc tài khoản dịch vụ. Dùng pnpm, không dùng `npm install`/yarn để tránh lockfile khác và kiểm tra runtime khác nhau.
+
+Trên máy Windows hiện tại, Node mặc định còn là 20.x. Sau khi dependency đã được cài, mở PowerShell tại repo và ưu tiên Node đã khóa của dự án trong phiên terminal trước khi chạy các lệnh trên:
+
+```powershell
+$env:Path = (Join-Path $PWD 'node_modules/.bin') + ';' + $env:Path
+pnpm dev
+```
+
+Lệnh này chỉ đổi PATH của terminal hiện tại. Với checkout mới chưa cài dependency, cần Node từ 22.13 để bootstrap như yêu cầu ở đầu trang.
 
 ## Kiểm tra
 
@@ -31,7 +40,7 @@ pnpm check
 | `pnpm test:e2e` | Test production đã build, Chromium desktop/mobile và WebKit mobile |
 | `pnpm check` | Toàn bộ các bước kiểm tra |
 
-Các test hiện kiểm tra thông báo dữ liệu/giao dịch mẫu có trong HTML server, trang chủ tiếng Việt/noindex, không tràn ngang, lỗi JavaScript, trang 404 và điều hướng về nhà. Đây là smoke test scaffold, chưa chứng minh chất lượng hay nghiệp vụ của demo tương lai.
+Bộ kiểm tra gồm 8 unit test và 39 E2E trên Chromium desktop, Chromium mobile và WebKit giả lập iPhone 13. Bao phủ thứ tự nhóm, lọc kết hợp/empty/reset, cả 7 trang chi tiết mới, home → detail, gallery, trạng thái tạm dừng, 404, media fallback, bàn phím, menu, reduced motion, CSS zoom 200%, 5 viewport và axe WCAG A/AA. UI không phủ nhãn demo/mẫu; nguồn và giới hạn nằm trong tài liệu nội bộ. WebKit giả lập không thay kiểm tra máy thật.
 
 ## Phiên bản đã khóa
 
@@ -56,17 +65,18 @@ React, TypeScript và ESLint giữ nhánh của template Next.js đã chọn. ES
 
 ## Cấu trúc và triển khai
 
-- `src/app`: App Router, layout, trang chủ tạm, 404, CSS; font hệ thống, chưa chốt thiết kế.
+- `src/app`: App Router, home, chi tiết động theo slug, 404, CSS tokens và font local Noto Serif/Be Vietnam Pro.
+- `src/components`, `src/data`: component tương tác và fixture dùng chung.
 - `tests/unit`, `tests/e2e`: Vitest và Playwright.
-- `assets`: tài liệu/ảnh nguồn, giữ nguyên; chưa tự đưa lên public.
+- `assets`: giữ nguyên PDF/ảnh nguồn; phối cảnh mới có PNG và prompt riêng. `public/images` chứa WebP được tuyển chọn.
 - [PREPARE.md](PREPARE.md): phạm vi, tiêu chí và lộ trình.
 - [AGENTS.md](AGENTS.md): quy tắc phát triển; [docs/STATUS.md](docs/STATUS.md): tiến độ thực tế.
-- [docs/DESIGN.md](docs/DESIGN.md): tokens, typography, responsive, home/card/detail và tiêu chí nghiệm thu 1A. Đây là đặc tả; CSS trang chờ chưa triển khai hệ thiết kế này.
+- [docs/DESIGN.md](docs/DESIGN.md): tokens, typography, responsive, home/card/detail và tiêu chí nghiệm thu 1A. Tokens trong tài liệu khớp CSS thực thi.
 
-## Bắt đầu mốc 1A
+## Tiếp tục phát triển
 
-Đọc STATUS → phần phạm vi trong PREPARE → DESIGN. Thứ tự: lưu tham chiếu, thử font Việt và tuyển media → ghi ASSETS → triển khai tokens/fixture → home/card/detail → đối chiếu mobile/desktop và chạy kiểm tra. Bộ tài liệu đã sẵn sàng không đồng nghĩa giao diện 1A đã hoàn thành.
+Đọc STATUS → PREPARE → DESIGN. Bằng chứng 1A ở `docs/qa/2026-09-25-1a/README.md`, vòng mở rộng danh mục ở `docs/qa/2026-09-25-catalog/README.md`; bước tiếp theo là mốc 1B theo STATUS. Chạy production (`pnpm build`, `pnpm start`) rồi `pnpm exec node scripts/capture-ui.mjs` để chụp lại home/detail/card; `pnpm exec node scripts/measure-hero.mjs` để đo tương phản chữ trên hero. Đặt `XLAND_CAPTURE_DIR` để lưu ảnh vào thư mục QA mới và `XLAND_DETAIL_SLUG` để chọn hồ sơ chi tiết cần chụp. Không cập nhật ảnh nghiệm thu mà chưa xem lại.
 
 Frontend hướng tới Vercel với Node 24.x, install `pnpm install --frozen-lockfile`, build `pnpm build`, preset Next.js. Chưa tạo deployment. Trang demo có metadata `noindex`; đây không phải cơ chế xác thực/bảo mật.
 
-Backend Node.js/Railway, Supabase và NFT ERC-1155 thuộc giai đoạn sau. Scaffold chưa nối backend, ví, smart contract hay xử lý tiền thật.
+Backend Node.js/Railway, Supabase và NFT ERC-1155 thuộc giai đoạn sau. Ứng dụng chưa nối backend, ví, smart contract hay xử lý tiền thật.

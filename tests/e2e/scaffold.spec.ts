@@ -8,7 +8,7 @@ async function noOverflow(page: Page) {
   expect(await page.evaluate(() => scrollX)).toBe(0);
 }
 
-test("home renders Vietnamese text, images and demo context without runtime errors", async ({ page }) => {
+test("home renders Vietnamese product copy and images without runtime errors", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", error => errors.push(error.message));
   const response = await page.goto("/");
@@ -16,8 +16,8 @@ test("home renders Vietnamese text, images and demo context without runtime erro
   await expect(page.locator("html")).toHaveAttribute("lang", "vi");
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("Một miền đất.Vạn khởi đầu.");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
-  await expect(page.getByText("Bản demo · Dữ liệu mẫu", { exact: true }).first()).toBeVisible();
-  await expect(page.locator(".property-card")).toHaveCount(3);
+  await expect(page.locator("body")).not.toContainText(/bản demo|dữ liệu mẫu|hình ảnh minh họa|nhân vật mẫu/i);
+  await expect(page.locator(".property-card")).toHaveCount(10);
   await page.evaluate(() => document.fonts.ready);
   expect(await page.locator(".hero img").evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
   await noOverflow(page);
@@ -35,7 +35,7 @@ test("filter, empty state and reset work", async ({ page }) => {
   await page.getByRole("button", { name: "Tìm lô đất", exact: true }).click();
   await expect(page.getByRole("heading", { name: "Chưa có lô đất phù hợp" })).toBeVisible();
   await page.getByRole("button", { name: "Xem tất cả lô đất" }).click();
-  await expect(page.locator(".property-card")).toHaveCount(3);
+  await expect(page.locator(".property-card")).toHaveCount(10);
 });
 
 test("card opens matching detail, gallery and NFT information", async ({ page }) => {
@@ -52,6 +52,8 @@ test("card opens matching detail, gallery and NFT information", async ({ page })
   await page.getByRole("link", { name: "Xem thông tin hỗ trợ" }).click();
   await expect(page).toHaveURL(/#ho-tro$/);
   await expect(page.locator("#phuong-an-nft")).toContainText("2.800.000 ₫");
+  await expect(page.getByRole("button", { name: "Mua NFT · Chưa mở bán" })).toBeDisabled();
+  await expect(page.locator("body")).not.toContainText(/bản demo|dữ liệu mẫu|hình ảnh minh họa|nhân vật mẫu/i);
   await noOverflow(page);
 });
 

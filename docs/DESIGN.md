@@ -1,6 +1,6 @@
 # Xland — Thiết kế mốc 1A
 
-Cập nhật: 25/09/2026. Đây là đặc tả để triển khai, chưa phải bằng chứng giao diện đã nghiệm thu. Phạm vi và quyết định sản phẩm nằm trong [PREPARE.md](../PREPARE.md); kết quả kiểm tra nằm trong [STATUS.md](STATUS.md).
+Cập nhật: 25/09/2026. Đặc tả và quyết định thực thi; kết quả nghiệm thu kỹ thuật và ảnh kiểm tra nằm trong STATUS. Phạm vi và quyết định sản phẩm nằm trong [PREPARE.md](../PREPARE.md); kết quả kiểm tra nằm trong [STATUS.md](STATUS.md).
 
 ## 1. Đích thiết kế và tham chiếu
 
@@ -31,12 +31,12 @@ Khi triển khai, đưa tokens vào CSS variables ở `src/app/globals.css`, án
 | `--shadow-card` | `0 8px 24px rgb(15 23 42 / 8%)` | Card và panel nổi |
 | `--shadow-raised` | `0 16px 40px rgb(15 23 42 / 14%)` | Hover nhẹ trên desktop |
 
-Spacing theo thang 4, 8, 12, 16, 24, 32, 48, 64, 96px. Glass chỉ ở search/CTA: nền trắng ít nhất 90% opacity, blur 12px nếu hỗ trợ, fallback trắng đặc. Overlay hero khởi điểm đen 45–60%, tăng vùng sau chữ theo ảnh/crop; phải đo tương phản sau khi chọn ảnh. Vàng không dùng cho chữ nhỏ trên nền trắng. Focus outline xanh 3px, offset 3px; điều chỉnh nền khi không đủ phân biệt.
+Spacing theo thang 4, 8, 12, 16, 24, 32, 48, 64, 96px. Glass chỉ ở search/CTA: nền trắng ít nhất 90% opacity, blur 12px nếu hỗ trợ, fallback trắng đặc. Overlay hero thực thi: màu `rgb(9 24 29)`, gradient 81% → 65% trên mobile; từ 768px là 81% → 53% tại 55% chiều ngang → 18%. Dòng địa điểm có nền riêng 65% để giữ tương phản trên ảnh. Vàng không dùng cho chữ nhỏ trên nền trắng. Focus outline xanh 3px, offset 4px.
 
 ## 3. Typography và tiếng Việt
 
-- Cặp thử theo mẫu: **Cinzel** cho tiêu đề ngắn, **Josefin Sans** cho nội dung. Chưa xác nhận glyph/độ dễ đọc của font tải thực tế.
-- Cặp dự phòng đã chọn: **Noto Serif** heading + **Be Vietnam Pro** body/UI nếu cặp mẫu thiếu dấu hoặc khó đọc. Kiểm tra rồi ghi quyết định tại đây trước khi nhân rộng; không đổi font tùy trang.
+- Cặp thử theo mẫu: **Cinzel** cho tiêu đề ngắn, **Josefin Sans** cho nội dung. Đã kiểm cmap: Cinzel thiếu 10 ký tự trong chuỗi thử, xem ASSETS và glyph-check.json.
+- Cặp thực thi đã chọn: **Noto Serif** heading + **Be Vietnam Pro** body/UI nếu cặp mẫu thiếu dấu hoặc khó đọc. Dùng local WOFF2: Noto Serif 500/600, Be Vietnam Pro 400/500/600; không đổi font tùy trang.
 - Chỉ tải weight dùng thực tế: heading 500/600; body 400/500/600. Dùng font qua Next sau khi đọc tài liệu phiên bản cài; không phụ thuộc CDN font lúc người dùng mở demo.
 - H1 mobile 40–48px / line-height 1.15; desktop 64–80px / 1.1. H2 28–40px / 1.2; card title 20–24px / 1.3. Body 16–18px / 1.6; label/phụ 14px / 1.5. Không cắt dấu hoặc ép chữ hoa toàn bộ đoạn dài.
 - Chuỗi thử: “Đất nền ven sông · Quy hoạch & pháp lý · Nguyễn Thị Thủy · Sở hữu NFT · 1.250 m² · 2,8 tỷ ₫”. Thử weight, xuống dòng, dấu và số tại 360px và zoom 200%.
@@ -45,7 +45,7 @@ Spacing theo thang 4, 8, 12, 16, 24, 32, 48, 64, 96px. Glass chỉ ở search/CT
 
 | Chiều rộng | Quyết định bố cục |
 | --- | --- |
-| 360–767px | Gutter 20px; 1 cột; header 64px; menu thu gọn; hero nội dung tự tăng chiều cao; search xếp dọc; CTA rộng dễ chạm |
+| 360–767px | Gutter 20px; 1 cột; header 72px; menu thu gọn; hero nội dung tự tăng chiều cao; search xếp dọc; CTA rộng dễ chạm |
 | 768–1023px | Gutter 32px; card 2 cột; header menu tùy đủ chỗ; search 2 hàng nếu cần |
 | Từ 1024px | Container tối đa 1200px, gutter ít nhất 32px; card 3 cột; header 88px; hero khoảng 680–780px tùy chữ; search ngang |
 
@@ -54,53 +54,53 @@ Khoảng cách section mobile 48–64px, desktop 80–96px; gap card 24px. Khôn
 ## 5. Trang chủ
 
 1. **Header:** logo Xland, Khám phá, NFT, Cách hoạt động; CTA “Khám phá lô đất”. Mobile có menu với tên truy cập, đóng bằng Escape, trả focus và trạng thái mở rõ. Link chỉ bật khi route/section đích tồn tại.
-2. **Hero:** ảnh đất/cảnh quan đủ chiều sâu; điểm lấy nét riêng mobile/desktop. Một H1 ngắn, ví dụ “Khám phá đất nền. Mở lối tương lai.”, mô tả tối đa 2–3 dòng, nhãn “Bản trải nghiệm · Dữ liệu minh họa”. CTA dẫn tới vùng lô nổi bật trong 1A.
+2. **Hero:** ảnh đất/cảnh quan đủ chiều sâu; điểm lấy nét riêng mobile/desktop. Một H1 ngắn, ví dụ “Khám phá đất nền. Mở lối tương lai.”, mô tả tối đa 2–3 dòng, dòng định vị “ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT”. CTA dẫn tới vùng lô nổi bật trong 1A.
 3. **Tìm kiếm:** khu vực, khoảng giá, nhu cầu; label luôn hiện. Giai đoạn 1A lọc cục bộ các card fixture ngay trang chủ, có xóa lọc và empty state. Khi sang 1B chuyển kết quả sang `/lo-dat` và đồng bộ URL theo PREPARE. Không có ô tìm kiếm chỉ trang trí.
-4. **Lô nổi bật:** 3–6 lô mẫu; thông tin lấy từ cùng fixture với detail. Có thể dùng số lượng hồ sơ mẫu làm counter nếu nhãn rõ; không dựng doanh số hoặc số năm kinh nghiệm giả.
+4. **Lô nổi bật:** 10 bất động sản cùng fixture với detail, theo thứ tự Đô thị (1) → Vùng ven đô thị (4) → Ocean Park (2) → Vùng quê (3). Nút chọn nhóm hiển thị số lượng, kết hợp bộ lọc khu vực/giá/không gian; xóa lọc trả đủ 10 hồ sơ. Số đếm là số hồ sơ trong danh mục; không dựng doanh số hoặc số năm kinh nghiệm giả.
 5. **Giá trị Xland:** khám phá hồ sơ, xem thực địa, tìm hiểu NFT; mô tả khả năng theo giai đoạn, không hứa công nghệ 3D nếu chưa có trải nghiệm tương ứng.
-6. **Người hỗ trợ và CTA:** persona minh họa có vai trò rõ. Trong 1A dẫn đến thông tin hỗ trợ ở detail; form/lịch thật chưa có thì không giả báo gửi thành công.
-7. **Footer:** thương hiệu, điều hướng đã có và thông báo demo gọn. Không dùng số điện thoại/đối tác thật chưa được cung cấp.
+6. **Người hỗ trợ và CTA:** persona fixture có vai trò rõ, hiển thị bằng ngôn ngữ sản phẩm. Trong 1A dẫn đến thông tin hỗ trợ ở detail; form/lịch thật chưa có thì không giả báo gửi thành công.
+7. **Footer:** thương hiệu, điều hướng đã có và thông điệp thương hiệu. Không dùng số điện thoại/đối tác thật chưa được cung cấp.
 
 ## 6. PropertyCard
 
-- Ảnh tỷ lệ 4:3, có kích thước cố định để tránh dịch layout; object-fit cover, crop theo fixture. Badge “Đang giới thiệu”/“Tạm dừng” cùng nhãn minh họa phù hợp.
-- Thứ tự: vị trí → tên lô → diện tích/mục đích sử dụng → giá chào → người hỗ trợ. Đơn vị m², ₫; formatter dùng `vi-VN`. Không dùng bedrooms/bathrooms cho đất.
+- Ảnh tỷ lệ 4:3, có kích thước cố định để tránh dịch layout; object-fit cover, crop theo fixture. Badge “Đang giới thiệu”/“Tạm dừng” theo trạng thái fixture.
+- Thứ tự: nhóm/loại bất động sản → vị trí → tên lô → diện tích/mục đích sử dụng → giá chào → người hỗ trợ. Đơn vị m², ₫; formatter dùng `vi-VN`. Không dùng bedrooms/bathrooms cho đất.
 - Tiêu đề là link có nghĩa tới detail; nút lưu sau này tách khỏi link, không lồng button trong anchor. Trong 1A chưa triển khai lưu thì không hiển thị nút bấm giả.
 - Hover trên thiết bị có chuột: nâng tối đa 4px, ảnh scale 1.03, transition 180–220ms. Focus bàn phím rõ, không cần hover để đọc thông tin. Tắt chuyển động khi reduced motion.
 - Giá chưa công bố ghi “Liên hệ tìm hiểu”, không hiển thị 0 ₫. Không có ảnh dùng fallback cùng tỷ lệ kèm “Ảnh đang cập nhật”.
 
 ## 7. Chi tiết lô đất
 
-- Breadcrumb về trang chủ/danh sách thực sự tồn tại, tên/vị trí, trạng thái và nhãn dữ liệu mẫu; slug không tồn tại trả 404.
-- Gallery: desktop ảnh lớn + thumbnails, mobile một ảnh lớn và nút trước/sau; không phụ thuộc vuốt. Mô tả ảnh phân biệt cảnh quan/đường tiếp cận/ảnh minh họa. Có thể hoãn lightbox, không hoãn điều hướng ảnh.
+- Breadcrumb về trang chủ/danh sách thực sự tồn tại, tên/vị trí, trạng thái và mã hồ sơ; slug không tồn tại trả 404.
+- Gallery: desktop ảnh đất tỷ lệ 2.2:1, nhà phố/biệt thự 3:2 để giữ kiến trúc; mobile 4:3. Chỉ hiện thumbnails và nút trước/sau khi có nhiều ảnh; không phụ thuộc vuốt. Caption ghi tên bối cảnh và tác giả, không dán nhãn demo/minh họa. Có thể hoãn lightbox, không hoãn điều hướng ảnh.
 - Desktop hai cột khoảng 2:1; trái nội dung, phải tóm tắt giá/diện tích/người hỗ trợ. Mobile một cột theo thứ tự đọc, CTA chạm tối thiểu 44px; nếu sticky phải có chừa đáy và safe-area.
 - Thông tin: giá chào, diện tích, loại đất/mục đích, mặt tiền/đường tiếp cận, thời điểm cập nhật; khu vực/bản đồ minh họa được ghi đúng. Tài liệu mẫu không mang dấu chứng nhận giả.
-- CTA 1A “Xem thông tin hỗ trợ” cuộn đến persona và giải thích lịch xem thực địa thuộc demo tương tác tiếp theo. Sang 1B thay bằng “Đề nghị xem thực địa” mở form có validation/trạng thái theo PREPARE.
-- Tài sản có phương án NFT có thể hiện khối giới thiệu và thông số mẫu. Chỉ bật “Mua NFT” khi route/luồng 1B đã hoạt động; không đổi tên thành “suất tham gia”.
+- CTA 1A “Xem thông tin hỗ trợ” cuộn đến persona với mô tả vai trò, không nêu lộ trình phát triển trên UI. Sang 1B thay bằng “Đề nghị xem thực địa” mở form có validation/trạng thái theo PREPARE.
+- Tài sản có phương án NFT hiện khối giới thiệu và thông số từ fixture. Nút mua disabled với lý do “Chưa mở bán” đến khi luồng mua được triển khai. Chỉ bật “Mua NFT” khi route/luồng 1B đã hoạt động; không đổi tên thành “suất tham gia”.
 
 ## 8. Dữ liệu, media và component
 
-Fixture tập trung trong `src/data/` hoặc module demo, không lặp nội dung riêng từng page. Ít nhất 3 tài sản có id/slug ổn định, địa bàn, giá/diện tích, trạng thái, ảnh và persona hỗ trợ; một trường hợp tạm dừng để thử trạng thái. Home/card/detail dùng một nguồn dữ liệu. Phương án NFT tương lai liên kết tài sản bằng id, ERC-1155 ở giai đoạn backend.
+Fixture tập trung trong `src/data/` hoặc module demo, không lặp nội dung riêng từng page. Hiện có 10 tài sản có id/slug ổn định, địa bàn, giá/diện tích, trạng thái, ảnh và persona hỗ trợ; một trường hợp tạm dừng để thử trạng thái. Home/card/detail dùng một nguồn dữ liệu. Phương án NFT tương lai liên kết tài sản bằng id, ERC-1155 ở giai đoạn backend.
 
-Component dự kiến theo trách nhiệm: SiteHeader, SiteFooter, DemoBadge, HeroSearch, PropertyCard, PropertyGallery, PropertyFacts, SupportPanel. Tách khi thực sự tái sử dụng hoặc có tương tác độc lập; không tạo sẵn mọi module 1B.
+Component theo trách nhiệm: SiteHeader, SiteFooter, PropertyExplorer, PropertyCard, PropertyGallery, PropertyImage và Icon. Không có DemoBadge trên UI. Tách khi thực sự tái sử dụng hoặc có tương tác độc lập; không tạo sẵn mọi module 1B.
 
-Ảnh ưu tiên đất/cảnh quan/đường tiếp cận đồng bộ mỗi lô; dùng ảnh chụp thật có giấy phép theo PREPARE; không dùng ảnh AI theo yêu cầu mới. Ghi URL nguồn, tác giả/giấy phép khi có, phân loại stock/ảnh thực địa đã xác minh và nơi dùng trong `docs/ASSETS.md` khi tuyển media. Không mặc định bốn JPG cũ đủ quyền hoặc phù hợp. Budget ban đầu hero mobile 250–400KB, card 60–150KB; kiểm tra chất lượng crop trước tối ưu sâu. Video feed ở 1B; 1A không cần autoplay video hero.
+Theo yêu cầu mới nhất 25/09/2026, kết hợp ảnh chụp thật và ảnh ảo/phối cảnh. Hero và 3 hồ sơ vùng quê dùng ảnh Pexels; 7 hồ sơ đô thị/vùng ven/Ocean Park có 7 ảnh riêng tạo bằng image_gen, cùng phối cảnh nhà vườn ở phần NFT. Hai hồ sơ Ocean Park là nhà phố Ocean Park 2 và biệt thự Ocean Park 3 tại Hưng Yên. Mỗi hồ sơ mới hiện có một ảnh; không nhân bản ảnh thành nhiều góc chụp. Trang chủ hiển thị tối đa 3 người hỗ trợ không trùng, chi tiết gợi ý tối đa 3 hồ sơ theo thứ tự nhóm. Ghi URL nguồn, tác giả/giấy phép khi có, phân loại stock/ảnh thực địa đã xác minh và nơi dùng trong `docs/ASSETS.md` khi tuyển media. Không mặc định bốn JPG cũ đủ quyền hoặc phù hợp. Budget ban đầu hero mobile 250–400KB, card 60–150KB; kiểm tra chất lượng crop trước tối ưu sâu. Video feed ở 1B; 1A không cần autoplay video hero.
 
 ## 9. Trạng thái và khả năng truy cập
 
 Input có label; lỗi bằng chữ gắn trường. Link cho điều hướng, button cho hành động. Không dùng `href="#"`/alert thay chức năng. Gallery có tên nút và thứ tự focus; ảnh trang trí alt rỗng, ảnh nội dung có mô tả phù hợp. Skeleton giữ kích thước media; lỗi media, empty filter, missing slug có đường tiếp tục. Không sử dụng riêng màu để diễn đạt trạng thái.
 
-Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra thực tế khi có font/ảnh. Có skip link, landmark và một H1 mỗi trang. Kiểm tra keyboard, zoom 200%, reduced motion, không tràn ngang; form/sheet tương lai cần quản lý focus. Mô phỏng luôn có nhãn, không hiển thị “đã xác nhận Blockchain” cho dữ liệu mock.
+Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra thực tế khi có font/ảnh. Có skip link, landmark và một H1 mỗi trang. Kiểm tra keyboard, zoom 200%, reduced motion, không tràn ngang; form/sheet tương lai cần quản lý focus. Không phủ nhãn demo/mẫu/minh họa lên UI. Tài liệu nội bộ ghi rõ fixture và media; không hiển thị “đã xác nhận Blockchain” cho dữ liệu mock.
 
 ## 10. Điều kiện nghiệm thu 1A
 
 - [x] Chốt font sau thử dấu Việt; ghi cặp/weight thực tế tại mục 3.
-- [ ] Lưu ảnh tham chiếu và ảnh home/card/detail cùng viewport vào `docs/references/` theo mốc, có mô tả nguồn/ngày; không báo đã lưu khi chưa tạo.
-- [ ] Hero, header, CTA/search và card giữ đặc trưng mẫu; nội dung đất nền Xland rõ.
-- [ ] Home → card → detail → quay lại hoạt động, gallery/search cục bộ có trạng thái; không có CTA vô tác dụng.
-- [ ] Media có nguồn và nhãn minh họa; giá/diện tích/người hỗ trợ khớp giữa home/detail.
-- [ ] Đạt kiểm tra viewport, bàn phím, focus, tương phản, reduced motion và fallback.
-- [ ] `pnpm check` đạt; bổ sung test hành vi mới thay vì chỉ dựa smoke test scaffold.
-- [ ] Ghi kết quả thật, ảnh đối chiếu và phần còn thiếu trong STATUS; chưa coi đây là nghiệm thu 1B hoặc production.
+- [x] Lưu ảnh tham chiếu và ảnh home/card/detail cùng viewport vào `docs/qa/2026-09-25-1a/` theo mốc, có mô tả nguồn/ngày; không báo đã lưu khi chưa tạo.
+- [x] Hero, header, CTA/search và card giữ đặc trưng mẫu; nội dung đất nền Xland rõ.
+- [x] Home → card → detail → quay lại hoạt động, gallery/search cục bộ có trạng thái; không có CTA vô tác dụng.
+- [x] Media có nguồn, phân loại và giới hạn trong ASSETS; giá/diện tích/người hỗ trợ khớp giữa home/detail.
+- [x] Đạt kiểm tra viewport, bàn phím, focus, tương phản, reduced motion và fallback.
+- [x] `pnpm check` đạt; bổ sung test hành vi mới thay vì chỉ dựa smoke test scaffold.
+- [x] Ghi kết quả thật, ảnh đối chiếu và phần còn thiếu trong STATUS; chưa coi đây là nghiệm thu 1B hoặc production.
 
-Đã chọn Noto Serif + Be Vietnam Pro sau kiểm tra glyph; media là ảnh chụp thật Pexels, chi tiết tại ASSETS. Các giá trị spacing/kích cỡ có thể chỉnh khi đối chiếu ảnh; cập nhật tài liệu theo quyết định thực thi, không cần thêm vòng phê duyệt cho điều chỉnh thường lệ.
+Đã chọn Noto Serif + Be Vietnam Pro sau kiểm tra glyph; media kết hợp ảnh chụp thật Pexels với phối cảnh nhà vườn, chi tiết tại ASSETS. Các giá trị spacing/kích cỡ có thể chỉnh khi đối chiếu ảnh; cập nhật tài liệu theo quyết định thực thi, không cần thêm vòng phê duyệt cho điều chỉnh thường lệ.

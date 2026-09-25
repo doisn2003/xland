@@ -1,0 +1,72 @@
+[
+  {
+    "name": "home",
+    "width": 360,
+    "scrollWidth": 360,
+    "clientWidth": 360,
+    "imageFailures": []
+  },
+  {
+    "name": "detail",
+    "width": 360,
+    "scrollWidth": 360,
+    "clientWidth": 360,
+    "imageFailures": []
+  },
+  {
+    "name": "home",
+    "width": 390,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "imageFailures": []
+  },
+  {
+    "name": "detail",
+    "width": 390,
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "imageFailures": []
+  },
+  {
+    "name": "home",
+    "width": 430,
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "imageFailures": []
+  },
+  {
+    "name": "detail",
+    "width": 430,
+    "scrollWidth": 430,
+    "clientWidth": 430,
+    "imageFailures": []
+  },
+  {
+    "name": "home",
+    "width": 768,
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "imageFailures": []
+  },
+  {
+    "name": "detail",
+    "width": 768,
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "imageFailures": []
+  },
+  {
+    "name": "home",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "imageFailures": []
+  },
+  {
+    "name": "detail",
+    "width": 1440,
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "imageFailures": []
+  }
+]

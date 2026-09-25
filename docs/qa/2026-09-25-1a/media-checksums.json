@@ -1,0 +1,22 @@
+[
+  {
+    "path": "public/images/cam-lam.webp",
+    "sha256": "8F55ADA5FE6513FDBDBA4E83C3E1CFF178CA91A0CAE0719F77996EF2AA4542B0",
+    "bytes": 452258
+  },
+  {
+    "path": "public/images/cam-ranh.webp",
+    "sha256": "D9FDD3814C650E69A80C297BF0B201A455B1CD8B7E46061341D9B90D6D94406A",
+    "bytes": 363184
+  },
+  {
+    "path": "public/images/dong-bang.webp",
+    "sha256": "72B908192CF315CEC921AD198003467652F21CB2700A42C3B92BCC4A1589DFAC",
+    "bytes": 361036
+  },
+  {
+    "path": "public/images/garden-retreat.webp",
+    "sha256": "36C24B48AE5A7754BDB077CE54C9889E0DEAA895B5D7EBF4A12ABD26EB89D5E4",
+    "bytes": 458954
+  }
+]
