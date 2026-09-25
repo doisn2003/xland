@@ -12,7 +12,7 @@ Mốc 1A gồm trang chủ `/`, PropertyCard dùng chung và chi tiết `/lo-dat
 
 ## 2. Design tokens
 
-Khi triển khai, đưa tokens vào CSS variables ở `src/app/globals.css`, ánh xạ Tailwind và dùng chung toàn ứng dụng. CSS scaffold hiện tại là tạm, chưa phải hệ token đã triển khai.
+Khi triển khai, đưa tokens vào CSS variables ở `src/app/globals.css`, ánh xạ Tailwind và dùng chung toàn ứng dụng. Tokens đã được triển khai trong CSS cho home/card/detail; mọi điều chỉnh cần cập nhật đồng bộ.
 
 | Token đề xuất | Giá trị | Cách dùng |
 | --- | --- | --- |
@@ -84,7 +84,7 @@ Fixture tập trung trong `src/data/` hoặc module demo, không lặp nội dun
 
 Component dự kiến theo trách nhiệm: SiteHeader, SiteFooter, DemoBadge, HeroSearch, PropertyCard, PropertyGallery, PropertyFacts, SupportPanel. Tách khi thực sự tái sử dụng hoặc có tương tác độc lập; không tạo sẵn mọi module 1B.
 
-Ảnh ưu tiên đất/cảnh quan/đường tiếp cận đồng bộ mỗi lô; chọn stock hoặc AI theo PREPARE. Ghi URL nguồn, tác giả/giấy phép khi có, phân loại AI/stock/thực và nơi dùng trong `docs/ASSETS.md` khi tuyển media. Không mặc định bốn JPG cũ đủ quyền hoặc phù hợp. Budget ban đầu hero mobile 250–400KB, card 60–150KB; kiểm tra chất lượng crop trước tối ưu sâu. Video feed ở 1B; 1A không cần autoplay video hero.
+Ảnh ưu tiên đất/cảnh quan/đường tiếp cận đồng bộ mỗi lô; dùng ảnh chụp thật có giấy phép theo PREPARE; không dùng ảnh AI theo yêu cầu mới. Ghi URL nguồn, tác giả/giấy phép khi có, phân loại stock/ảnh thực địa đã xác minh và nơi dùng trong `docs/ASSETS.md` khi tuyển media. Không mặc định bốn JPG cũ đủ quyền hoặc phù hợp. Budget ban đầu hero mobile 250–400KB, card 60–150KB; kiểm tra chất lượng crop trước tối ưu sâu. Video feed ở 1B; 1A không cần autoplay video hero.
 
 ## 9. Trạng thái và khả năng truy cập
 
@@ -94,7 +94,7 @@ Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra th
 
 ## 10. Điều kiện nghiệm thu 1A
 
-- [ ] Chốt font sau thử dấu Việt; ghi cặp/weight thực tế tại mục 3.
+- [x] Chốt font sau thử dấu Việt; ghi cặp/weight thực tế tại mục 3.
 - [ ] Lưu ảnh tham chiếu và ảnh home/card/detail cùng viewport vào `docs/references/` theo mốc, có mô tả nguồn/ngày; không báo đã lưu khi chưa tạo.
 - [ ] Hero, header, CTA/search và card giữ đặc trưng mẫu; nội dung đất nền Xland rõ.
 - [ ] Home → card → detail → quay lại hoạt động, gallery/search cục bộ có trạng thái; không có CTA vô tác dụng.
@@ -103,4 +103,4 @@ Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra th
 - [ ] `pnpm check` đạt; bổ sung test hành vi mới thay vì chỉ dựa smoke test scaffold.
 - [ ] Ghi kết quả thật, ảnh đối chiếu và phần còn thiếu trong STATUS; chưa coi đây là nghiệm thu 1B hoặc production.
 
-Việc chưa chốt: font sau thử glyph, bộ media và crop thực tế. Các giá trị spacing/kích cỡ có thể chỉnh khi đối chiếu ảnh; cập nhật tài liệu theo quyết định thực thi, không cần thêm vòng phê duyệt cho điều chỉnh thường lệ.
+Đã chọn Noto Serif + Be Vietnam Pro sau kiểm tra glyph; media là ảnh chụp thật Pexels, chi tiết tại ASSETS. Các giá trị spacing/kích cỡ có thể chỉnh khi đối chiếu ảnh; cập nhật tài liệu theo quyết định thực thi, không cần thêm vòng phê duyệt cho điều chỉnh thường lệ.

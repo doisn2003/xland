@@ -10,6 +10,7 @@
 - Dùng pnpm và phiên bản đã khóa; không thêm lockfile của npm/yarn. Không cài dependency nếu chưa có nhu cầu cụ thể.
 - Trước khi dùng API Next.js, đọc phần tương ứng trong `node_modules/next/dist/docs/` nếu có; dùng tài liệu chính thức khi bản cài không chứa hướng dẫn.
 - Tách fixture khỏi UI. Không thu dữ liệu/tiền thật hoặc báo giao dịch demo là on-chain.
+- Media demo dùng ảnh chụp thật có nguồn/quyền sử dụng; không dùng ảnh AI theo quyết định mới của chủ dự án. Ghi nguồn ở `docs/ASSETS.md`; nhãn demo gọn và thông tin bối cảnh đúng thực tế, không gán stock thành ảnh lô bán đã xác minh.
 - Không sửa/xóa tài liệu và ảnh nguồn; không commit secret, build hoặc kết quả test tạm.
 - Chạy kiểm tra phù hợp thay đổi; trước mốc bàn giao chạy `pnpm check`. Không bỏ qua lỗi bằng cách tắt type/lint hoặc cho phép bộ test rỗng.
 - Cập nhật `docs/STATUS.md` với kết quả thực sự, giới hạn và bước tiếp theo; chỉ đánh dấu checklist đã hoàn thành sau khi kiểm tra.

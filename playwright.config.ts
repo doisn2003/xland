@@ -10,7 +10,14 @@ export default defineConfig({
   projects: [
     { name: "desktop-chromium", use: { ...devices["Desktop Chrome"] } },
     { name: "mobile-chromium", use: { ...devices["Pixel 7"] } },
-    { name: "mobile-webkit", use: { ...devices["iPhone 13"] } },
+    {
+      name: process.platform === "win32" ? "responsive-webkit-windows" : "mobile-webkit",
+      use: {
+        ...(process.platform === "win32"
+          ? { ...devices["Desktop Safari"], viewport: { width: 390, height: 844 }, hasTouch: true }
+          : devices["iPhone 13"]),
+      },
+    },
   ],
   webServer: {
     command: "pnpm start --hostname 127.0.0.1 --port 3100",

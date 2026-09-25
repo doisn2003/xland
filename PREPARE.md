@@ -84,7 +84,7 @@ Giai đoạn 2 vẫn có thể chỉnh demo theo phản hồi. Không tự chuy�
 | Card | Ảnh cùng tỷ lệ, vị trí, diện tích, giá chào, trạng thái, người hỗ trợ; bo khoảng 16px, bóng nhẹ |
 | Motion | CSS transition khoảng 150-250ms; hover nhẹ trên thiết bị có chuột; reduced motion; CTA không phụ thuộc hover |
 | Glass | Dùng ở tìm kiếm/CTA; nền đủ đặc khi blur không khả dụng; không phủ kính toàn ứng dụng |
-| Icon | Lucide nhất quán; nút chỉ có icon phải có tên truy cập; không dùng emoji làm icon chức năng |
+| Icon | SVG nét mảnh dùng chung trong component Icon cho mốc 1A; nút chỉ có icon phải có tên truy cập; không dùng emoji làm icon chức năng |
 
 Màn hình NFT và danh mục NFT dùng cùng hệ sáng/xanh/vàng của trang chủ; không tự chuyển sang giao diện crypto tối. Thông tin mua ưu tiên số lượng NFT, giá/NFT, tổng tiền, tỷ lệ phân đoạn và điều kiện của tài sản.
 
@@ -255,11 +255,11 @@ VND dùng số nguyên trong giới hạn an toàn TypeScript; database sau này
 
 ## 7. Media và nội dung
 
-Codex chủ động tuyển chọn và phối hợp nguồn media theo quyền chủ dự án đã giao. Ưu tiên [Pexels](https://www.pexels.com/license/) cho video/ảnh và [Unsplash](https://unsplash.com/license) cho ảnh; dùng ảnh AI khi cần hero hoặc bố cục minh họa riêng. Kiểm tra giấy phép từng tài nguyên, ghi nguồn vào `docs/ASSETS.md`; không cần chủ dự án chọn từng ảnh. Video ưu tiên footage có sẵn, được nén và kiểm tra phát trên điện thoại.
+Codex chủ động tuyển chọn và phối hợp nguồn media theo quyền chủ dự án đã giao. Ưu tiên [Pexels](https://www.pexels.com/license/) cho video/ảnh và [Unsplash](https://unsplash.com/license) cho ảnh; theo yêu cầu mới, chỉ dùng ảnh chụp thật cho demo, không dùng ảnh AI. Bộ ảnh cần tự nhiên, có bối cảnh nhất quán và phục vụ độ tin cậy khi trình nhà đầu tư. Kiểm tra giấy phép từng tài nguyên, ghi nguồn vào `docs/ASSETS.md`; không cần chủ dự án chọn từng ảnh. Video ưu tiên footage có sẵn, được nén và kiểm tra phát trên điện thoại.
 
 - Tuyển ảnh đất, cảnh quan, đường tiếp cận, bối cảnh địa phương; bộ ảnh mỗi lô phải có logic. Chất lượng và đồng nhất quan trọng hơn 8K.
 - Bốn ảnh cũ chỉ dùng khi hợp ngữ cảnh và rõ quyền sử dụng; chưa đủ cho catalog đất nền/video feed. Tên file không chứng minh nguồn hoặc giấy phép.
-- Ghi nguồn, tác giả/giấy phép nếu có, quyền dùng demo/production, phân biệt stock/AI/ảnh thực. Không gọi ảnh mô phỏng là ảnh thực địa của một lô thật.
+- Ghi nguồn, tác giả/giấy phép nếu có, quyền dùng demo/production, phân biệt ảnh stock minh họa bối cảnh và ảnh thực địa đã xác minh. Không gọi ảnh mô phỏng là ảnh thực địa của một lô thật.
 - Hero có crop/điểm lấy nét riêng cho mobile/desktop; WebP/AVIF khi phù hợp; khai báo kích thước và `sizes`. Budget ban đầu: hero mobile khoảng 250-400 KB, thumbnail 60-150 KB; điều chỉnh sau đo chất lượng.
 - Video có poster, clip ngắn được nén, chỉ phát clip đang xem; dừng ngoài viewport, không tải toàn feed. Có fallback cho autoplay bị chặn, mạng chậm và media lỗi.
 - Demo dùng media quản lý trong dự án; live chuyển Storage/dịch vụ phù hợp. Không lưu upload trên ổ đĩa tạm Railway.
@@ -399,7 +399,7 @@ Không chặn dựng UI bằng mock, nhưng cần chốt thật trước khi b�
 - [x] Khởi tạo Next.js/TypeScript/pnpm và script kiểm tra; ghi phiên bản chính xác.
 - [x] Tạo `AGENTS.md`, `README.md`, `docs/STATUS.md`, `docs/DESIGN.md` đủ cho mốc 1A (đặc tả và workflow; chưa nghiệm thu giao diện).
 - [x] Truy cập trực tiếp trang mẫu trong trình duyệt Codex để tham chiếu ngoài ảnh ban đầu.
-- [ ] Lưu tham chiếu thiết kế bền vững, thử font Việt, tuyển Pexels/Unsplash/ảnh AI phù hợp và ghi `docs/ASSETS.md`.
+- [ ] Lưu tham chiếu thiết kế bền vững, thử font Việt, tuyển ảnh chụp thật Pexels/Unsplash phù hợp và ghi `docs/ASSETS.md`.
 - [ ] Dựng tokens/app shell/fixture; hoàn thành home/card/detail trên mobile/desktop.
 - [ ] Đối chiếu trình duyệt, sửa thị giác, rồi triển khai các luồng mục 4.
 - [ ] Hoàn thiện luồng mua NFT mô phỏng và danh mục NFT trong mốc 1B.
