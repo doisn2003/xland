@@ -80,6 +80,8 @@ Khoảng cách section mobile 48–64px, desktop 80–96px; gap card 24px. Khôn
 
 ## 8. Dữ liệu, media và component
 
+Hero hiện dùng `assets/images/hero.jpg` do chủ dự án cung cấp, chuyển sang `public/images/hero.webp` để phục vụ web; crop responsive và overlay được giữ nguyên.
+
 Fixture tập trung trong `src/data/` hoặc module demo, không lặp nội dung riêng từng page. Hiện có 10 tài sản có id/slug ổn định, địa bàn, giá/diện tích, trạng thái, ảnh và persona hỗ trợ; một trường hợp tạm dừng để thử trạng thái. Home/card/detail dùng một nguồn dữ liệu. Phương án NFT tương lai liên kết tài sản bằng id, ERC-1155 ở giai đoạn backend.
 
 Component theo trách nhiệm: SiteHeader, SiteFooter, PropertyExplorer, PropertyCard, PropertyGallery, PropertyImage và Icon. Không có DemoBadge trên UI. Tách khi thực sự tái sử dụng hoặc có tương tác độc lập; không tạo sẵn mọi module 1B.

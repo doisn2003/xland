@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main id="main">
       <section className="hero" aria-labelledby="hero-title">
-        <PropertyImage src="/images/cam-ranh.webp" alt="Cánh đồng và dòng sông giữa cảnh quan Cam Ranh" sizes="100vw" preload className="hero-photo" />
+        <PropertyImage src="/images/hero.webp" alt="Cảnh quan ven biển nhìn từ trên cao" sizes="100vw" preload className="hero-photo" />
         <div className="hero-shade" />
         <div className="container hero-content">
           <p className="hero-tag"><span /> KHÁM PHÁ GIÁ TRỊ TỪ ĐẤT</p>

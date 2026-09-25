@@ -12,6 +12,7 @@ Cập nhật 25/09/2026. Quyết định mới nhất của chủ dự án: **k�
 | `cam-lam.webp` | [Pexels 35995797](https://www.pexels.com/photo/aerial-view-of-agricultural-landscape-in-vietnam-35995797/), Hữu Thịnh 79, trang nguồn ghi Cam Lâm, máy FC3582 | Card ven sông, gallery bối cảnh Khánh Hòa |
 | `dong-bang.webp` | [Pexels 28055363](https://www.pexels.com/photo/aerial-view-of-rural-vietnamese-landscape-28055363/), HONG SON, cảnh quan nông thôn Việt Nam | Card và chi tiết hồ sơ đồng quê |
 | `assets/media/stock/nha-trang.jpg` | [Pexels 37177938](https://www.pexels.com/photo/serene-beach-at-sunset-with-rocky-shoreline-37177938/), Hữu Thịnh 79 | Ứng viên đã tải; chưa đưa vào giao diện vì chưa cần bối cảnh biển |
+| `assets/images/hero.jpg` → `hero.webp` | Ảnh nguồn do chủ dự án cung cấp, 1376 × 768 | Hero trang chủ; crop responsive với overlay tối để giữ rõ chữ |
 
 Giấy phép: [Pexels License](https://www.pexels.com/license/), kiểm tra ngày 25/09/2026: cho phép dùng ảnh miễn phí và chỉnh sửa; không bắt buộc ghi công. Giữ công tác giả trong caption gallery/tài liệu để dễ truy vết. Không ngụ ý nhiếp ảnh gia, người hoặc tổ chức trong ảnh bảo chứng cho Xland; không bán lại ảnh riêng lẻ.
 

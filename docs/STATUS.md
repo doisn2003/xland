@@ -8,6 +8,8 @@ Cập nhật: 25/09/2026, sau vòng làm giàu danh mục mốc 1A và kiểm tr
 
 ## Đã hoàn thành
 
+- Hero trang chủ đã chuyển sang ảnh `assets/images/hero.jpg` do chủ dự án cung cấp; bản WebP phục vụ web nằm tại `public/images/hero.webp`, giữ overlay và responsive crop.
+
 - Trang chủ theo hướng LUXEESTATE; **10 bất động sản** từ fixture dùng chung. Thứ tự cố định: **Đô thị (1) → Vùng ven đô thị (4) → Ocean Park (2) → Vùng quê (3)**. Chọn nhóm kết hợp filter cục bộ khu vực/giá/không gian, empty state và xóa lọc.
 - Thêm 7 hồ sơ: Góc phố Long Biên; Hiên xanh Đông Anh, Vườn nhỏ Gia Lâm, Lối nắng Hoài Đức, Miền vườn Thanh Trì; Nhà phố Ocean Park 2 và Biệt thự Ocean Park 3 tại Hưng Yên. Mỗi hồ sơ có ảnh, giá, diện tích đất, mặt tiền, đường tiếp cận, loại tài sản và người hỗ trợ. Giữ nguyên 3 hồ sơ vùng quê.
 - Card → chi tiết đúng giá/diện tích/người hỗ trợ; gallery trước/sau/thumbnail, thông tin đất, trạng thái tạm dừng, phương án NFT, lô liên quan và 404.
