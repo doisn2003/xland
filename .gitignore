@@ -9,6 +9,11 @@ coverage/
 # Production
 build/
 dist/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
 
 # Misc
 .DS_Store
@@ -21,11 +26,19 @@ Thumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+.env.*
+!.env.example
 
 # Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# Browser test artifacts
+playwright-report/
+test-results/
+blob-report/
 
 # IDE / Editor
 .vscode/
