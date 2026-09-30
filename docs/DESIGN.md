@@ -1,6 +1,6 @@
 # Xland — Thiết kế mốc 1A
 
-Cập nhật: 25/09/2026. Đây là đặc tả để triển khai, chưa phải bằng chứng giao diện đã nghiệm thu. Phạm vi và quyết định sản phẩm nằm trong [PREPARE.md](../PREPARE.md); kết quả kiểm tra nằm trong [STATUS.md](STATUS.md).
+Cập nhật: 29/09/2026. Đây là đặc tả để triển khai, chưa phải bằng chứng giao diện đã nghiệm thu. Phạm vi và quyết định sản phẩm nằm trong [PREPARE.md](../PREPARE.md); kết quả kiểm tra nằm trong [STATUS.md](STATUS.md).
 
 ## 1. Đích thiết kế và tham chiếu
 
@@ -35,8 +35,8 @@ Spacing theo thang 4, 8, 12, 16, 24, 32, 48, 64, 96px. Glass chỉ ở search/CT
 
 ## 3. Typography và tiếng Việt
 
-- Cặp thử theo mẫu: **Cinzel** cho tiêu đề ngắn, **Josefin Sans** cho nội dung. Chưa xác nhận glyph/độ dễ đọc của font tải thực tế.
-- Cặp dự phòng đã chọn: **Noto Serif** heading + **Be Vietnam Pro** body/UI nếu cặp mẫu thiếu dấu hoặc khó đọc. Kiểm tra rồi ghi quyết định tại đây trước khi nhân rộng; không đổi font tùy trang.
+- Cặp thử theo mẫu: **Cinzel** cho tiêu đề ngắn, **Josefin Sans** cho nội dung. Đã kiểm tra cmap: Cinzel thiếu một số dấu Việt và ký hiệu ₫ trong chuỗi thử; không dùng cho Xland.
+- Cặp đang dùng: **Noto Serif** heading + **Be Vietnam Pro** body/UI. Kết quả glyph và giấy phép lưu trong docs/references/fonts; không đổi font tùy trang.
 - Chỉ tải weight dùng thực tế: heading 500/600; body 400/500/600. Dùng font qua Next sau khi đọc tài liệu phiên bản cài; không phụ thuộc CDN font lúc người dùng mở demo.
 - H1 mobile 40–48px / line-height 1.15; desktop 64–80px / 1.1. H2 28–40px / 1.2; card title 20–24px / 1.3. Body 16–18px / 1.6; label/phụ 14px / 1.5. Không cắt dấu hoặc ép chữ hoa toàn bộ đoạn dài.
 - Chuỗi thử: “Đất nền ven sông · Quy hoạch & pháp lý · Nguyễn Thị Thủy · Sở hữu NFT · 1.250 m² · 2,8 tỷ ₫”. Thử weight, xuống dòng, dấu và số tại 360px và zoom 200%.
@@ -45,7 +45,7 @@ Spacing theo thang 4, 8, 12, 16, 24, 32, 48, 64, 96px. Glass chỉ ở search/CT
 
 | Chiều rộng | Quyết định bố cục |
 | --- | --- |
-| 360–767px | Gutter 20px; 1 cột; header 64px; menu thu gọn; hero nội dung tự tăng chiều cao; search xếp dọc; CTA rộng dễ chạm |
+| 360–767px | Gutter 20px; 1 cột; header 72px; menu thu gọn; hero nội dung tự tăng chiều cao; search xếp dọc; CTA rộng dễ chạm |
 | 768–1023px | Gutter 32px; card 2 cột; header menu tùy đủ chỗ; search 2 hàng nếu cần |
 | Từ 1024px | Container tối đa 1200px, gutter ít nhất 32px; card 3 cột; header 88px; hero khoảng 680–780px tùy chữ; search ngang |
 
@@ -95,12 +95,12 @@ Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra th
 ## 10. Điều kiện nghiệm thu 1A
 
 - [x] Chốt font sau thử dấu Việt; ghi cặp/weight thực tế tại mục 3.
-- [ ] Lưu ảnh tham chiếu và ảnh home/card/detail cùng viewport vào `docs/references/` theo mốc, có mô tả nguồn/ngày; không báo đã lưu khi chưa tạo.
-- [ ] Hero, header, CTA/search và card giữ đặc trưng mẫu; nội dung đất nền Xland rõ.
-- [ ] Home → card → detail → quay lại hoạt động, gallery/search cục bộ có trạng thái; không có CTA vô tác dụng.
-- [ ] Media có nguồn và nhãn minh họa; giá/diện tích/người hỗ trợ khớp giữa home/detail.
-- [ ] Đạt kiểm tra viewport, bàn phím, focus, tương phản, reduced motion và fallback.
-- [ ] `pnpm check` đạt; bổ sung test hành vi mới thay vì chỉ dựa smoke test scaffold.
-- [ ] Ghi kết quả thật, ảnh đối chiếu và phần còn thiếu trong STATUS; chưa coi đây là nghiệm thu 1B hoặc production.
+- [x] Lưu ảnh tham chiếu và ảnh home/card/detail cùng viewport vào `docs/references/` theo mốc, có mô tả nguồn/ngày; không báo đã lưu khi chưa tạo.
+- [x] Hero, header, CTA/search và card giữ đặc trưng mẫu; nội dung đất nền Xland rõ.
+- [x] Home → card → detail → quay lại hoạt động, gallery/search cục bộ có trạng thái; không có CTA vô tác dụng.
+- [x] Media có nguồn và nhãn minh họa; giá/diện tích/người hỗ trợ khớp giữa home/detail.
+- [ ] Đóng kiểm tra thủ công bàn phím toàn hành trình và zoom 200%. Viewport, menu Escape/focus, axe tương phản tự động, reduced motion và fallback đã đạt; xem STATUS.
+- [x] `pnpm check` đạt; bổ sung test hành vi mới thay vì chỉ dựa smoke test scaffold.
+- [x] Ghi kết quả thật, ảnh đối chiếu và phần còn thiếu trong STATUS; chưa coi đây là nghiệm thu 1B hoặc production.
 
 Đã chọn Noto Serif + Be Vietnam Pro sau kiểm tra glyph; media là ảnh chụp thật Pexels, chi tiết tại ASSETS. Các giá trị spacing/kích cỡ có thể chỉnh khi đối chiếu ảnh; cập nhật tài liệu theo quyết định thực thi, không cần thêm vòng phê duyệt cho điều chỉnh thường lệ.

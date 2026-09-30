@@ -1,4 +1,16 @@
 import { expect, test, type Page } from "@playwright/test";
+import { AxeBuilder } from "@axe-core/playwright";
+
+for (const path of ["/", "/lo-dat/mien-xanh-ven-song"]) {
+  test(`accessibility audit: ${path}`, async ({ page }) => {
+    await page.goto(path);
+    await page.evaluate(() => document.fonts.ready);
+    const results = await new AxeBuilder({ page })
+      .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+      .analyze();
+    expect(results.violations).toEqual([]);
+  });
+}
 
 async function noOverflow(page: Page) {
   // Compare integer CSS layout dimensions; innerWidth rounds differently in Windows WebKit.

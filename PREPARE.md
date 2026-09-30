@@ -1,6 +1,6 @@
 # XLAND - KẾ HOẠCH PHÁT TRIỂN VÀ QUY ƯỚC THỰC THI
 
-> Cập nhật: 25/09/2026 · Trạng thái: đã khởi tạo nền ứng dụng; đang chuẩn bị giao diện demo mốc 1A.
+> Cập nhật: 29/09/2026 · Trạng thái: đã có home/card/detail và luồng NFT mô phỏng; đang hoàn thiện demo 1B, giới hạn nghiệm thu tại docs/STATUS.md.
 > Đích gần nhất: website mobile first đẹp theo mẫu LUXEESTATE, có dữ liệu/media mẫu và các hành trình hoạt động để trình nhà đầu tư.
 > Stack đã chốt: Next.js + TypeScript trên Vercel; backend Node.js trên Railway; PostgreSQL/Auth/Storage trên Supabase; smart contract Solidity theo ERC-1155 ở giai đoạn backend.
 > Người triển khai kỹ thuật: Codex. Chủ dự án quyết định kinh doanh, ngân sách, đối tác và thời điểm chuyển sang vận hành thật.
@@ -399,10 +399,10 @@ Không chặn dựng UI bằng mock, nhưng cần chốt thật trước khi b�
 - [x] Khởi tạo Next.js/TypeScript/pnpm và script kiểm tra; ghi phiên bản chính xác.
 - [x] Tạo `AGENTS.md`, `README.md`, `docs/STATUS.md`, `docs/DESIGN.md` đủ cho mốc 1A (đặc tả và workflow; chưa nghiệm thu giao diện).
 - [x] Truy cập trực tiếp trang mẫu trong trình duyệt Codex để tham chiếu ngoài ảnh ban đầu.
-- [ ] Lưu tham chiếu thiết kế bền vững, thử font Việt, tuyển ảnh chụp thật Pexels/Unsplash phù hợp và ghi `docs/ASSETS.md`.
-- [ ] Dựng tokens/app shell/fixture; hoàn thành home/card/detail trên mobile/desktop.
+- [x] Lưu tham chiếu thiết kế bền vững, thử font Việt, tuyển ảnh chụp thật Pexels/Unsplash phù hợp và ghi `docs/ASSETS.md`.
+- [x] Dựng tokens/app shell/fixture và home/card/detail trên mobile/desktop; đã kiểm tra hành vi và lưu ảnh, phần nghiệm thu thủ công còn lại theo STATUS.
 - [ ] Đối chiếu trình duyệt, sửa thị giác, rồi triển khai các luồng mục 4.
-- [ ] Hoàn thiện luồng mua NFT mô phỏng và danh mục NFT trong mốc 1B.
+- [x] Hoàn thiện luồng mua NFT mô phỏng và danh mục NFT trong mốc 1B; đã kiểm tra thành công/hủy/lỗi/reload/reset, xem docs/DEMO.md.
 - [ ] Kiểm thử, đóng gói kịch bản và bản Vercel để trình nhà đầu tư.
 
-**Mục tiêu vòng triển khai đầu tiên:** Next.js chạy được với trang chủ Xland và trang chi tiết lô đất đạt chất lượng theo mẫu, trên dữ liệu mẫu nhất quán. Chưa nối backend, chưa làm admin. Hiện mới có scaffold; các checklist chưa đánh dấu vẫn là việc tương lai, không phải kết quả kiểm thử đã đạt.
+**Mục tiêu vòng triển khai đầu tiên:** Next.js chạy được với trang chủ Xland và trang chi tiết lô đất đạt chất lượng theo mẫu, trên dữ liệu mẫu nhất quán. Chưa nối backend, chưa làm admin. Ngày 29/09/2026: đã có home/card/detail, ảnh chụp thật và font Việt; pnpm check đạt 17 unit + 42 E2E. Đã có luồng mua NFT 1B và danh mục; chưa đóng toàn bộ nghiệm thu 1A (zoom 200% và bàn phím đầy đủ), các luồng 1B khác còn lại. Xem docs/STATUS.md để tiếp tục đúng vị trí.

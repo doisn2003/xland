@@ -24,7 +24,7 @@ export function SiteHeader() {
         <nav id="site-navigation" className={open ? "navigation is-open" : "navigation"} aria-label="Điều hướng chính">
           <Link href="/#kham-pha" onClick={close}>Khám phá</Link>
           <Link href="/#cach-hoat-dong" onClick={close}>Về Xland</Link>
-          <Link href="/#nft" onClick={close}>Bất động sản NFT</Link>
+          <Link href="/nft" onClick={close}>Bất động sản NFT</Link>
           <Link href="/#nguoi-dong-hanh" onClick={close}>Người đồng hành</Link>
           <Link className="button header-cta" href="/#kham-pha" onClick={close}>Tìm lô đất phù hợp <Icon name="arrow" /></Link>
         </nav>

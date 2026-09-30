@@ -223,3 +223,57 @@ em { font-style: normal; }
 }
 @media (hover: hover) { .property-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-raised); } .property-card:hover .card-cover img { transform: scale(1.03); } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; } .property-card:hover, .property-card:hover .card-cover img { transform: none; } }
+
+/* NFT demo shares the public website tokens. */
+.nft-page { padding-block: 36px 72px; }
+.nft-page > h1 { font-size: clamp(34px, 4.4vw, 60px); }
+.nft-intro { max-width: 700px; margin-top: 22px; color: var(--color-muted); }
+.nft-page > .text-link { margin-block: 20px; }
+.nft-catalog { margin-block: 28px; }
+.nft-card-body { padding: 24px; display: grid; gap: 14px; }
+.nft-card-body h2 { font-size: 24px; }
+.nft-unit-price { font-size: 28px; font-weight: 600; color: var(--color-primary-hover); }
+.nft-unit-price small { font-size: 14px; font-weight: 400; color: var(--color-muted); }
+.nft-layout { display: grid; gap: 32px; margin-top: 32px; align-items: start; }
+.nft-information { min-width: 0; }
+.nft-information section { margin-top: 36px; }
+.nft-information section > p { margin-top: 20px; }
+.nft-detail-image { position: relative; aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; }
+.nft-terms { padding-left: 22px; line-height: 1.8; }
+.nft-terms li { margin-block: 16px; }
+.nft-purchase { border: 1px solid var(--color-border); border-radius: 16px; padding: 24px; background: white; box-shadow: var(--shadow-card); min-width: 0; }
+.nft-purchase h2 { font-size: 25px; margin-block: 24px 18px; scroll-margin-top: 112px; }
+.nft-purchase .button { width: 100%; }
+.nft-purchase > .fine-print { margin-top: 20px; }
+.nft-field { display: grid; gap: 8px; font-size: 14px; }
+.nft-field input { width: 100%; min-height: 48px; border: 1px solid var(--color-muted); padding: 12px; border-radius: 8px; color: var(--color-text); background: white; }
+.nft-totals { margin-block: 24px; }
+.nft-totals > div { display: flex; justify-content: space-between; gap: 16px; padding-block: 12px; border-bottom: 1px solid var(--color-border); font-size: 14px; }
+.nft-totals dd { margin: 0; font-weight: 600; text-align: right; }
+.nft-consent { display: flex; gap: 12px; font-size: 13px; line-height: 1.8; align-items: start; }
+.nft-consent input { width: 22px; height: 22px; flex-shrink: 0; margin-top: 2px; accent-color: var(--color-primary); }
+.nft-consent a { text-decoration: underline; color: var(--color-primary-hover); }
+.nft-error { color: var(--color-danger); font-size: 14px; margin-block: 12px; }
+.nft-actions { display: grid; gap: 12px; }
+.nft-actions summary { cursor: pointer; min-height: 44px; padding-block: 12px; font-size: 13px; }
+.purchase-result .fine-print { overflow-wrap: anywhere; margin-block: 16px; }
+.nft-portfolio-summary { margin-block: 24px 36px; background: var(--color-surface); padding: 24px; border-radius: 16px; display: flex; gap: 32px; flex-wrap: wrap; }
+.nft-portfolio-summary span, .nft-portfolio-summary strong { display: block; }
+.nft-portfolio-summary span { font-size: 13px; color: var(--color-muted); }
+.nft-portfolio-summary strong { font-size: 30px; color: var(--color-primary-hover); margin-top: 10px; }
+.nft-empty { padding-block: 32px; }
+.nft-empty p { margin-block: 18px; }
+.nft-holdings { display: grid; gap: 24px; }
+.nft-holding { padding: 24px; border: 1px solid var(--color-border); border-radius: 16px; }
+.nft-holding h2 { font-size: 26px; }
+.nft-history, .nft-reset { margin-top: 48px; }
+.nft-history ol { list-style: none; padding: 0; }
+.nft-history li { display: grid; gap: 8px; border-bottom: 1px solid var(--color-border); padding-block: 20px; }
+.nft-history small { overflow-wrap: anywhere; color: var(--color-muted); }
+.nft-reset p { margin-block: 16px; }
+.nft-reset .text-button { margin-right: 20px; }
+@media (min-width: 1024px) {
+  .nft-layout { grid-template-columns: minmax(0,1fr) 390px; gap: 48px; }
+  .nft-purchase { position: sticky; top: 112px; }
+  .nft-holdings { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
