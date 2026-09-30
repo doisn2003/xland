@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { type Property, formatArea, formatPrice } from "@/data/properties";
 import { PropertyImage } from "./property-image";
+import { SaveButton } from "@/features/journey/save-button";
 import { Icon } from "./icon";
 
 export function PropertyCard({ property }: { property: Property }) {
@@ -8,7 +9,7 @@ export function PropertyCard({ property }: { property: Property }) {
   return (
     <article className="property-card" data-category={property.category}>
       <div className="card-cover"><PropertyImage src={cover.src} alt={cover.alt} sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 400px" /><span className={`status-badge ${property.status === "paused" ? "paused" : ""}`}>{property.status === "paused" ? "Tạm dừng giới thiệu" : "Đang giới thiệu"}</span>{property.nft && <span className="nft-badge">NFT</span>}</div>
-      <div className="card-content"><p className="card-category">{property.category} · {property.kind}</p><p className="location"><Icon name="pin" />{property.location}</p><h3><Link href={`/lo-dat/${property.slug}`}>{property.name}</Link></h3><div className="card-facts"><span><Icon name="area" />{formatArea(property.area)}</span><span>{property.setting}</span></div><div className="card-bottom"><div><span className="small-label">Giá chào</span><strong>{formatPrice(property.price)}</strong></div><Link className="round-link" href={`/lo-dat/${property.slug}`} aria-label={`Xem ${property.name}`}><Icon name="arrow" /></Link></div></div>
+      <div className="card-content"><SaveButton property={property} /><p className="card-category">{property.category} · {property.kind}</p><p className="location"><Icon name="pin" />{property.location}</p><h3><Link href={`/lo-dat/${property.slug}`}>{property.name}</Link></h3><div className="card-facts"><span><Icon name="area" />{formatArea(property.area)}</span><span>{property.setting}</span></div><div className="card-bottom"><div><span className="small-label">Giá chào</span><strong>{formatPrice(property.price)}</strong></div><Link className="round-link" href={`/lo-dat/${property.slug}`} aria-label={`Xem ${property.name}`}><Icon name="arrow" /></Link></div></div>
     </article>
   );
 }

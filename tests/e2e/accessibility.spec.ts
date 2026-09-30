@@ -27,6 +27,7 @@ test("keyboard can skip navigation, search, open detail and change gallery", asy
   await page.keyboard.press("Tab");
   await expect(page.getByRole("button", { name: "Tìm lô đất", exact: true })).toBeFocused();
   await page.keyboard.press("Enter");
+  await expect(page).toHaveURL(/\/lo-dat$/);
   await expect(page.locator(".property-card")).toHaveCount(10);
   await page.getByRole("link", { name: "Miền xanh ven sông", exact: true }).focus();
   await page.keyboard.press("Enter");

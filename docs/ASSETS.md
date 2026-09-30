@@ -63,3 +63,8 @@ Tạo bằng **image_gen tích hợp**, không dùng ảnh bên thứ ba làm đ
 Ảnh 1536 × 1024, WebP quality 83; Next Image tạo kích cỡ cho từng card/viewport. PNG gốc và [prompt đầy đủ](../assets/media/generated/catalog-1a/prompts.json) nằm trong `assets/media/generated/catalog-1a/`, giữ nguyên output ở thư mục generated_images của Codex. Mỗi hồ sơ mới dùng một ảnh riêng; không nhân cùng ảnh thành nhiều góc chụp.
 
 Bối cảnh tên dự án/loại hình Ocean Park tham khảo [Vinhomes Ocean Park 2](https://market.vinhomes.vn/du-an/vinhomes-ocean-park-2), [Ocean Park 3](https://oceanpark3.vinhomes.vn/) và [thông tin địa bàn Ocean City](https://market.vinhomes.vn/phan-khu/pho-bien-vinhomes-ocean-park-3-2), tra ngày 25/09/2026. Không tải/sao chép ảnh thương mại của dự án, không lấy giá/ưu đãi từ nguồn làm dữ liệu thật. Diện tích, giá, người hỗ trợ, vị trí của từng căn/lô và hình thức kiến trúc trong fixture đều là giả định; không công bố mã căn thật hoặc quan hệ đối tác với chủ đầu tư.
+
+
+## Sử dụng lại ở mốc 1B — 30/09/2026
+
+Danh sách `/lo-dat`, `/da-luu`, trang chi tiết và các route NFT tiếp tục dùng chính media của 10 hồ sơ đã phân loại ở trên. Không thêm ảnh/video, không thay tài liệu/ảnh nguồn. Việc nối media vào luồng lưu, lịch xem hoặc mua NFT không biến ảnh stock/phối cảnh thành bằng chứng xác minh tài sản. Lịch, persona, giá và phương án NFT vẫn là fixture nội bộ; video chưa được tuyển và chưa triển khai trong vòng này.

@@ -47,7 +47,7 @@ describe("property discovery", () => {
   });
   it("provides working discovery links in server HTML", () => {
     const html = renderToStaticMarkup(createElement(SiteFooter));
-    expect(html).toContain('href="/#kham-pha"');
-    expect(html).toContain('href="/#nft"');
+    expect(html).toContain('href="/lo-dat"');
+    expect(html).toContain('href="/nft"');
   });
 });

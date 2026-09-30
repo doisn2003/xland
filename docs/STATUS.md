@@ -1,12 +1,67 @@
 # Trạng thái Xland
 
-Cập nhật: 25/09/2026, sau vòng làm giàu danh mục mốc 1A và kiểm tra lại toàn bộ.
+Cập nhật: 30/09/2026, bắt đầu vòng phát triển tiếp theo của mốc 1B.
 
-## Mốc hiện tại
+## Vị trí trong lộ trình
 
-**Đã hoàn tất phần triển khai và QA local mốc 1A: home, card, chi tiết.** Bản trước đã có UI trong commit `be8213a`, nhưng STATUS còn dừng ở scaffold và lỗi WebKit. Phiên này tiếp tục trên code đó, không làm lại scaffold. Chủ dự án có thể xem bản local để đánh giá mỹ thuật; đây chưa phải toàn bộ demo 1B hay bản production.
+**1A đã có triển khai và bằng chứng QA ngày 25/09; 1B đang triển khai, chưa hoàn tất.** Kho mã đầu phiên sạch, HEAD `e8790ab`; luồng NFT đã có từ commit `6f4504c`, nhưng STATUS cũ chưa phản ánh. Phiên này tiếp tục nền đó, không làm lại scaffold và không triển khai backend/admin.
 
-## Đã hoàn thành
+| Phần của 1B | Trạng thái hiện tại |
+| --- | --- |
+| NFT → số lượng → xem lại → mua → danh mục | Đã có; kiểm tra lại thành công/hủy/lỗi, reload/reset, tồn và chống trùng. Nối CTA từ home/chi tiết và đồng bộ copy theo yêu cầu sản phẩm. |
+| Danh sách `/lo-dat` | Đã triển khai filter URL theo khu vực/giá/không gian/nhóm, sort, reset, empty; hỗ trợ Back/reload/chia sẻ. |
+| Lưu `/da-luu` | Đã triển khai card/detail/liste cùng state, bỏ lưu/empty/reload/nhiều tab. |
+| Xem thực địa `/lich-hen` | Đã triển khai form từ đúng lô, validation, xem lại, gửi một lần, lịch sử, đề nghị đổi/hủy. Gửi mới chờ sắp xếp; đổi/hủy chờ xử lý. |
+| Reset `/trai-nghiem` | Đặt lại favorites/lịch về seed và NFT/tồn/lịch sử; có xác nhận, không xóa key khác. |
+| Video, người đăng/theo dõi, chuyên gia/consent, đăng bán | **Chưa triển khai** trong vòng này. |
+| QA toàn mốc, Vercel và kịch bản nhà đầu tư đầy đủ | **Chưa đạt/chưa phát hành**. WebKit viewport còn lỗi; các hành trình còn thiếu không được tính là đã xong. |
+
+## Chi tiết thay đổi vòng này
+
+- Dùng chung 10 hồ sơ và nguồn media 1A; thêm fixture persona/lịch ở `src/data/journey.ts`, tách model/adapter khỏi component.
+- Home vẫn chọn nhóm cục bộ; bấm tìm dẫn tới danh sách có URL. Parse tham số theo allowlist, bỏ tham số lặp/không hợp lệ; khóa điều khiển trong khi navigation để tránh đọc state cũ. Giữ DOM điều khiển để không mất focus khi filter cập nhật.
+- Lưu dữ liệu không nhạy cảm trong `xland.demo.journey.v1`; đọc sau hydrate, kiểm phiên bản/phát lại lệnh, chịu được storage hỏng/bị chặn. Khóa từng sổ nếu Web Locks khả dụng, đồng bộ qua storage event.
+- Lịch nhận ngày 01–31/10/2026, 09:00/14:00, 1–8 người; persona Minh An cố định. Không có trường nhập điện thoại/email. Cửa sổ ngày, phí 0 ₫ và 3 lịch ban đầu là giả định kịch bản, không phải dịch vụ đang vận hành.
+- Hồ sơ tạm dừng bị chặn cả CTA lẫn truy cập URL form trực tiếp. Model từ chối `sold`; catalog hiện chưa có fixture `sold` để kiểm end-to-end riêng.
+- Chống trùng mã lệnh và yêu cầu đang xử lý trên cùng lô. Đổi lịch lưu đề nghị mới và giữ lịch gốc; hủy chuyển `cancel_requested`, không giả xác nhận điều phối.
+- NFT dùng ngôn ngữ sản phẩm, vẫn ghi rõ yêu cầu không phát sinh thanh toán. Không dựng mint, receipt hoặc explorer. Reset toàn bộ và reset riêng NFT đều có hướng dẫn trong DEMO.
+- Giữ font/token, package/pnpm-lock, PDF và ảnh nguồn. Không thêm dependency, secret hoặc backend; chưa commit.
+
+## Kiểm tra thực tế ngày 30/09
+
+| Kiểm tra | Kết quả |
+| --- | --- |
+| `pnpm check` cuối | **Chưa đạt toàn bộ**: lint, typecheck, **42/42 unit**, production build đạt; **74/81 E2E đạt**, 7 lỗi WebKit viewport/overflow. |
+| Chromium desktop / Pixel 7 | **54/54 E2E đạt**; URL/history, lưu/nhiều tab, lịch tạo/đổi/hủy, reset, NFT và accessibility. |
+| WebKit iPhone 13 emulation | **20/27 E2E đạt**; các hành trình chức năng đạt. 7 bài liên quan layout/overflow/zoom thất bại; không skip hoặc nới assertion. |
+| Responsive và ảnh Chromium | 35 ảnh ở 360/390/430/768/1440px cho catalog, đã lưu, form/xem lại/lịch, NFT, reset; không tràn ngang, không lỗi ảnh hoặc pageerror trong capture. Đã xem đối chiếu font/card/màu với tham chiếu 1A/LUXEESTATE. |
+| Accessibility | Axe WCAG 2 A/AA + 2.1 AA trên các route mới tại 390/1440px ở Chromium; keyboard/focus, reduced motion; cả hai project Chromium đạt. Không quy kết các bài WebKit bị chặn trước scan là đã đạt. |
+| Git | `git diff --check` được dùng trước bàn giao. Không thay package/lockfile, cấu hình test project hoặc tài nguyên nguồn. |
+
+Bằng chứng: [QA 1B](qa/2026-09-30-1b/README.md), [layout](qa/2026-09-30-1b/layout.json), [WebKit probe](qa/2026-09-30-1b/webkit-viewport.json). Trace tạm nằm trong `test-results/` (gitignored), không đưa vào Git.
+
+### WebKit: giới hạn đang mở
+
+Đã tái hiện trên cả **HTML tối giản không có CSS Xland** và `/lo-dat`: yêu cầu 390px nhưng `innerWidth=325`, `clientWidth=326`, `scrollWidth=391`, `scrollX=65`, DPR=3,59375. Desktop WebKit đối chứng cũng báo chiều rộng 326 thay 390. Windows AppliedDPI đọc được là 115; hệ số 115/96 khớp DPR đối chứng, nhưng chưa xác nhận toàn bộ nguyên nhân trong WebKit. Không đổi DPI toàn máy, không che overflow, không đổi project iPhone sang desktop để làm xanh kiểm tra.
+
+Kết quả ngày 25/09 bên dưới là lịch sử; phiên hiện tại không tái xác nhận được trạng thái WebKit đạt đó. Cần kiểm tra lại trên môi trường WebKit có viewport đúng (và thiết bị thật khi có) trước khi đóng QA 1B. WebKit giả lập không phải iPhone thật.
+
+## Bước tiếp theo
+
+1. Giải quyết môi trường/viewport WebKit và chạy lại đầy đủ gate `pnpm check`; chưa gắn nhãn bản đã nghiệm thu hoặc phát hành.
+2. Triển khai chuyên gia gắn lô đất, consent theo từng yêu cầu; hồ sơ người đăng/theo dõi và wizard gửi duyệt.
+3. Tuyển media có nguồn/quyền, làm ít nhất 3 clip phát được và nhóm Bắc/Trung/Nam/KCN theo PREPARE; mở rộng fixture trạng thái khi cần.
+4. Hoàn thiện reset các module mới, QA toàn hành trình và kịch bản 5–7 phút, sau đó mới đến mốc 2/Vercel.
+
+Chưa có Lighthouse 3 lần, thiết bị iOS/Android thật hoặc visual regression baseline được duyệt. Chưa deployment, backend/admin, Supabase, ví, thanh toán hoặc smart contract. ERC-1155 vẫn thuộc giai đoạn backend.
+
+Bản production local đang phục vụ tại **http://127.0.0.1:3200**. Kịch bản và các giới hạn dữ liệu ở [DEMO](DEMO.md).
+
+## Lịch sử mốc 1A — 25/09/2026
+
+Phần dưới giữ kết quả của vòng trước, không thay cho kết quả 30/09 ở trên.
+
+### Đã hoàn thành tại 25/09
 
 - Hero trang chủ đã chuyển sang ảnh `assets/images/hero.jpg` do chủ dự án cung cấp; bản WebP phục vụ web nằm tại `public/images/hero.webp`, giữ overlay và responsive crop.
 
@@ -20,7 +75,7 @@ Cập nhật: 25/09/2026, sau vòng làm giàu danh mục mốc 1A và kiểm tr
 - Sửa focus của skip link trên WebKit bằng `tabIndex={0}`; giữ điều hướng bàn phím và menu Escape/trả focus. Tăng overlay hero mobile và nền dòng địa điểm để bảo đảm chữ rõ trên ảnh.
 - Đồng bộ AGENTS, PREPARE, DESIGN, ASSETS và README với yêu cầu ảnh/câu chữ mới.
 
-## Kiểm tra thực tế
+### Kiểm tra tại 25/09
 
 | Kiểm tra | Kết quả |
 | --- | --- |
@@ -35,7 +90,7 @@ Cập nhật: 25/09/2026, sau vòng làm giàu danh mục mốc 1A và kiểm tr
 
 Máy hiện có Node mặc định 20.18.0, không đủ chạy pnpm 11. Phiên này thêm Node của runtime Codex (24.19.0) vào PATH **riêng tiến trình** để bootstrap; pnpm cài và chạy bằng Node dự án **24.21.0**. Không đổi Node toàn máy, không nâng dependency.
 
-### Lỗi WebKit ghi ở phiên trước
+#### Lỗi WebKit ghi ở phiên trước 25/09
 
 Đã thử lại cả HTML tối giản và Xland với iPhone 13 emulation trên Windows: `innerWidth/clientWidth/scrollWidth = 390`, `scrollX = 0`. Không tái hiện sai lệch 325/390 và cuộn 65px đã ghi trước đây. Bỏ nhánh dùng Desktop Safari thu nhỏ trên Windows, khôi phục project `mobile-webkit` dùng iPhone 13 ở mọi OS. Toàn bộ 11 test WebKit mobile đã đạt; không skip và không che overflow bằng CSS. Chưa xác định nguyên nhân gốc của sai lệch ở môi trường phiên trước.
 
@@ -43,7 +98,7 @@ Bằng chứng vòng danh mục mới: [QA catalog](qa/2026-09-25-catalog/README
 
 Bằng chứng vòng 1A trước: [QA 1A](qa/2026-09-25-1a/README.md), [viewport WebKit](qa/2026-09-25-1a/webkit-viewport.json), [layout](qa/2026-09-25-1a/layout.json).
 
-## Giới hạn và bước tiếp theo
+### Giới hạn tại 25/09 (đã được cập nhật ở phần hiện tại phía trên)
 
 - 7 hồ sơ mới mỗi hồ sơ có một ảnh. Giá/diện tích/persona và ảnh tạo mới là fixture; dữ liệu chưa lưu vào database/backend.
 - Chưa kiểm tra iPhone/Android thật; CSS zoom 200% không thay kiểm tra zoom của trình duyệt/thiết bị thật. Chưa đo Lighthouse 3 lần hoặc đặt visual regression baseline được chủ dự án duyệt.

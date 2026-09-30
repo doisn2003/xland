@@ -1,6 +1,6 @@
 # Xland
 
-Website đất nền và bất động sản NFT, mobile first, tiếng Việt. Mốc 1A có trang chủ, tìm kiếm cục bộ, card và chi tiết lô đất; dùng fixture tập trung gồm 10 bất động sản (1 đô thị, 4 vùng ven đô thị, 2 Ocean Park Hưng Yên, 3 vùng quê), ảnh thật kết hợp phối cảnh. Các hành trình mua NFT/lịch hẹn/video thuộc mốc 1B.
+Website đất nền và bất động sản NFT, mobile first, tiếng Việt. Đang triển khai **mốc 1B** trên nền home/card/detail 1A: danh sách lọc và sắp xếp theo URL, lưu lô đất, đề nghị xem thực địa/đổi/hủy, mua NFT và danh mục NFT, reset trải nghiệm. Dùng chung 10 bất động sản fixture; chưa có backend, ví hoặc giao dịch thật. Video, chuyên gia, người đăng và đăng bán còn lại. Kết quả QA hiện tại ở [STATUS](docs/STATUS.md).
 
 ## Chạy local
 
@@ -40,7 +40,7 @@ pnpm check
 | `pnpm test:e2e` | Test production đã build, Chromium desktop/mobile và WebKit mobile |
 | `pnpm check` | Toàn bộ các bước kiểm tra |
 
-Bộ kiểm tra gồm 8 unit test và 39 E2E trên Chromium desktop, Chromium mobile và WebKit giả lập iPhone 13. Bao phủ thứ tự nhóm, lọc kết hợp/empty/reset, cả 7 trang chi tiết mới, home → detail, gallery, trạng thái tạm dừng, 404, media fallback, bàn phím, menu, reduced motion, CSS zoom 200%, 5 viewport và axe WCAG A/AA. UI không phủ nhãn demo/mẫu; nguồn và giới hạn nằm trong tài liệu nội bộ. WebKit giả lập không thay kiểm tra máy thật.
+Bộ kiểm tra gồm unit test nghiệp vụ và E2E trên Chromium desktop/mobile, WebKit giả lập iPhone 13. Bao phủ danh mục/URL/history, lưu/reload/nhiều tab, lịch xem/đổi/hủy, NFT/tồn/chống trùng, reset, storage bị chặn, keyboard và accessibility. Không bỏ qua lỗi viewport WebKit: `pnpm check` hiện chưa đạt đầy đủ; xem phép đối chiếu HTML tối giản và số liệu tại STATUS. WebKit giả lập không thay kiểm tra máy thật.
 
 ## Phiên bản đã khóa
 
@@ -75,7 +75,7 @@ React, TypeScript và ESLint giữ nhánh của template Next.js đã chọn. ES
 
 ## Tiếp tục phát triển
 
-Đọc STATUS → PREPARE → DESIGN. Bằng chứng 1A ở `docs/qa/2026-09-25-1a/README.md`, vòng mở rộng danh mục ở `docs/qa/2026-09-25-catalog/README.md`; bước tiếp theo là mốc 1B theo STATUS. Chạy production (`pnpm build`, `pnpm start`) rồi `pnpm exec node scripts/capture-ui.mjs` để chụp lại home/detail/card; `pnpm exec node scripts/measure-hero.mjs` để đo tương phản chữ trên hero. Đặt `XLAND_CAPTURE_DIR` để lưu ảnh vào thư mục QA mới và `XLAND_DETAIL_SLUG` để chọn hồ sơ chi tiết cần chụp. Không cập nhật ảnh nghiệm thu mà chưa xem lại.
+Đọc STATUS → PREPARE → DESIGN. Bằng chứng 1A ở `docs/qa/2026-09-25-1a/README.md`, vòng mở rộng danh mục ở `docs/qa/2026-09-25-catalog/README.md`; mốc 1B đang triển khai theo STATUS. Có thêm `scripts/capture-1b.mjs` và `scripts/probe-webkit.mjs` để lưu ảnh/hồ sơ chẩn đoán vòng 1B (mặc định server 3200; có thể đổi bằng `XLAND_URL`). Chạy production (`pnpm build`, `pnpm start`) rồi `pnpm exec node scripts/capture-ui.mjs` để chụp lại home/detail/card; `pnpm exec node scripts/measure-hero.mjs` để đo tương phản chữ trên hero. Đặt `XLAND_CAPTURE_DIR` để lưu ảnh vào thư mục QA mới và `XLAND_DETAIL_SLUG` để chọn hồ sơ chi tiết cần chụp. Không cập nhật ảnh nghiệm thu mà chưa xem lại.
 
 Frontend hướng tới Vercel với Node 24.x, install `pnpm install --frozen-lockfile`, build `pnpm build`, preset Next.js. Chưa tạo deployment. Trang demo có metadata `noindex`; đây không phải cơ chế xác thực/bảo mật.
 

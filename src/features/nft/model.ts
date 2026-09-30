@@ -21,7 +21,7 @@ export const emptyLedger: Ledger = { version: 1, orders: [] };
 export const money = (value: number) => `${new Intl.NumberFormat("vi-VN").format(value)} ₫`;
 export const percent = (quantity: number, supply: number) => `${new Intl.NumberFormat("vi-VN", { maximumFractionDigits: 2 }).format(quantity / supply * 100)}%`;
 export const statusLabel = { open: "Đang mở bán", sold_out: "Hết NFT", paused: "Tạm dừng" };
-export const outcomeLabel = { success: "Thành công mô phỏng", failed: "Thất bại mô phỏng", cancelled: "Đã hủy mô phỏng" };
+export const outcomeLabel = { success: "Đã ghi nhận mua NFT", failed: "Yêu cầu chưa hoàn tất", cancelled: "Đã hủy yêu cầu" };
 
 export function holding(ledger: Ledger, id: string) {
   return ledger.orders.filter(o => o.offeringId === id && o.outcome === "success")
@@ -47,7 +47,7 @@ export function placeOrder(ledger: Ledger, input: Pick<Order, "id" | "offeringId
     if (previous.offeringId !== input.offeringId || previous.quantity !== input.quantity || previous.outcome !== input.outcome) throw new Error("Mã thao tác đã được dùng cho yêu cầu khác.");
     return ledger;
   }
-  if (ledger.orders.length >= 1000) throw new Error("Phiên demo đã đầy. Hãy đặt lại demo để tiếp tục.");
+  if (ledger.orders.length >= 1000) throw new Error("Lịch sử đã đầy. Hãy đặt lại trải nghiệm để tiếp tục.");
   const offering = offerings.find(item => item.id === input.offeringId);
   if (!offering) throw new Error("Không tìm thấy phương án NFT.");
   const error = quantityError(ledger, offering, input.quantity);

@@ -64,7 +64,7 @@ test("card opens matching detail, gallery and NFT information", async ({ page })
   await page.getByRole("link", { name: "Xem thông tin hỗ trợ" }).click();
   await expect(page).toHaveURL(/#ho-tro$/);
   await expect(page.locator("#phuong-an-nft")).toContainText("2.800.000 ₫");
-  await expect(page.getByRole("button", { name: "Mua NFT · Chưa mở bán" })).toBeDisabled();
+  await expect(page.getByRole("link", { name: "Tìm hiểu và mua NFT" })).toHaveAttribute("href", "/nft/mien-xanh-ven-song");
   await expect(page.locator("body")).not.toContainText(/bản demo|dữ liệu mẫu|hình ảnh minh họa|nhân vật mẫu/i);
   await noOverflow(page);
 });

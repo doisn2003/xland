@@ -1,0 +1,250 @@
+{
+  "results": [
+    {
+      "name": "catalog",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "imageFailures": []
+    },
+    {
+      "name": "saved",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-form",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-review",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "imageFailures": []
+    },
+    {
+      "name": "visits",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "imageFailures": []
+    },
+    {
+      "name": "nft-detail",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "imageFailures": []
+    },
+    {
+      "name": "reset",
+      "width": 360,
+      "clientWidth": 360,
+      "scrollWidth": 360,
+      "imageFailures": []
+    },
+    {
+      "name": "catalog",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "imageFailures": []
+    },
+    {
+      "name": "saved",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-form",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-review",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "imageFailures": []
+    },
+    {
+      "name": "visits",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "imageFailures": []
+    },
+    {
+      "name": "nft-detail",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "imageFailures": []
+    },
+    {
+      "name": "reset",
+      "width": 390,
+      "clientWidth": 390,
+      "scrollWidth": 390,
+      "imageFailures": []
+    },
+    {
+      "name": "catalog",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "imageFailures": []
+    },
+    {
+      "name": "saved",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-form",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-review",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "imageFailures": []
+    },
+    {
+      "name": "visits",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "imageFailures": []
+    },
+    {
+      "name": "nft-detail",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "imageFailures": []
+    },
+    {
+      "name": "reset",
+      "width": 430,
+      "clientWidth": 430,
+      "scrollWidth": 430,
+      "imageFailures": []
+    },
+    {
+      "name": "catalog",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "imageFailures": []
+    },
+    {
+      "name": "saved",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-form",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-review",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "imageFailures": []
+    },
+    {
+      "name": "visits",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "imageFailures": []
+    },
+    {
+      "name": "nft-detail",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "imageFailures": []
+    },
+    {
+      "name": "reset",
+      "width": 768,
+      "clientWidth": 768,
+      "scrollWidth": 768,
+      "imageFailures": []
+    },
+    {
+      "name": "catalog",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "imageFailures": []
+    },
+    {
+      "name": "saved",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-form",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "imageFailures": []
+    },
+    {
+      "name": "visit-review",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "imageFailures": []
+    },
+    {
+      "name": "visits",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "imageFailures": []
+    },
+    {
+      "name": "nft-detail",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "imageFailures": []
+    },
+    {
+      "name": "reset",
+      "width": 1440,
+      "clientWidth": 1440,
+      "scrollWidth": 1440,
+      "imageFailures": []
+    }
+  ],
+  "errors": []
+}

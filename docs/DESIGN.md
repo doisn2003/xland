@@ -106,3 +106,15 @@ Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra th
 - [x] Ghi kết quả thật, ảnh đối chiếu và phần còn thiếu trong STATUS; chưa coi đây là nghiệm thu 1B hoặc production.
 
 Đã chọn Noto Serif + Be Vietnam Pro sau kiểm tra glyph; media kết hợp ảnh chụp thật Pexels với phối cảnh nhà vườn, chi tiết tại ASSETS. Các giá trị spacing/kích cỡ có thể chỉnh khi đối chiếu ảnh; cập nhật tài liệu theo quyết định thực thi, không cần thêm vòng phê duyệt cho điều chỉnh thường lệ.
+
+
+## 11. Bổ sung mốc 1B — 30/09/2026
+
+- Giữ nguyên font Noto Serif/Be Vietnam Pro, toàn bộ tokens và nguồn media 1A; không tải thêm font/ảnh/dependency.
+- Search trang chủ chuyển sang `/lo-dat`; bộ lọc khu vực/giá/không gian/nhóm và sắp xếp đồng bộ URL. Back/reload khôi phục giá trị. Khóa điều khiển trong khi chuyển URL để không gửi tiếp lựa chọn từ state cũ; cập nhật draft khi props URL đổi mà không remount toàn bộ form.
+- Card và tóm tắt chi tiết có nút lưu riêng, tối thiểu 44px, tên truy cập chứa tên tài sản và `aria-pressed`. `/da-luu` có loading, empty, bỏ lưu và cảnh báo lưu trữ.
+- `/lich-hen?lo=<slug>` là trang form, không dùng modal. Form có label, mô tả lỗi, focus trường lỗi; bước xem lại và kết quả nhận focus. Ngày/khung giờ/số người dùng chung validation với adapter. Người liên hệ là persona cố định, không nhập dữ liệu thật.
+- Lịch hẹn trình bày dạng card 1 cột mobile, 2 cột từ 768px; chi tiết/lịch sử dùng disclosure. Đổi lịch giữ lịch gốc, hủy cần xác nhận ý định tại giao diện; cả hai chờ điều phối. CTA xem thực địa của hồ sơ tạm dừng vẫn disabled.
+- Link NFT từ home/detail đi vào route đã có. Copy NFT dùng ngôn ngữ sản phẩm, không phủ nhãn demo/mẫu; xác nhận ghi rõ không phát sinh thanh toán. Mọi quyền tài sản/Blockchain vẫn chưa được xác lập trong trải nghiệm.
+- `/trai-nghiem` đặt lại phần đã triển khai; footer có lối vào. Quyết định 1B thay hành vi CTA 1A được mô tả ở các mục lịch sử phía trên.
+- Ảnh và kết quả kiểm tra 360/390/430/768/1440px ở `qa/2026-09-30-1b`. Chưa nghiệm thu toàn bộ 1B; WebKit viewport còn giới hạn được ghi trong STATUS.

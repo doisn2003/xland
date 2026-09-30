@@ -285,3 +285,59 @@ em { font-style: normal; }
   .nft-purchase { position: sticky; top: 112px; }
   .nft-holdings { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
+
+/* Phase 1B: discovery, saved properties and visit requests share 1A tokens. */
+.journey-page { padding-bottom: 72px; min-height: 70vh; }
+.journey-heading { padding-block: 40px 32px; }
+.journey-heading h1 { font-size: clamp(34px, 4.5vw, 56px); margin-bottom: 16px; }
+.journey-heading > p:last-child { max-width: 650px; color: var(--color-muted); font-size: 15px; }
+.catalog-page .search-panel { margin-top: 0; }
+.catalog-page .explorer .section-heading { padding-top: 36px; }
+.catalog-page .results-toolbar { flex-wrap: wrap; gap: 12px 20px; }
+.sort-field { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 12px; }
+.sort-field select { min-height: 44px; max-width: 100%; border: 1px solid var(--color-border); padding: 10px; border-radius: 8px; background: white; color: var(--color-text); }
+.save-control { margin-bottom: 16px; }
+.save-button { display: inline-flex; gap: 8px; align-items: center; min-height: 44px; padding: 10px 14px; border: 1px solid var(--color-border); border-radius: 10px; background: white; color: var(--color-primary-hover); font-size: 12px; }
+.save-button[aria-pressed=true] { background: #e8f3fa; border-color: #bad7e7; }
+.property-summary .save-control { margin-block: 16px 0; }
+.property-summary .save-button { width: 100%; justify-content: center; }
+.saved-count { margin-bottom: 24px; color: var(--color-muted); }
+.journey-panel, .visit-card { padding: 24px; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: white; }
+.journey-panel { max-width: 800px; box-shadow: var(--shadow-card); }
+.journey-panel h2, .visit-card h2 { font-size: clamp(23px, 2.5vw, 30px); line-height: 1.4; margin-bottom: 14px; }
+.journey-panel > p { margin-block: 16px; }
+.journey-panel > .eyebrow { margin-top: 0; }
+.journey-panel p, .visit-card p { font-size: 14px; }
+.form-intro { margin-block: 8px 24px; color: var(--color-muted); }
+.journey-fields { display: grid; gap: 20px; }
+.journey-fields label { display: grid; align-content: start; gap: 8px; min-width: 0; font-size: 14px; }
+.journey-fields input, .journey-fields select { display: block; min-width: 0; width: 100%; max-width: 100%; min-height: 48px; border: 1px solid var(--color-muted); background: white; color: var(--color-text); border-radius: 10px; padding: 12px; }
+.journey-fields [aria-invalid=true] { border-color: var(--color-danger); }
+.form-error { color: var(--color-danger); font-size: 13px; line-height: 1.7; }
+.form-error:empty { display: none; }
+.journey-notice { margin-block: 20px; padding: 18px; border-left: 3px solid #bad7e7; background: var(--color-surface); border-radius: 4px 12px 12px 4px; font-size: 14px; line-height: 1.8; }
+.journey-notice strong { font-size: 13px; }
+.journey-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; margin-top: 20px; }
+.visit-success p { margin-bottom: 24px; }
+.visit-list { margin-top: 48px; }
+.visit-grid { display: grid; gap: 24px; }
+.visit-card { min-width: 0; }
+.visit-card-heading { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.visit-card-heading .eyebrow { margin: 0; }
+.visit-status { background: #e8f3fa; color: var(--color-primary-hover); border-radius: 24px; padding: 7px 12px; font-size: 12px; }
+.visit-card .visit-date { font-weight: 500; margin-bottom: 8px; }
+.visit-card .fine-print { font-size: 12px; }
+.visit-history { border-top: 1px solid var(--color-border); margin-top: 20px; padding-top: 8px; }
+.visit-history summary { min-height: 44px; padding-block: 12px; cursor: pointer; font-size: 13px; color: var(--color-primary-hover); }
+.visit-history p { overflow-wrap: anywhere; }
+.visit-history ol { padding-left: 24px; line-height: 1.8; font-size: 13px; }
+.visit-history li { padding-block: 8px; }
+.visit-card .visit-form { margin-top: 24px; box-shadow: none; }
+.cancel-confirm { padding: 20px; background: var(--color-surface); border-radius: 12px; margin-top: 16px; }
+@media (min-width: 768px) {
+  .journey-heading { padding-block: 60px 40px; }
+  .journey-panel { padding: 32px; }
+  .journey-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .visit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .visit-card:has(.visit-form) { grid-column: 1 / -1; }
+}

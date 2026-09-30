@@ -17,11 +17,11 @@ function read() {
     if (raw !== cachedRaw || !snapshot.ready) {
       cachedRaw = raw;
       try { snapshot = { ledger: restoreLedger(raw), ready: true, notice: "" }; }
-      catch { snapshot = { ledger: emptyLedger, ready: true, notice: "Dữ liệu demo cũ hoặc lỗi. Đã mở phiên trống; dùng Đặt lại demo trong danh mục để lưu lại." }; }
+      catch { snapshot = { ledger: emptyLedger, ready: true, notice: "Không đọc được danh mục đã lưu. Đã mở phiên trống; hãy đặt lại danh mục để tiếp tục." }; }
     }
   } catch {
     memoryOnly = true;
-    snapshot = { ...snapshot, ready: true, notice: "Trình duyệt không cho lưu dữ liệu. Demo chỉ giữ trong phiên này và sẽ mất khi tải lại." };
+    snapshot = { ...snapshot, ready: true, notice: "Trình duyệt không cho lưu dữ liệu. Danh mục chỉ giữ trong phiên này và sẽ mất khi tải lại." };
   }
   return snapshot;
 }

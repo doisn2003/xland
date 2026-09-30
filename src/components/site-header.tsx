@@ -22,11 +22,11 @@ export function SiteHeader() {
         <Link className="brand" href="/" aria-label="Xland — Trang chủ" onClick={close}>X<span>LAND</span><i /></Link>
         <button ref={trigger} className="menu-toggle" aria-label={open ? "Đóng menu" : "Mở menu"} aria-expanded={open} aria-controls="site-navigation" onClick={() => setOpen(!open)}><Icon name={open ? "close" : "menu"} /></button>
         <nav id="site-navigation" className={open ? "navigation is-open" : "navigation"} aria-label="Điều hướng chính">
-          <Link href="/#kham-pha" onClick={close}>Khám phá</Link>
-          <Link href="/#cach-hoat-dong" onClick={close}>Về Xland</Link>
+          <Link href="/lo-dat" onClick={close}>Khám phá</Link>
+          <Link href="/da-luu" onClick={close}>Đã lưu</Link>
           <Link href="/nft" onClick={close}>Bất động sản NFT</Link>
-          <Link href="/#nguoi-dong-hanh" onClick={close}>Người đồng hành</Link>
-          <Link className="button header-cta" href="/#kham-pha" onClick={close}>Tìm lô đất phù hợp <Icon name="arrow" /></Link>
+          <Link href="/lich-hen" onClick={close}>Lịch hẹn</Link>
+          <Link className="button header-cta" href="/lo-dat" onClick={close}>Tìm lô đất phù hợp <Icon name="arrow" /></Link>
         </nav>
       </div>
     </header>
