@@ -1,6 +1,6 @@
 # Xland
 
-Website bất động sản và NFT, mobile first. Đã có trang chủ, bộ lọc và chi tiết lô đất theo hướng LUXEESTATE, với ảnh chụp thật và dữ liệu mẫu. Tiến độ/giới hạn cập nhật tại docs/STATUS.md.
+Website đất nền và bất động sản NFT, mobile first, tiếng Việt. Mốc 1A có trang chủ, tìm kiếm cục bộ, card và chi tiết lô đất; dùng fixture tập trung gồm 10 bất động sản (1 đô thị, 4 vùng ven đô thị, 2 Ocean Park Hưng Yên, 3 vùng quê), ảnh thật kết hợp phối cảnh. Các hành trình mua NFT/lịch hẹn/video thuộc mốc 1B.
 
 ## Chạy local
 
@@ -12,6 +12,15 @@ pnpm dev
 ```
 
 Mở http://localhost:3000. Chưa cần `.env` hoặc tài khoản dịch vụ. Dùng pnpm, không dùng `npm install`/yarn để tránh lockfile khác và kiểm tra runtime khác nhau.
+
+Trên máy Windows hiện tại, Node mặc định còn là 20.x. Sau khi dependency đã được cài, mở PowerShell tại repo và ưu tiên Node đã khóa của dự án trong phiên terminal trước khi chạy các lệnh trên:
+
+```powershell
+$env:Path = (Join-Path $PWD 'node_modules/.bin') + ';' + $env:Path
+pnpm dev
+```
+
+Lệnh này chỉ đổi PATH của terminal hiện tại. Với checkout mới chưa cài dependency, cần Node từ 22.13 để bootstrap như yêu cầu ở đầu trang.
 
 ## Kiểm tra
 
@@ -28,10 +37,10 @@ pnpm check
 | `pnpm typecheck` | Sinh route types và kiểm tra TypeScript strict |
 | `pnpm test` / `pnpm test:watch` | Vitest một lần / theo dõi thay đổi |
 | `pnpm build` / `pnpm start` | Build / chạy production tại cổng 3000 |
-| `pnpm test:e2e` | Test production đã build, Chromium desktop/mobile và WebKit (Windows dùng desktop responsive có touch) |
+| `pnpm test:e2e` | Test production đã build, Chromium desktop/mobile và WebKit mobile |
 | `pnpm check` | Toàn bộ các bước kiểm tra |
 
-Các test kiểm tra fixture/lọc, home → detail, gallery, empty/reset, 404, hồ sơ tạm dừng, lỗi media, menu Escape/focus, reduced motion và không cuộn ngang tại năm độ rộng. Axe kiểm tra home/detail theo WCAG 2 A/AA và 2.1 AA. WebKit trên Windows không thay thế Safari/iPhone thật; xem STATUS để biết phạm vi đã chạy.
+Bộ kiểm tra gồm 8 unit test và 39 E2E trên Chromium desktop, Chromium mobile và WebKit giả lập iPhone 13. Bao phủ thứ tự nhóm, lọc kết hợp/empty/reset, cả 7 trang chi tiết mới, home → detail, gallery, trạng thái tạm dừng, 404, media fallback, bàn phím, menu, reduced motion, CSS zoom 200%, 5 viewport và axe WCAG A/AA. UI không phủ nhãn demo/mẫu; nguồn và giới hạn nằm trong tài liệu nội bộ. WebKit giả lập không thay kiểm tra máy thật.
 
 ## Phiên bản đã khóa
 
@@ -49,7 +58,6 @@ Ghi nhận ngày 25/09/2026. Dependency trực tiếp dùng số phiên bản ch
 | ESLint | 9.39.5 |
 | Vitest | 5.0.1 |
 | @playwright/test | 1.63.0 |
-| @axe-core/playwright | 4.13.0 |
 | @types/node | 24.13.6 |
 | @types/react / @types/react-dom | 19.3.0 |
 
@@ -57,24 +65,18 @@ React, TypeScript và ESLint giữ nhánh của template Next.js đã chọn. ES
 
 ## Cấu trúc và triển khai
 
-- `src/app`: App Router, layout, home, chi tiết lô đất, 404, tokens CSS và font local.
-- `src/components`, `src/data`: UI tái sử dụng và fixture dùng chung.
+- `src/app`: App Router, home, chi tiết động theo slug, 404, CSS tokens và font local Noto Serif/Be Vietnam Pro.
+- `src/components`, `src/data`: component tương tác và fixture dùng chung.
 - `tests/unit`, `tests/e2e`: Vitest và Playwright.
-- `assets`: tài liệu/ảnh nguồn, giữ nguyên; chưa tự đưa lên public.
+- `assets`: giữ nguyên PDF/ảnh nguồn; phối cảnh mới có PNG và prompt riêng. `public/images` chứa WebP được tuyển chọn.
 - [PREPARE.md](PREPARE.md): phạm vi, tiêu chí và lộ trình.
 - [AGENTS.md](AGENTS.md): quy tắc phát triển; [docs/STATUS.md](docs/STATUS.md): tiến độ thực tế.
-- [docs/DESIGN.md](docs/DESIGN.md): tokens, typography, responsive, home/card/detail và tiêu chí nghiệm thu 1A. Tokens đã có trong CSS; phần nghiệm thu còn lại theo STATUS.
+- [docs/DESIGN.md](docs/DESIGN.md): tokens, typography, responsive, home/card/detail và tiêu chí nghiệm thu 1A. Tokens trong tài liệu khớp CSS thực thi.
 
 ## Tiếp tục phát triển
 
-Đọc STATUS → phần phạm vi trong PREPARE → DESIGN. Thứ tự: lưu tham chiếu, thử font Việt và tuyển media → ghi ASSETS → triển khai tokens/fixture → home/card/detail → đối chiếu mobile/desktop và chạy kiểm tra. Bộ tài liệu đã sẵn sàng không đồng nghĩa giao diện 1A đã hoàn thành.
+Đọc STATUS → PREPARE → DESIGN. Bằng chứng 1A ở `docs/qa/2026-09-25-1a/README.md`, vòng mở rộng danh mục ở `docs/qa/2026-09-25-catalog/README.md`; bước tiếp theo là mốc 1B theo STATUS. Chạy production (`pnpm build`, `pnpm start`) rồi `pnpm exec node scripts/capture-ui.mjs` để chụp lại home/detail/card; `pnpm exec node scripts/measure-hero.mjs` để đo tương phản chữ trên hero. Đặt `XLAND_CAPTURE_DIR` để lưu ảnh vào thư mục QA mới và `XLAND_DETAIL_SLUG` để chọn hồ sơ chi tiết cần chụp. Không cập nhật ảnh nghiệm thu mà chưa xem lại.
 
 Frontend hướng tới Vercel với Node 24.x, install `pnpm install --frozen-lockfile`, build `pnpm build`, preset Next.js. Chưa tạo deployment. Trang demo có metadata `noindex`; đây không phải cơ chế xác thực/bảo mật.
 
 Backend Node.js/Railway, Supabase và NFT ERC-1155 thuộc giai đoạn sau. Ứng dụng chưa nối backend, ví, smart contract hay xử lý tiền thật.
-
-## NFT — phần demo 1B đã có
-
-Mở `/nft` → Miền xanh ven sông → chọn số NFT → đồng ý điều kiện mẫu → xem lại → xác nhận mô phỏng → danh mục. Các tình huống hủy/thất bại và reset tại [docs/DEMO.md](docs/DEMO.md).
-
-`src/features/nft/model.ts` chứa phương án mẫu và quy tắc số lượng/tồn/tiền/sổ đơn; `store.ts` là adapter trình duyệt có phiên bản. UI không nối backend hoặc ví thật. Không thêm dependency cho form đơn giản này; validation thuần TypeScript dùng chung khi ghi và phục hồi demo.

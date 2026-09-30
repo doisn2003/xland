@@ -1,0 +1,58 @@
+[
+  {
+    "name": "long-bien",
+    "tool": "image_gen (built-in)",
+    "date": "2026-09-25",
+    "output": "public/images/long-bien.webp",
+    "source": "assets/media/generated/catalog-1a/long-bien.png",
+    "prompt": "Use case: photorealistic-natural. Asset type: Xland real estate website listing cover and detail image, landscape 3:2. Create a tasteful fictional property visualization with natural editorial photography aesthetics. Scene: A small well-kept rectangular vacant urban residential parcel with short grass at a quiet corner of two paved streets, flanked by elegant narrow contemporary Vietnamese townhouses, mature roadside trees, distant soft skyline of Hanoi. The vacant land is centered and clearly visible, compact urban setting, no luxury mansion on the parcel. Realistic northern Vietnam vegetation and materials, believable scale, detailed textures, balanced warm daylight, premium but understated composition, crisp foreground and atmospheric distance. No text, logo, watermark, boundary lines, plot numbers, people, sales signs, exaggerated highways or fantasy landmarks. This is an invented property scene, not a verified photograph of an actual address."
+  },
+  {
+    "name": "dong-anh",
+    "tool": "image_gen (built-in)",
+    "date": "2026-09-25",
+    "output": "public/images/dong-anh.webp",
+    "source": "assets/media/generated/catalog-1a/dong-anh.png",
+    "prompt": "Use case: photorealistic-natural. Asset type: Xland real estate website listing cover and detail image, landscape 3:2. Create a tasteful fictional property visualization with natural editorial photography aesthetics. Scene: An open rectangular residential parcel with tidy low grass beside a newly paved suburban lane in the northern Hanoi fringe. A few neat two-storey Vietnamese houses, young street trees, vegetable gardens beyond, distant city buildings far in the background. Low elevated oblique perspective, plot prominent foreground, optimistic natural morning atmosphere. Realistic northern Vietnam vegetation and materials, believable scale, detailed textures, balanced warm daylight, premium but understated composition, crisp foreground and atmospheric distance. No text, logo, watermark, boundary lines, plot numbers, people, sales signs, exaggerated highways or fantasy landmarks. This is an invented property scene, not a verified photograph of an actual address."
+  },
+  {
+    "name": "gia-lam",
+    "tool": "image_gen (built-in)",
+    "date": "2026-09-25",
+    "output": "public/images/gia-lam.webp",
+    "source": "assets/media/generated/catalog-1a/gia-lam.png",
+    "prompt": "Use case: photorealistic-natural. Asset type: Xland real estate website listing cover and detail image, landscape 3:2. Create a tasteful fictional property visualization with natural editorial photography aesthetics. Scene: A quiet residential land parcel beside a leafy lane on the eastern Hanoi fringe, low garden walls, modest contemporary Vietnamese homes, lush longan trees and open green spaces, settled neighbourhood without dense high-rises. Eye-level raised perspective from across the street, attractive clean natural late-afternoon light, inviting human scale. Realistic northern Vietnam vegetation and materials, believable scale, detailed textures, balanced warm daylight, premium but understated composition, crisp foreground and atmospheric distance. No text, logo, watermark, boundary lines, plot numbers, people, sales signs, exaggerated highways or fantasy landmarks. This is an invented property scene, not a verified photograph of an actual address."
+  },
+  {
+    "name": "hoai-duc",
+    "tool": "image_gen (built-in)",
+    "date": "2026-09-25",
+    "output": "public/images/hoai-duc.webp",
+    "source": "assets/media/generated/catalog-1a/hoai-duc.png",
+    "prompt": "Use case: photorealistic-natural. Asset type: Xland property listing image, landscape 3:2, usable in 4:3 card crops and wide detail gallery. Create a beautiful fictional architectural property visualization with natural editorial real estate photography aesthetics. A tidy modest 150 square metre rectangular vacant residential plot at the edge of a small contemporary townhouse neighbourhood in western suburban Hanoi. Short green grass, a wide clean local road and paved sidewalk in foreground, restrained three-storey pale houses to one side, street trees and cultivated land in distance. Elevated perspective, clear midday with soft cloud shadows, no huge boulevards. Realistic proportions, detailed believable materials, carefully composed main subject centrally, natural greens and warm neutrals. No people, words, watermark, logos, map lines, plot numbers, signs, crypto symbols, artificial aerial boundary highlights or exaggerated luxury."
+  },
+  {
+    "name": "thanh-tri",
+    "tool": "image_gen (built-in)",
+    "date": "2026-09-25",
+    "output": "public/images/thanh-tri.webp",
+    "source": "assets/media/generated/catalog-1a/thanh-tri.png",
+    "prompt": "Use case: photorealistic-natural. Asset type: Xland property listing image, landscape 3:2, usable in 4:3 card crops and wide detail gallery. Create a beautiful fictional architectural property visualization with natural editorial real estate photography aesthetics. A roughly 200 square metre garden residential land parcel in the southern fringe of Hanoi. Low boundary garden wall, large leafy fruit trees at back, quiet six metre lane in foreground, a couple of neat red-tiled Vietnamese houses nearby. Calm low eye-level raised camera, richly textured greenery, soft warm morning sun, no skyline or mountains. Realistic proportions, detailed believable materials, carefully composed main subject centrally, natural greens and warm neutrals. No people, words, watermark, logos, map lines, plot numbers, signs, crypto symbols, artificial aerial boundary highlights or exaggerated luxury."
+  },
+  {
+    "name": "ocean-park-2",
+    "tool": "image_gen (built-in)",
+    "date": "2026-09-25",
+    "output": "public/images/ocean-park-2.webp",
+    "source": "assets/media/generated/catalog-1a/ocean-park-2.png",
+    "prompt": "Use case: photorealistic-natural. Asset type: Xland property listing image, landscape 3:2, usable in 4:3 card crops and wide detail gallery. Create a beautiful fictional architectural property visualization with natural editorial real estate photography aesthetics. An invented elegant Vietnamese masterplanned township street inspired by the low-rise residential architecture of Ocean Park 2 in Hung Yen. Focus on one narrow attached four-storey ivory townhouse, approximately five metre facade, French-inspired restrained facade with wrought iron balconies, pale stone base, neighbours aligned on either side, planted sidewalk with small tropical trees, clean local asphalt street. Front three-quarter architectural photography, building fully in frame with sky margin, pleasant daylight. Do not depict a specific verified unit or exact real address. Realistic proportions, detailed believable materials, carefully composed main subject centrally, natural greens and warm neutrals. No people, words, watermark, logos, map lines, plot numbers, signs, crypto symbols, artificial aerial boundary highlights or exaggerated luxury."
+  },
+  {
+    "name": "ocean-park-3",
+    "tool": "image_gen (built-in)",
+    "date": "2026-09-25",
+    "output": "public/images/ocean-park-3.webp",
+    "source": "assets/media/generated/catalog-1a/ocean-park-3.png",
+    "prompt": "Use case: photorealistic-natural. Asset type: Xland property listing image, landscape 3:2, usable in 4:3 card crops and wide detail gallery. Create a beautiful fictional architectural property visualization with natural editorial real estate photography aesthetics. An invented compact detached villa in a Vietnamese planned township inspired by Ocean Park 3 Hung Yen. White and warm cream classical Mediterranean-inspired three-storey facade, ten metre wide frontage, modest landscaped front garden with low iron fence, sidewalk and leafy neighbourhood walking park in foreground. Neighbouring villas faintly visible, mature tropical trees, balanced realistic northern Vietnam light, gentle late afternoon, refined quiet residential feeling. Do not depict a specific verified unit, no private beach or resort. Realistic proportions, detailed believable materials, carefully composed main subject centrally, natural greens and warm neutrals. No people, words, watermark, logos, map lines, plot numbers, signs, crypto symbols, artificial aerial boundary highlights or exaggerated luxury."
+  }
+]

@@ -1,0 +1,330 @@
+[
+  {
+    "width": 360,
+    "text": "KHÁM PHÁ GIÁ TRỊ TỪ ĐẤT",
+    "fontSize": 10,
+    "ratio": 8.57,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 360,
+    "text": "Một miền đất.",
+    "fontSize": 40,
+    "ratio": 9.01,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 360,
+    "text": "Vạn khởi đầu.",
+    "fontSize": 40,
+    "ratio": 4.83,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 360,
+    "text": "Tìm không gian cho ước muốn của bạn.",
+    "fontSize": 15,
+    "ratio": 7.82,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 360,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 15,
+    "ratio": 9.08,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 360,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 15,
+    "ratio": 11.54,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 360,
+    "text": "Bắt đầu hành trình",
+    "fontSize": 14,
+    "ratio": 12.84,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 360,
+    "text": "ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT",
+    "fontSize": 10,
+    "ratio": 8.92,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "KHÁM PHÁ GIÁ TRỊ TỪ ĐẤT",
+    "fontSize": 10,
+    "ratio": 8.12,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "Một miền đất.",
+    "fontSize": 40,
+    "ratio": 8.97,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "Vạn khởi đầu.",
+    "fontSize": 40,
+    "ratio": 5.29,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "Tìm không gian cho ước muốn của bạn.",
+    "fontSize": 15,
+    "ratio": 7.73,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 15,
+    "ratio": 7.01,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 15,
+    "ratio": 9.08,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 15,
+    "ratio": 8.91,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "Bắt đầu hành trình",
+    "fontSize": 14,
+    "ratio": 12.7,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 390,
+    "text": "ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT",
+    "fontSize": 10,
+    "ratio": 8.93,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "KHÁM PHÁ GIÁ TRỊ TỪ ĐẤT",
+    "fontSize": 10,
+    "ratio": 8.39,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "Một miền đất.",
+    "fontSize": 40,
+    "ratio": 8.73,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "Vạn khởi đầu.",
+    "fontSize": 40,
+    "ratio": 5.32,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "Tìm không gian cho ước muốn của bạn.",
+    "fontSize": 15,
+    "ratio": 11.1,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 15,
+    "ratio": 6.55,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 15,
+    "ratio": 7.36,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "Bắt đầu hành trình",
+    "fontSize": 14,
+    "ratio": 11.87,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 430,
+    "text": "ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT",
+    "fontSize": 10,
+    "ratio": 9.47,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "KHÁM PHÁ GIÁ TRỊ TỪ ĐẤT",
+    "fontSize": 10,
+    "ratio": 8.46,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "Một miền đất.",
+    "fontSize": 41.472,
+    "ratio": 5.14,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "Vạn khởi đầu.",
+    "fontSize": 41.472,
+    "ratio": 3.96,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "Tìm không gian cho ước muốn của bạn.",
+    "fontSize": 17,
+    "ratio": 7.83,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 17,
+    "ratio": 6.17,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "Bắt đầu hành trình",
+    "fontSize": 14,
+    "ratio": 8.07,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT",
+    "fontSize": 11,
+    "ratio": 8.98,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 768,
+    "text": "Cam Ranh, Việt Nam",
+    "fontSize": 11,
+    "ratio": 10.44,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "KHÁM PHÁ GIÁ TRỊ TỪ ĐẤT",
+    "fontSize": 10,
+    "ratio": 6.56,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "Một miền đất.",
+    "fontSize": 76,
+    "ratio": 4.87,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "Vạn khởi đầu.",
+    "fontSize": 76,
+    "ratio": 3.98,
+    "threshold": 3,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "Tìm không gian cho ước muốn của bạn.",
+    "fontSize": 17,
+    "ratio": 6.31,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.",
+    "fontSize": 17,
+    "ratio": 5.3,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "Bắt đầu hành trình",
+    "fontSize": 14,
+    "ratio": 7.87,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT",
+    "fontSize": 11,
+    "ratio": 9.38,
+    "threshold": 4.5,
+    "pass": true
+  },
+  {
+    "width": 1440,
+    "text": "Cam Ranh, Việt Nam",
+    "fontSize": 11,
+    "ratio": 7.75,
+    "threshold": 4.5,
+    "pass": true
+  }
+]

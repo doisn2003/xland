@@ -1,48 +1,54 @@
 # Trạng thái Xland
 
-Cập nhật: 29/09/2026.
+Cập nhật: 25/09/2026, sau vòng làm giàu danh mục mốc 1A và kiểm tra lại toàn bộ.
 
 ## Mốc hiện tại
 
-Đã triển khai nền giao diện 1A: trang chủ, tìm kiếm cục bộ, thẻ và chi tiết lô đất. Đã kiểm tra production local và lưu ảnh desktop/mobile. Chưa đóng toàn bộ nghiệm thu 1A: còn zoom trình duyệt 200% và rà soát bàn phím toàn hành trình. Đã triển khai luồng NFT của 1B; các luồng 1B còn lại và Vercel chưa hoàn thành.
+**Đã hoàn tất phần triển khai và QA local mốc 1A: home, card, chi tiết.** Bản trước đã có UI trong commit `be8213a`, nhưng STATUS còn dừng ở scaffold và lỗi WebKit. Phiên này tiếp tục trên code đó, không làm lại scaffold. Chủ dự án có thể xem bản local để đánh giá mỹ thuật; đây chưa phải toàn bộ demo 1B hay bản production.
 
-## Đã có trong mã nguồn
+## Đã hoàn thành
 
-- Hệ tokens CSS, header/menu mobile, hero, tìm kiếm, 3 thẻ lô đất, các section giới thiệu và footer theo hướng LUXEESTATE.
-- Fixture dùng chung cho home/card/detail; lọc kết hợp khu vực, khoảng giá, không gian; trạng thái rỗng và xóa lọc.
-- Chi tiết `/lo-dat/[slug]`: gallery, giá/diện tích, hồ sơ mẫu, người hỗ trợ, phương án NFT giới thiệu, tài sản liên quan; slug sai trả 404.
-- Ảnh chụp thật được lưu local, có nguồn tại ASSETS; không dùng ảnh AI. Noto Serif + Be Vietnam Pro phục vụ tiếng Việt, tải local.
-- Media lỗi có fallback; hồ sơ tạm dừng không nhận đề nghị; không thu dữ liệu hay tiền thật.
+- Hero trang chủ đã chuyển sang ảnh `assets/images/hero.jpg` do chủ dự án cung cấp; bản WebP phục vụ web nằm tại `public/images/hero.webp`, giữ overlay và responsive crop.
 
-## Kiểm tra ngày 29/09
+- Trang chủ theo hướng LUXEESTATE; **10 bất động sản** từ fixture dùng chung. Thứ tự cố định: **Đô thị (1) → Vùng ven đô thị (4) → Ocean Park (2) → Vùng quê (3)**. Chọn nhóm kết hợp filter cục bộ khu vực/giá/không gian, empty state và xóa lọc.
+- Thêm 7 hồ sơ: Góc phố Long Biên; Hiên xanh Đông Anh, Vườn nhỏ Gia Lâm, Lối nắng Hoài Đức, Miền vườn Thanh Trì; Nhà phố Ocean Park 2 và Biệt thự Ocean Park 3 tại Hưng Yên. Mỗi hồ sơ có ảnh, giá, diện tích đất, mặt tiền, đường tiếp cận, loại tài sản và người hỗ trợ. Giữ nguyên 3 hồ sơ vùng quê.
+- Card → chi tiết đúng giá/diện tích/người hỗ trợ; gallery trước/sau/thumbnail, thông tin đất, trạng thái tạm dừng, phương án NFT, lô liên quan và 404.
+- Theo yêu cầu mới nhất: bỏ nhãn demo/mẫu/minh họa và câu chữ nói về tiến độ lập trình khỏi UI. Hồ sơ/giá/persona vẫn là mock; không thêm chứng nhận pháp lý hoặc thành tích giả.
+- Kết hợp ảnh cảnh quan thật Pexels ở hero/card/gallery với phối cảnh nhà vườn mới ở section NFT. Bổ sung 7 ảnh riêng bằng image_gen cho 7 hồ sơ mới; gallery nhà phố/biệt thự dùng tỷ lệ 3:2 trên desktop để không cắt mái. Nguồn, PNG, prompt và giới hạn ở ASSETS; không sửa PDF/ảnh nguồn đã có.
+- Trang chủ hiển thị tối đa 3 người hỗ trợ không lặp; chi tiết hiển thị tối đa 3 bất động sản liên quan theo thứ tự nhóm.
+- Noto Serif + Be Vietnam Pro local, CSS tokens, dấu Việt, layout 360/390/430/768/1440px.
+- Sửa focus của skip link trên WebKit bằng `tabIndex={0}`; giữ điều hướng bàn phím và menu Escape/trả focus. Tăng overlay hero mobile và nền dòng địa điểm để bảo đảm chữ rõ trên ảnh.
+- Đồng bộ AGENTS, PREPARE, DESIGN, ASSETS và README với yêu cầu ảnh/câu chữ mới.
 
-- `pnpm check`: đạt lint, TypeScript, 17 unit test, production build và **42/42 E2E**.
-- E2E gồm lọc/empty/reset, card → detail, gallery, trạng thái tạm dừng, 404, lỗi media, menu Escape/trả focus, reduced motion và không cuộn ngang ở 360/390/430/768/1440px.
-- Bổ sung axe-core: home/detail qua 3 cấu hình trình duyệt, không có violations với các tags WCAG 2 A/AA và 2.1 AA. Đây là kiểm tra tự động, không thay thế đánh giá accessibility thủ công đầy đủ.
-- Chromium desktop/mobile đạt. Trên Windows dùng **responsive WebKit desktop có touch**, không dùng cấu hình iPhone gặp lỗi tỷ lệ DPI. Không skip test, không che overflow. Kết quả này không chứng minh Safari trên iPhone thật; nhánh giả lập iPhone ngoài Windows chưa chạy trong phiên này.
-- Đã xem home/card/detail bằng trình duyệt tại viewport cấu hình 390×844 và 1440×1000; chữ Việt, crop ảnh, thẻ và gallery hiển thị rõ. Ảnh tại `docs/references/xland-*.png`; phạm vi bằng chứng trong `docs/references/README.md`.
-- Production local đã khởi động tại `http://127.0.0.1:3200` trong phiên làm việc. Khi server đã dừng, chạy lại theo README.
+## Kiểm tra thực tế
 
-## Luồng NFT đã triển khai trong vòng này
+| Kiểm tra | Kết quả |
+| --- | --- |
+| `pnpm install --frozen-lockfile` | Đạt; giữ nguyên package/lockfile. Có hai lần tải bị timeout, lần thử lại hoàn tất. |
+| `pnpm check` cuối | **Đạt**: lint, typecheck, 8 unit test, production build (10 trang chi tiết), **39/39 E2E**. |
+| Trình duyệt E2E | Chromium desktop, Chromium Pixel 7, **WebKit iPhone 13 emulation**; 13 test/project; kiểm tra cả 7 trang chi tiết mới, thứ tự danh mục, chọn nhóm bằng bàn phím và lọc kết hợp. |
+| Overflow | Home/detail tại 360/390/430/768/1440px: layout không tràn; vòng mở rộng lưu thêm layout của Biệt thự Ocean Park 3. Vòng QA trước thử cuộn ngang `scrollX = 0`. |
+| Accessibility | Axe WCAG 2 A/AA + 2.1 AA trên home/detail tại 390/1440px, không có violation; kiểm tra bàn phím, menu, CSS zoom 200%, reduced-motion và fallback ảnh. |
+| Tương phản trên ảnh hero | 41 vùng dòng chữ ở 5 viewport, tất cả đạt; mức thấp nhất chữ thường 5,30:1, chữ lớn 3,96:1. Phương pháp và JSON tại thư mục QA. |
+| Ảnh | Đã lưu/xem danh mục và chi tiết biệt thự ở 5 viewport, card, bộ lọc Ocean Park và chi tiết nhà phố 390/1440px. Không có ảnh lỗi trong capture. Tham chiếu mẫu và bằng chứng trước được giữ riêng. |
+| Git | `git diff --check` đạt; package/lockfile và PDF/ảnh nguồn đã có không thay đổi. Chưa tạo commit. |
 
-- `/nft`: ba phương án liên kết ID lô gốc, trạng thái mở bán/hết NFT/tạm dừng, giá và tồn.
-- `/nft/[slug]`: hồ sơ/điều kiện mẫu, chọn số lượng nguyên dương, xem tổng tiền và tỷ lệ trên tổng NFT cố định, đồng ý chủ động, xác nhận hai bước.
-- `/danh-muc-nft`: nắm giữ, tỷ lệ, vốn mua, lịch sử thành công/hủy/thất bại; reload giữ trạng thái và reset có xác nhận.
-- Adapter localStorage có phiên bản, đọc sau hydrate, kiểm tra dữ liệu bằng phát lại đơn; lỗi storage chuyển sang phiên bộ nhớ và thông báo rõ. Chống cộng lặp cùng mã thao tác.
-- Home/header/footer và chi tiết lô đầu tiên dẫn đến luồng NFT. Đã sửa focus/scroll bước xác nhận để tiêu đề không bị header che trên mobile.
-- Unit test kiểm tra số lượng, tồn/giữ chỗ, tỷ lệ, tính tiền, chống trùng, trạng thái đóng, phục hồi dữ liệu. E2E kiểm tra mua/reload/reset, hủy/thất bại, dữ liệu lỗi/storage chặn, 404, responsive và axe trên ba trang NFT.
-- Đã xem catalog, form xác nhận và danh mục trên mobile/desktop; ảnh `docs/references/xland-nft-*.png`. Kịch bản thử tại `docs/DEMO.md`.
+Máy hiện có Node mặc định 20.18.0, không đủ chạy pnpm 11. Phiên này thêm Node của runtime Codex (24.19.0) vào PATH **riêng tiến trình** để bootstrap; pnpm cài và chạy bằng Node dự án **24.21.0**. Không đổi Node toàn máy, không nâng dependency.
 
-## Giới hạn còn lại
+### Lỗi WebKit ghi ở phiên trước
 
-- Chưa kiểm tra zoom trình duyệt 200%, screen reader và toàn bộ thứ tự Tab; menu Escape/focus đã có E2E.
-- Chưa kiểm tra thiết bị iOS/Android thật, Lighthouse hoặc deployment Vercel.
-- NFT chỉ mô phỏng: chưa có ví, thanh toán, mint/chuyển nhượng hoặc quyền tài sản thật. Web Locks được dùng nếu có; chưa kiểm tra mua đồng thời nhiều tab. Xem DEMO.md về giới hạn lưu dữ liệu.
-- Chưa có danh sách đồng bộ URL, lịch xem đất, video feed và các luồng 1B khác.
-- Backend/admin, ví thật và ERC-1155 thuộc giai đoạn sau. PDF/bốn ảnh nguồn giữ nguyên.
+Đã thử lại cả HTML tối giản và Xland với iPhone 13 emulation trên Windows: `innerWidth/clientWidth/scrollWidth = 390`, `scrollX = 0`. Không tái hiện sai lệch 325/390 và cuộn 65px đã ghi trước đây. Bỏ nhánh dùng Desktop Safari thu nhỏ trên Windows, khôi phục project `mobile-webkit` dùng iPhone 13 ở mọi OS. Toàn bộ 11 test WebKit mobile đã đạt; không skip và không che overflow bằng CSS. Chưa xác định nguyên nhân gốc của sai lệch ở môi trường phiên trước.
 
-## Tiếp theo — thứ tự thực thi
+Bằng chứng vòng danh mục mới: [QA catalog](qa/2026-09-25-catalog/README.md), [layout mới](qa/2026-09-25-catalog/layout.json).
 
-1. Hoàn tất zoom 200% và kiểm tra bàn phím toàn home/detail để đóng nghiệm thu 1A; sửa lỗi nếu có.
-2. Mốc 1B tiếp theo: danh sách `/lo-dat` có filter/sort trên URL và lưu/bỏ lưu nhất quán; sau đó lịch xem đất, video và các luồng phụ theo PREPARE.
-3. Hoàn thiện các luồng 1B còn lại, kiểm tra lại và đóng gói demo Vercel cho nhà đầu tư.
+Bằng chứng vòng 1A trước: [QA 1A](qa/2026-09-25-1a/README.md), [viewport WebKit](qa/2026-09-25-1a/webkit-viewport.json), [layout](qa/2026-09-25-1a/layout.json).
+
+## Giới hạn và bước tiếp theo
+
+- 7 hồ sơ mới mỗi hồ sơ có một ảnh. Giá/diện tích/persona và ảnh tạo mới là fixture; dữ liệu chưa lưu vào database/backend.
+- Chưa kiểm tra iPhone/Android thật; CSS zoom 200% không thay kiểm tra zoom của trình duyệt/thiết bị thật. Chưa đo Lighthouse 3 lần hoặc đặt visual regression baseline được chủ dự án duyệt.
+- Chưa triển khai 1B: danh sách có filter URL, lưu, video, lịch hẹn, chuyên gia, đăng bán, mua NFT và danh mục NFT. Nút mua hiện disabled với lý do **Chưa mở bán**; CTA hỗ trợ chỉ mở thông tin người hỗ trợ, không gửi yêu cầu ra ngoài.
+- Chưa deployment Vercel, backend/admin, Supabase, ví, thanh toán hoặc smart contract. ERC-1155 thuộc giai đoạn backend.
+- Tiếp theo: luồng NFT → chọn số lượng → xác nhận → danh mục, state cục bộ/reset và kiểm thử tồn/chống trùng; sau đó các hành trình đất nền theo PREPARE. Giữ nguyên quyết định UI dùng ngôn ngữ sản phẩm, ghi giới hạn mock trong tài liệu nội bộ.
+
+Xem local: `pnpm dev`, hoặc `pnpm build` rồi `pnpm start`. Phiên bàn giao giữ production server tại `http://127.0.0.1:3000`.
