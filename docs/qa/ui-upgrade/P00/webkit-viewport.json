@@ -1,0 +1,46 @@
+[
+  {
+    "name": "iphone-13",
+    "mode": "minimal-html",
+    "requestedWidth": 390,
+    "innerWidth": 325,
+    "clientWidth": 326,
+    "scrollWidth": 391,
+    "devicePixelRatio": 3.59375,
+    "scale": 1,
+    "scrollX": 65
+  },
+  {
+    "name": "iphone-13",
+    "mode": "xland",
+    "requestedWidth": 390,
+    "innerWidth": 325,
+    "clientWidth": 326,
+    "scrollWidth": 391,
+    "devicePixelRatio": 3.59375,
+    "scale": 1,
+    "scrollX": 65
+  },
+  {
+    "name": "desktop-control",
+    "mode": "minimal-html",
+    "requestedWidth": 390,
+    "innerWidth": 325,
+    "clientWidth": 326,
+    "scrollWidth": 326,
+    "devicePixelRatio": 1.1979166269302368,
+    "scale": 1,
+    "scrollX": 0
+  },
+  {
+    "name": "desktop-control",
+    "mode": "xland",
+    "requestedWidth": 390,
+    "innerWidth": 325,
+    "clientWidth": 326,
+    "scrollWidth": 326,
+    "devicePixelRatio": 1.1979166269302368,
+    "scale": 1,
+    "scrollX": 0
+  }
+]

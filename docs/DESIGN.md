@@ -2,6 +2,8 @@
 
 Cập nhật: 25/09/2026. Đặc tả và quyết định thực thi; kết quả nghiệm thu kỹ thuật và ảnh kiểm tra nằm trong STATUS. Phạm vi và quyết định sản phẩm nằm trong [PREPARE.md](../PREPARE.md); kết quả kiểm tra nằm trong [STATUS.md](STATUS.md).
 
+**Định hướng tiếp theo — 01/10/2026:** chủ dự án yêu cầu nâng chất lượng giao diện theo Sunshine Group, tập trung mobile, logo/icon/button/avatar, hai chương Xland/NFT và GSAP. Xem [lộ trình 10 phase](UI-UPGRADE.md) và [đặc tả đề xuất](ui-upgrade/BRIEF.md). Chưa triển khai vòng này; các token/font/layout đang chạy bên dưới vẫn là hiện trạng. Khi thực thi P01 và các phase sau, cập nhật chính tài liệu này cùng CSS; không xem bảng màu đề xuất là token đã áp dụng.
+
 ## 1. Đích thiết kế và tham chiếu
 
 Xland là website khám phá đất nền và bất động sản phân đoạn bằng NFT, tiếng Việt, mobile first. Cảm giác cần đạt: sáng, cao cấp, thoáng và thông tin rõ ràng.
@@ -118,3 +120,122 @@ Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra th
 - Link NFT từ home/detail đi vào route đã có. Copy NFT dùng ngôn ngữ sản phẩm, không phủ nhãn demo/mẫu; xác nhận ghi rõ không phát sinh thanh toán. Mọi quyền tài sản/Blockchain vẫn chưa được xác lập trong trải nghiệm.
 - `/trai-nghiem` đặt lại phần đã triển khai; footer có lối vào. Quyết định 1B thay hành vi CTA 1A được mô tả ở các mục lịch sử phía trên.
 - Ảnh và kết quả kiểm tra 360/390/430/768/1440px ở `qa/2026-09-30-1b`. Chưa nghiệm thu toàn bộ 1B; WebKit viewport còn giới hạn được ghi trong STATUS.
+
+## 12. Nâng cấp nhận diện và tiểu tiết tương tác — P01 (03/10/2026)
+
+Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị nền nhận diện tĩnh cao cấp trước khi thêm GSAP.
+
+### 12.1. Logo Xland SVG Độc bản
+- **Phương án lựa chọn:** Phương án A (*Horizon & Land Parcels*) — Khung viền hình thoi bo góc phân định 4 thửa đất (parcels) tiếp giáp, kết nối bởi đường chân trời ngang và tâm điểm hình thoi vàng champagne.
+- **Wordmark:** Font chữ tiêu đề serif, kerning chặt chẽ, baseline cân xứng; chữ `X` đậm vững chãi (`font-weight: 700`), `LAND` thanh thoát (`font-weight: 500` - `600`).
+- **Phiên bản:**
+  - `default`: Dùng trên nền sáng (header, canvas), nét Deep Teal `--color-primary` kết hợp tâm điểm `--color-accent` (`#B89962`).
+  - `inverse`: Dùng trên nền tối Ink `--color-ink` (`#102D3B`) ở footer, nét trắng sắc sảo kết hợp tâm điểm `--color-on-dark-accent` (`#D8C49D`).
+- **Favicon:** Tích hợp `src/app/icon.svg` chuẩn Next.js App Router (32×32) mang biểu tượng thửa đất Xland.
+- **Accessible Name:** Thẻ link bọc ngoài có `aria-label="Xland — Trang chủ"`, bên trong logo có `aria-hidden="true"`, không đọc lặp.
+
+### 12.2. Bảng Tokens Thực thi Chính thức
+
+| Nhóm Token | Tên Token | Giá trị CSS | Mục đích & Độ tương phản |
+| --- | --- | --- | --- |
+| **Brand Primary** | `--color-primary` | `#164B60` | Deep Teal — CTA, liên kết chính, biểu tượng logo. Tương phản trên trắng: 7.35:1 (AAA) |
+| **Brand Hover** | `--color-primary-hover` | `#103B4D` | Trạng thái hover chuột của button chính. Tương phản trên trắng: 9.87:1 (AAA) |
+| **Brand Pressed** | `--color-primary-pressed` | `#0B2C3B` | Trạng thái active/nhấn của button |
+| **Brand Accent** | `--color-accent` | `#B89962` | Vàng champagne ấm — điểm nhấn logo, tag nổi bật |
+| **On-Dark Accent** | `--color-on-dark-accent` | `#D8C49D` | Vàng sáng cho nền tối — tương phản trên Ink: 7.82:1 (AAA) |
+| **Ink Surface** | `--color-ink` | `#102D3B` | Nền tối cao cấp của Footer và các khối night-mode |
+| **Canvas** | `--color-canvas` | `#FFFFFF` | Nền trang chính |
+| **Surface Warm** | `--color-surface` | `#F5F3EE` | Nền trắng ấm cho các section xen kẽ |
+| **Surface Elevated** | `--color-surface-elevated` | `#EFECE6` | Nền nổi khối, search panel |
+| **Text Primary** | `--color-text` | `#243842` | Chữ chính — tương phản trên trắng: 10.2:1 (AAA), trên surface: 9.4:1 (AAA) |
+| **Text Muted** | `--color-muted` | `#5A6B73` | Chữ phụ, nhãn — tương phản trên trắng: 4.88:1 (AA), trên surface: 4.51:1 (AA) |
+| **Border Neutral** | `--color-border` | `#D7DEDF` | Viền phân cách thanh mảnh |
+| **Border Subtle** | `--color-border-subtle` | `#E8EDEE` | Đường chia tách thứ cấp |
+| **Radius Control** | `--radius-control` | `8px` | Bo góc chuẩn cho input, select, button, icon button |
+| **Radius Card** | `--radius-card` | `12px` | Bo góc card hồ sơ, container nổi |
+| **Radius Media** | `--radius-media` | `8px` | Bo góc ảnh, video |
+
+### 12.3. Hiệu chỉnh Tương phản Thực tế
+- **Navigation Button:** `.navigation > .button` được quy định màu chữ độc lập `#FFFFFF` để không bị ghi đè bởi selector `.navigation > a` (đạt AAA 7.35:1).
+- **Advisor Avatar Text:** Điều chỉnh màu chữ `.avatar-1` từ `#8C7343` thành `#745722` trên nền `#F3EFE6` để nâng tỉ lệ tương phản từ 3.93:1 lên 5.70:1, vượt chuẩn WCAG 2 AA (4.5:1).
+
+### 12.4. Hệ Icon & Button Controls
+- **Icon (`src/components/icon.tsx`):** Chuẩn hóa viewBox `0 0 24 24`, nét `1.75`, round join/cap. Hỗ trợ đủ các icon hiện hành và bổ sung `bookmark` (hỗ trợ filled), `calendar`, `user`, `shield`, `share`, `filter`, `sparkle`.
+- **Button Primitives:**
+  - Chiều cao tối thiểu: `min-height: 48px` (button), `min-width: 44px` (icon button).
+  - Hover chuột: Màu nền đổi mượt, mũi tên icon dịch chuyển nhẹ `3px` (`translateX(3px)`).
+  - Keyboard Focus: Đường viền `:focus-visible` kép `2px solid var(--color-primary)` với `offset 2px`, không làm méo layout.
+  - Pending: Giữ nguyên kích thước bề ngang, con trỏ `wait`, opacity `0.85`.
+  - Disabled: Độ mờ `0.55`, `pointer-events: none`, triệt tiêu toàn bộ glow/animation/shadow.
+- **Proof Sheet:** Tuyến đường kiểm định nội bộ `/qa-identity-proof` hiển thị toàn bộ logo, icon 15 món, bảng màu & độ tương phản đo đạc, button states và chuỗi dấu tiếng Việt.
+
+### 12.5. Quy chuẩn Component Avatar (`src/components/avatar.tsx`)
+- **Kích thước định sẵn:**
+  - `sm` (44 × 44px): Dùng cho badge chuyên viên trong card, inline context, touch target đạt tối thiểu 44px.
+  - `md` (64 × 64px): Kích thước mặc định, dùng trong section người đồng hành trang chủ và detail page.
+  - `lg` (80 × 80px): Dùng cho hồ sơ người đồng hành nổi bật.
+  - `portrait` (140 × 175px, tỷ lệ 4:5): Dùng cho hồ sơ chi tiết và presentation card.
+- **Hệ thống Theme Fallback:** Khi ảnh không tồn tại hoặc lỗi tải mạng, Avatar hiển thị chữ viết tắt (initials) trên nền màu token thương hiệu với tương phản cao (vượt chuẩn WCAG 2 AA ≥ 4.5:1):
+  - `MA` (`avatar-theme-teal`): Nền `#E6F4F1`, chữ `#0F5B4C` (tương phản 6.8:1).
+  - `HN` (`avatar-theme-sage`): Nền `#EDF5EE`, chữ `#2D5936` (tương phản 6.3:1).
+  - `TH` (`avatar-theme-navy`): Nền `#EAF0F6`, chữ `#1E4870` (tương phản 7.2:1).
+  - `NL` (`avatar-theme-sand`): Nền `#F6F0E6`, chữ `#6B4F1A` (tương phản 5.9:1).
+- **Khả năng tiếp cận (A11y):** Thuộc tính `decorative` mặc định `true` khi avatar đặt cạnh tên hiển thị nhằm ẩn thẻ `img` khỏi VoiceOver/NVDA (`aria-hidden="true"`, `alt=""`), tránh đọc lặp tên người hỗ trợ hai lần.
+
+### 12.6. Quy hoạch Asset Media & Tỷ lệ Khung hình (P02)
+- **Chân dung 4 Persona hư cấu:** Định dạng WebP, ánh sáng tự nhiên studio, hậu cảnh kiến trúc bokeh sang trọng, không logo công ty khác, không huy hiệu/chữ trong ảnh.
+  - `ADV-001` (Nguyễn Minh Anh): `public/images/advisors/minh-anh.webp` (512×512, 26.4 KB) & thumb (128×128, 4.8 KB).
+  - `ADV-002` (Trần Hoàng Nam): `public/images/advisors/hoang-nam.webp` (512×512, 26.5 KB) & thumb (128×128, 4.1 KB).
+  - `ADV-003` (Lê Thanh Hà): `public/images/advisors/thanh-ha.webp` (512×512, 18.9 KB) & thumb (128×128, 3.6 KB).
+  - `ADV-004` (Phạm Ngọc Lan): `public/images/advisors/ngoc-lan.webp` (512×512, 21.6 KB) & thumb (128×128, 4.3 KB).
+- **Cảnh quan Xland Story:** `public/images/xland-story.webp` (1080×1440, 211.8 KB), tỷ lệ 3:4 chiều dọc, chiều sâu phong cảnh thiên nhiên Việt Nam phù hợp cho section câu chuyện thương hiệu.
+- **Tối ưu PropertyImage:** Bổ sung cơ chế declarative `failedSrc` để tự động khôi phục hiển thị ảnh khi `src` thay đổi, không gây render cascade.
+- **Media Proof Sheet:** Tuyến đường `/qa-media-proof` đóng vai trò contact sheet nghiệm thu 4 persona, các kích thước Avatar, cảnh quan Xland story, và kịch bản phục hồi khi ảnh lỗi.
+
+### 12.7. Quy chuẩn Khung giao diện (Shell), Hero và Footer (P03)
+- **SiteHeader (`src/components/site-header.tsx`):**
+  - Chiều cao header: `--header-height: 68px` trên mobile (<1024px), `80px` trên desktop (≥1024px).
+  - Nền mờ kính đục: `rgba(255, 255, 255, 0.96); backdrop-filter: blur(16px)` loại bỏ hiện tượng bóng chữ khi cuộn qua nội dung tối/ảnh.
+  - Phân cách: Viền mảnh `1px solid var(--color-border-subtle)`.
+  - Menu toggle: Chạm tối thiểu 44×44px, có nhãn accessibility rõ ràng (`Mở menu điều hướng` / `Đóng menu điều hướng`).
+  - Mobile Menu Panel: Non-modal navigation panel dưới header, các liên kết có touch target ≥ 44px, nút CTA `Tìm lô đất phù hợp` chiếm trọn bề ngang dễ thao tác.
+  - Phím Escape: Tự động đóng menu và hoàn trả focus về toggle button.
+  - Anchor Offset: Tất cả các phân đoạn chính (`#kham-pha`, `#cach-hoat-dong`, `#nft`, `#nguoi-dong-hanh`, `#ho-tro`, `#main`) đều có `scroll-margin-top: calc(var(--header-height) + 16px)` chống che lấp nội dung bởi header cố định.
+- **Hero Section (`src/components/home/hero.tsx`):**
+  - Chiều cao thích ứng: `min-height: 520px` trên mobile, `680px` trên desktop; không dùng 100vh để thanh tìm kiếm `PropertyExplorer` lộ diện tự nhiên ở cạnh dưới màn hình điện thoại khi vừa tải trang.
+  - Lớp phủ bóng Ink: Gradient tuyến tính chuyển tiếp từ `rgb(16 45 59 / 76%)` đến `rgb(16 45 59 / 92%)` trên mobile, và 92% qua 76% đến 28% trên desktop. Độ tương phản chữ trắng trên nền đạt chuẩn AAA (11.8:1).
+  - Typography: H1 “Một miền đất. Vạn khởi đầu.” cân line break hoàn chỉnh tại 360/390/430px mà không ép cứng; chữ nhấn `em` màu On-dark Gold `#D8C49D`.
+  - Data hooks cho Motion tương lai (P07/P08): `data-hero-media`, `data-hero-content`, `data-hero-title`, `data-hero-cta`, `data-hero-bottom`.
+- **SiteFooter (`src/components/site-footer.tsx`):**
+  - Nền Ink `#102D3B`, viền trên `1px solid rgba(255, 255, 255, 0.12)`.
+  - Phân nhóm 2 cột điều hướng trên mobile với touch target link ≥ 40-44px. Đủ 7 liên kết hiện hữu.
+  - Khối triết lý `footer-note` viền vàng champagne và khối bản quyền `footer-bottom` trang nhã.
+- **Final CTA Container:** Chuyển thể thành card bề mặt surface ấm áp (`#F5F3EE`) trước footer, viền mảnh, padding thoáng đãng, tạo nhịp nghỉ thanh lịch trước khi vào footer nền tối.
+
+### 12.8. Quy chuẩn Chương Giới thiệu Xland Story (P04)
+- **Component & Cấu trúc Semantic (`src/components/home/xland-story.tsx`):**
+  - Section Server Component nhẹ, `id="cach-hoat-dong"`, `aria-labelledby="story-heading"`.
+  - Heading hierarchy chuẩn: H2 cho tiêu đề section, H3 cho từng bước đánh số trong danh sách `<ol class="story-steps">`.
+  - Số thứ tự bước `01`, `02`, `03` có `aria-hidden="true"` để trình đọc màn hình đọc trực tiếp tiêu đề bước mà không bị lặp âm.
+- **Thứ tự Đọc & Hiển thị Mobile First (<1024px):**
+  - Mạch tiếp nhận thông tin tự nhiên: `Eyebrow → H2 → Lead → Ảnh chủ đạo → 3 Hàng bước → CTA Actions`.
+  - Kỹ thuật: Sử dụng `.story-content { display: contents; }` kết hợp CSS Grid `order` trên container `.story-inner` để đạt chính xác thứ tự thị giác mà không cần duplicate DOM hay phụ thuộc JavaScript.
+- **Bố cục Desktop (≥1024px):**
+  - Tỷ lệ 2 cột thanh lịch: Ảnh chủ đạo chiếm 5/12 bên trái, khối nội dung dẫn dắt chiếm 6.2/12 bên phải, khoảng cách cột `72px`, padding-block `96px`.
+  - Khung ảnh có viền hairline `1px solid var(--color-border-subtle)` và chú thích bối cảnh tự nhiên bên dưới.
+- **Asset Media:**
+  - Ảnh chủ đạo `public/images/xland-story.webp` (1600×1200 WebP), tỷ lệ 4:3 trên mobile và 4:5 trên desktop.
+  - Tích hợp `PropertyImage` với declarative fallback giữ nguyên bố cục và khả năng đọc khi ảnh tải chậm hoặc offline.
+- **Tương phản & Khả năng tiếp cận (WCAG 2 AA & AAA):**
+  - Số bước `01`, `02`, `03` (`.story-step-num`): Sử dụng Deep Teal `var(--color-primary)` (`#164B60`) trên nền bề mặt ấm `var(--color-surface)` (`#F5F3EE`), đạt tương phản **7.35:1 (AAA)**.
+  - Tiêu đề H2 và Heading H3: Ink `#162429` trên `#F5F3EE`, đạt tương phản **12.1:1 (AAA)**.
+  - Đoạn lead và mô tả: Muted Slate `#455A64` trên `#F5F3EE`, đạt tương phản **6.2:1 (AA)**.
+  - Neo cuộn: `scroll-margin-top: 96px`, đảm bảo khi click link anchor `#cach-hoat-dong` từ bất kỳ vị trí nào, tiêu đề section luôn nằm dưới header cố định an toàn ít nhất 28–32px.
+- **Data Hooks chuẩn bị cho Motion (P07/P08):**
+  - `data-xland-story`: Vùng chứa toàn section.
+  - `data-story-content`: Vùng văn bản và bước dẫn dắt.
+  - `data-story-header`: Cụm eyebrow, tiêu đề H2 và đoạn lead.
+  - `data-story-steps`: Danh sách các bước.
+  - `data-story-step`: Từng bước đơn lẻ để animate staggered.
+  - `data-story-actions`: Cụm nút CTA và sublink.
+  - `data-story-media`: Khung ảnh chủ đạo bên cạnh.
