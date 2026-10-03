@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PropertyImage } from "@/components/property-image";
 import { Icon } from "@/components/icon";
 import { getFeaturedOfferingPresentation } from "@/features/nft/presentation";
+import { NftStoryMotion } from "@/components/motion/nft-story-motion";
 
 export function NftStory() {
   const presentation = getFeaturedOfferingPresentation();
@@ -17,7 +18,8 @@ export function NftStory() {
   return (
     <section className="nft-story" id="nft" aria-labelledby="nft-heading" data-nft-story>
       <div className="container">
-        <div className="nft-story-inner">
+        <NftStoryMotion>
+          <div className="nft-story-inner">
           {/* Media: Large Property Visual (Column 1 on Desktop) */}
           <div className="nft-story-media" data-nft-media>
             <div className="nft-media-frame">
@@ -151,7 +153,8 @@ export function NftStory() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </NftStoryMotion>
+    </div>
+  </section>
   );
 }

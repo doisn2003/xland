@@ -305,8 +305,23 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
   - CSS trong stylesheet mặc định giữ nguyên `opacity: 1`, không dùng `display: none` hay `opacity: 0` tĩnh để chờ JavaScript tải.
   - Khi người dùng deep-link trực tiếp đến neo `#cach-hoat-dong` hoặc phần tử đã nằm trong viewport trước khi kịch bản chạy, hệ thống lập tức hiển thị nội dung, không chạy lại animation từ trạng thái ẩn.
   - Khi unmount hoặc hoàn tất tween, áp dụng `clearProps` để tránh lưu lại các inline style tĩnh gây xung đột layout.
-- **Ranh giới thực thi:**
-  - Giới hạn thử nghiệm duy nhất ở khung ảnh của Xland Story (`src/components/home/xland-story.tsx`).
-  - Không mở rộng hiệu ứng sang các section khác trước Phase P08.
+### 12.12. Quy chuẩn Biên đạo Chuyển động 4 Scenes Trang chủ (P08)
+
+Toàn bộ 4 scene trọng tâm trên trang chủ Xland được biên đạo đồng bộ, tinh tế dựa trên nền tảng GSAP 3.15.0 và ScrollTrigger đã thiết lập ở P07, phục vụ nhịp điệu thương hiệu cao cấp mang cảm hứng Sunshine Group mà không làm chậm trải nghiệm hay cản trở tác vụ:
+
+#### 1. Bảng Ma trận Chuyển động (Motion Matrix)
+
+| Scene | Thành phần (Target Node) | Kích hoạt (Trigger & Start) | Hành vi Desktop (≥1024px) | Hành vi Mobile (<1024px) | Reduced Motion | Thời lượng / Stagger / Easing | Dọn dẹp & Tương tác |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Scene 1: Hero** | `.hero-photo` (lớp ảnh nền) | Ngay khi ảnh sẵn sàng trong viewport | Settle scale nhẹ `1.04 → 1`, opacity `0.85 → 1` | Settle scale nhẹ `1.025 → 1`, opacity `0.9 → 1` | Tĩnh, scale `1`, không tween | 850ms desktop, 700ms mobile. Easing: `power2.out`. | `clearProps: "all"`. Tiêu đề LCP và nút CTA có ngay lập tức, không mask text. Nếu cuộn qua trước khi ảnh load thì hủy tween. |
+| **Scene 2: Xland Story** | - Khung ảnh `.story-media-frame`<br/>- 3 bước `.story-step-item` | Top chạm `85%` viewport (ScrollTrigger `once: true`) | - Ảnh: mask inset `8% → 0%`, scale `1.04 → 1`<br/>- 3 bước: fade-up `y: 16px → 0`, stagger `80ms` | - Ảnh: fade-up nhẹ `y: 12px → 0`<br/>- 3 bước: fade-up `y: 12px → 0`, stagger `50ms` | Tĩnh hoàn toàn, `transform: none`, hiển thị ngay | - Ảnh: 850ms desktop, 600ms mobile<br/>- 3 bước: 550ms (tổng nhóm ≤600ms). Easing: `power2.out`. | `clearProps: "all"` ngay sau khi hoàn tất. Nút CTA bên dưới độc lập, không trễ nhịp. Heading/body không tách ký tự rời. |
+| **Scene 3: NFT Story** | - Khung ảnh `.nft-media-frame`<br/>- Parallax ảnh desktop<br/>- 3 bước quy trình `[data-nft-step]` | Top chạm `88%` viewport (ScrollTrigger `once: true`) | - Reveal ảnh 1 lần: scale `1.05 → 1`<br/>- Parallax ảnh: `y: -10px → +10px` (biên độ 20px, `scrub: 0.5`)<br/>- 3 bước: fade-up `y: 14px → 0`, stagger `80ms` | - Reveal ảnh: scale `1.025 → 1`<br/>- KHÔNG parallax, KHÔNG scrub<br/>- 3 bước: fade-up `y: 10px → 0`, stagger `50ms` | Tĩnh hoàn toàn, không scrub, không parallax | - Reveal ảnh: 750ms desktop, 500ms mobile<br/>- 3 bước: 500ms desktop, 400ms mobile. Easing: `power2.out`. | `clearProps: "all"`. Nền và tiêu đề tĩnh; bảng định lượng, con số tổng cung, đơn giá và tỷ lệ luôn là giá trị cuối, không count-up. Không pin section. |
+| **Scene 4: Chuyên viên** | 3 thẻ chuyên viên `.advisor-card` | Top chạm `85%` (desktop) / `88%` (mobile) viewport | Chân dung và thẻ xuất hiện cùng nhau, fade-up `y: 16px → 0`, stagger `70ms` | Fade-up nhẹ `y: 10px → 0`, stagger `50ms` | Tĩnh hoàn toàn, hiển thị nguyên bản | 500ms desktop, 400ms mobile. Easing: `power2.out`. | `clearProps: "all"` ngay khi hoàn tất để nhường toàn bộ quyền điều khiển cho CSS `:hover` (`translateY(-2px)`, `box-shadow`) và `:focus-visible`. Tên và link CTA không bị che giấu. |
+
+#### 2. Nguyên tắc Bảo tồn Tương phản & Khả năng tiếp cận (Accessibility First)
+- **Bảo toàn Độ tương phản WCAG AA**: Không gán `opacity: 0` hay `opacity: 0.35` tĩnh trong CSS hoặc inline DOM khi phần tử chưa cuộn vào viewport. Sử dụng callback `onEnter` của `ScrollTrigger.create` để kích hoạt `gsap.fromTo()`. Nhờ đó, trình thu thập dữ liệu (axe-core, Lighthouse) và người dùng cuộn chậm luôn thấy độ tương phản màu chuẩn 4.5:1 / 7:1 mọi lúc.
+- **Tách bạch CSS Hover và GSAP Transform**: Sau khi animation kết thúc, toàn bộ các thuộc tính inline `transform`, `opacity` được dọn dẹp bằng `clearProps: "all"`. Các hiệu ứng hover mượt mà và outline bàn phím của thẻ card chuyên viên hoàn toàn do CSS đảm nhiệm.
+- **Bảo toàn Thao tác & Luồng điều hướng**: Menu và thanh tìm kiếm có thể bấm được ngay khi scene đang chạy; Tab bàn phím không bị nhảy cóc hay giấu focus stop; không bao giờ áp dụng hiệu ứng lên toàn bộ container form hoặc nút bấm.
+- **Xử lý Deep-Link & Back Navigation**: Khi người dùng vào trang qua anchor hash (`/#cach-hoat-dong`, `/#nft`, `/#nguoi-dong-hanh`), hệ thống tự động phát hiện vị trí và gọi `clearProps: "all"`, lập tức hiển thị trạng thái hoàn thiện mà không chạy lại animation từ đầu.
 
 

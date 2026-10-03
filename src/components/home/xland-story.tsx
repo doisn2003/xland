@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PropertyImage } from "@/components/property-image";
 import { Icon } from "@/components/icon";
 import { StoryImageReveal } from "@/components/motion/story-image-reveal";
+import { StoryStepsReveal } from "@/components/motion/story-steps-reveal";
 
 interface StoryStep {
   number: string;
@@ -52,7 +53,7 @@ export function XlandStory() {
             </p>
           </div>
 
-          <ol className="story-steps" data-story-steps>
+          <StoryStepsReveal>
             {STORY_STEPS.map((step) => (
               <li className="story-step-item" key={step.number} data-story-step>
                 <span className="story-step-num" aria-hidden="true">
@@ -64,7 +65,7 @@ export function XlandStory() {
                 </div>
               </li>
             ))}
-          </ol>
+          </StoryStepsReveal>
 
           <div className="story-actions" data-story-actions>
             <Link className="button story-cta" href="/lo-dat" data-story-cta>

@@ -1,6 +1,35 @@
 # Trạng thái Xland
 
-Cập nhật: 04/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland), P05 (Chương bất động sản NFT), P06 (Người đồng hành & Nhất quán 1B) và **P07 — Nền GSAP an toàn cho React và mobile**.
+Cập nhật: 04/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland), P05 (Chương bất động sản NFT), P06 (Người đồng hành & Nhất quán 1B), P07 (Nền GSAP an toàn) và **P08 — Biên đạo GSAP cho home Xland (4 motion scenes)**.
+
+## Nghiệm thu Giai đoạn P08 — 04/10/2026
+
+- Đã hoàn thành duy nhất phase **P08 (Biên đạo GSAP cho home Xland)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF E/F/G](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P08-motion-scenes](ui-upgrade/phases/P08-motion-scenes.md).
+- **Hạng mục hoàn thành:**
+  1. **Biên đạo 4 Scenes Trang chủ (Scoped Client Islands):**
+     - **Scene 1 (Hero)**: Settle scale nhẹ ảnh nền `.hero-photo` (1.04 → 1 desktop, 1.025 → 1 mobile trong 700–850ms, ease `power2.out`). LCP text và nút CTA hiển thị ngay lập tức, không mask text LCP. Tự động bỏ qua animation nếu người dùng đã cuộn qua hoặc late load.
+     - **Scene 2 (Xland Story)**: Khung ảnh reveal mask kết hợp 3 bước `.story-steps` xuất hiện stagger ngắn (80ms desktop, 50ms mobile; tổng thời lượng ≤600ms). CTA không bị delay.
+     - **Scene 3 (NFT Story)**: Nền và tiêu đề tĩnh; media reveal 1 lần; desktop parallax nhẹ trên lớp ảnh riêng biệt trong khung overflow (biên độ ≤20px, `scrub: 0.5`); mobile/reduced motion không scrub/parallax; 3 bước sơ đồ stagger 80ms; số liệu định lượng, đơn giá, tổng cung và tỷ lệ luôn là giá trị cuối, không count-up.
+     - **Scene 4 (Chuyên viên)**: 3 thẻ `.advisor-card` và chân dung xuất hiện cùng nhau, fade-up `y: 16px → 0`, stagger 70ms desktop, 50ms mobile. Kết thúc bằng `clearProps: "all"` để nhường 100% quyền điều khiển cho CSS `:hover` (`translateY(-2px)`, `box-shadow`) và `:focus-visible`.
+  2. **Bảo tồn Tương phản & Khả năng tiếp cận (Accessibility First):**
+     - Áp dụng `ScrollTrigger.create` với callback `onEnter` để kích hoạt `gsap.fromTo()`. Không gán `opacity: 0` hay `opacity: 0.35` vào DOM trước khi phần tử cuộn vào tầm nhìn. Đảm bảo toàn bộ bài kiểm tra tương phản màu WCAG AA và axe-core accessibility audit luôn đạt 100% tại mọi vị trí trang.
+     - Phân tách rõ ràng giữa node chịu GSAP transform và CSS hover/focus.
+     - Menu, thanh tìm kiếm và phím Tab hoạt động bình thường ngay khi animation đang chạy.
+     - Xử lý mượt mà khi deep-link qua hash (`#cach-hoat-dong`, `#nft`, `#nguoi-dong-hanh`) hoặc Back navigation: lập tức khôi phục trạng thái hoàn chỉnh bằng `clearProps`.
+  3. **Hiệu năng & Cô lập Bundle:**
+     - Đo đạc qua Performance API: **Long Task Count (>50ms) = 0**, **Max Long Task Duration = 0ms**, DOMContentLoaded = 34ms.
+     - Kích thước JS trang chủ chỉ tăng ~2 KB so với P07 (~643 KB). Các route nghiệp vụ (`/lich-hen`, `/nft/[slug]`, v.v.) hoàn toàn 0 KB GSAP.
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 46/46 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic thành công).
+  + Playwright E2E Suite: **76/76 tests PASSED (100%)** trên Chromium Desktop và Mobile (bao gồm 22 tests motion `motion.spec.ts`, 6 tests accessibility WCAG AA, 48 tests scaffold & journeys).
+- **Bộ chứng cứ Nghiệm thu P08 (`docs/qa/ui-upgrade/P08/`):**
+  + 23 ảnh chụp màn hình kiểm soát đa viewport (360/390/430/768/1440px), zoom 200%, reduced motion, deep links.
+  + Video thực tế `p08-home-motion-flow.webm` thể hiện quá trình cuộn thực tế mượt mà, không giật layout.
+  + `trace-summary.json` và `README.md` báo cáo chi tiết.
+- Bước tiếp theo: [P09 — Nghiệm thu tổng thể và chốt giao diện](ui-upgrade/phases/P09-final-acceptance.md).
 
 ## Nghiệm thu Giai đoạn P07 — 04/10/2026
 

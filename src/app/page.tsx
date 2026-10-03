@@ -6,6 +6,7 @@ import { PropertyExplorer } from "@/components/property-explorer";
 import { Icon } from "@/components/icon";
 import { Avatar } from "@/components/avatar";
 import { featuredSupportProperties } from "@/data/properties";
+import { AdvisorsReveal } from "@/components/motion/advisors-reveal";
 
 export default function Home() {
   return (
@@ -23,7 +24,7 @@ export default function Home() {
             </div>
             <p>Hiểu khu vực, hiểu nhu cầu.<br />Cùng bạn tìm một nơi phù hợp.</p>
           </div>
-          <div className="advisors-grid" data-advisors-grid>
+          <AdvisorsReveal>
             {featuredSupportProperties.map((property) => (
               <article className="advisor-card" key={property.id} data-advisor-card>
                 <div className="advisor-portrait-wrap">
@@ -38,7 +39,7 @@ export default function Home() {
                 </div>
               </article>
             ))}
-          </div>
+          </AdvisorsReveal>
         </div>
       </section>
       <section className="container final-cta"><div><p className="eyebrow">HÀNH TRÌNH CỦA BẠN BẮT ĐẦU TỪ ĐÂY</p><h2>Miền đất tiếp theo<br />đang chờ bạn khám phá.</h2></div><Link href="#kham-pha" className="button">Khám phá các lô đất <Icon name="arrow" /></Link></section>

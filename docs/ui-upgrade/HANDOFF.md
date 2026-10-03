@@ -15,39 +15,82 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 | P03 | Đã hoàn thành | SiteHeader kính mờ 68/80px, mobile menu Escape/focus, Hero component tách riêng không 100vh lộ search, SiteFooter 2 cột điều hướng, final-cta card, 10 ảnh tại docs/qa/ui-upgrade/P03/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P04 | Đã hoàn thành | XlandStory component Server Component, semantic H2/H3, mobile order tự nhiên, desktop split 5/12 và 6.2/12, ảnh xland-story.webp, 3 bước đánh số 01/02/03 contrast 7.35:1 AAA, CTA /lo-dat + sublink #nguoi-dong-hanh, 6 ảnh tại docs/qa/ui-upgrade/P04/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P05 | Đã hoàn thành | NftStory component Server Component, nền Ink full-width, ảnh garden-retreat.webp, sơ đồ quy trình 3 bước HTML/SVG, panel định lượng presentation động, visual matrix 20 ô, CTA /nft + link phụ /nft/mien-xanh-ven-song, 7 ảnh tại docs/qa/ui-upgrade/P05/; 43/43 unit đạt, 54/54 E2E desktop/mobile-chromium đạt |
-| P06 | Đã hoàn thành | Lượt A (chân dung chuyên viên 4:5, card 4:3 display serif, detail support portrait) + Lượt B (đồng bộ font serif display, breadcrumb, empty states, panels giao dịch 1B), 18 ảnh tại docs/qa/ui-upgrade/P06/; 43/43 unit đạt, 54/54 E2E đạt |
-| P07 | Đã hoàn thành | Cài đặt gsap@3.15.0 và @gsap/react@2.1.2 (--save-exact), client motion island (gsap-core, use-reduced-motion, story-image-reveal), 5 ảnh tại docs/qa/ui-upgrade/P07/; 46/46 unit đạt, 64/64 E2E đạt |
-| P08 | Chưa bắt đầu | Chưa có choreography mới |
-| P09 | Chưa bắt đầu | Chưa có nghiệm thu vòng nâng cấp |
+| P06 | Đã hoàn| P07 | Đã hoàn thành | Cài đặt gsap@3.15.0 và @gsap/react@2.1.2 (--save-exact), client motion island (gsap-core, use-reduced-motion, story-image-reveal), 5 ảnh tại docs/qa/ui-upgrade/P07/; 46/46 unit đạt, 64/64 E2E đạt |
+| P08 | Đã hoàn thành | Biên đạo 4 scenes trang chủ (Hero settle, Story steps reveal, NFT parallax/flow, Advisors reveal), 23 ảnh + video quay thật tại docs/qa/ui-upgrade/P08/; 46/46 unit đạt, 76/76 E2E đạt |
+| P09 | Chưa bắt đầu | Nghiệm thu tổng thể, Lighthouse và chốt gói nâng cấp giao diện |
 
 ## Bản ghi bàn giao gần nhất
 
 ```text
-Phase / ngày / commit hoặc working tree: P07 / 04/10/2026 / nền commit 63b7380.
+Phase / ngày / commit hoặc working tree: P08 / 04/10/2026 / commit sau P07.
 Kết quả và file đã thay đổi:
-- package.json & pnpm-lock.yaml: Cài đặt chính xác gsap@3.15.0 và @gsap/react@2.1.2 bằng pnpm add --save-exact.
-- src/components/motion/gsap-core.ts: Module quản lý đăng ký plugin ScrollTrigger và useGSAP an toàn một lần trên client.
-- src/components/motion/use-reduced-motion.ts: Hook chuẩn React 19 dùng useSyncExternalStore để theo dõi prefers-reduced-motion, không ném hydration warning hay cascading render.
-- src/components/motion/story-image-reveal.tsx: Client motion island bọc khung ảnh trong Server Component xland-story.tsx; dùng useGSAP scoped ref và gsap.matchMedia() phân nhánh desktop (mask inset 8%->0%, scale 1.04->1, 850ms), mobile (opacity 0.2->1, y 12px->0, 600ms), reduced-motion (tĩnh hoàn chỉnh) và deep-link tức thì.
-- src/components/home/xland-story.tsx: Giữ nguyên Server Component, chỉ bọc StoryImageReveal quanh khung ảnh; toàn bộ tiêu đề, text, link tiếp tục SSR sạch sẽ.
-- src/app/globals.css: Thêm styling cho .story-reveal-container và .story-reveal-visual; giữ nguyên progressive enhancement (CSS mặc định visible 100%, không opacity: 0 trong stylesheet).
-- vitest.config.mts: Bổ sung alias @ trỏ về ./src bằng import.meta.dirname.
-- tests/unit/motion.test.ts: 3 test unit kiểm tra GSAP registration, SSR an toàn của StoryImageReveal và semantic HTML của XlandStory (46/46 unit tests pass).
-- tests/e2e/motion.spec.ts: 10 test Playwright E2E kiểm tra scroll reveal, deep link tức thì, reduced motion static, chuyển trang qua lại 5 lần, và cô lập bundle (route /lich-hen không tải GSAP chunk).
-- scripts/capture-p07.mjs: Chụp 5 ảnh có metadata tại docs/qa/ui-upgrade/P07/.
-- docs/qa/ui-upgrade/P07/: 5 ảnh nghiệm thu, metadata.json, README.md chi tiết.
-- docs/DESIGN.md: Bổ sung mục 12.11 quy chuẩn nền tảng GSAP và kịch bản thử nghiệm Xland Story.
-- docs/STATUS.md: Bổ sung mục Nghiệm thu P07 với số liệu kiểm tra thực tế.
+- src/components/motion/hero-settle.tsx: Scene 1 Client island bọc ảnh hero; settle scale nhẹ (1.04->1 desktop, 1.025->1 mobile, 700-850ms, ease power2.out); LCP text và CTA có ngay lập tức; tự bỏ qua nếu đã cuộn qua hoặc late load.
+- src/components/motion/story-steps-reveal.tsx: Scene 2 Client island bọc 3 bước .story-steps; kích hoạt khi top chạm 85% viewport; stagger 80ms desktop, 50ms mobile; tổng thời lượng <=600ms; clearProps("all") khi xong.
+- src/components/motion/nft-story-motion.tsx: Scene 3 Client island bọc toàn bộ NFT story; reveal ảnh 1 lần; desktop parallax nhẹ biên độ 20px (scrub: 0.5); mobile/reduced motion không scrub/parallax; 3 bước flow stagger 80ms; specs panel và con số luôn là giá trị cuối không count-up.
+- src/components/motion/advisors-reveal.tsx: Scene 4 Client island bọc lưới chuyên viên .advisors-grid; 3 thẻ card fade-up y: 16px->0, stagger 70ms desktop, 50ms mobile; clearProps("all") ngay khi xong để nhường toàn bộ quyền điều khiển hover (translateY -2px, box-shadow) và focus ring cho CSS.
+- src/components/home/hero.tsx, xland-story.tsx, nft-story.tsx, src/app/page.tsx: Tích hợp các client islands bọc quanh các phần tử media/steps tương ứng mà không làm chuyển đổi toàn bộ Server Component thành client.
+- src/app/globals.css: Bổ sung style vị trí tuyệt đối cho hero motion wrapper, z-index cho caption NFT và width 100% cho nft motion root.
+- tests/e2e/motion.spec.ts: Bổ sung bộ test Playwright E2E cho cả 4 scenes (22/22 tests passed), kiểm tra LCP text/CTA ngay lập tức, static specs values, focus bàn phím thẻ chuyên viên, deep links navigation và reduced motion.
+- scripts/capture-p08.mjs: Tự động hóa quá trình chụp ảnh và đo đạc Performance Trace API tại 5 viewports (360, 390, 430, 768, 1440), reduced motion, deep link, zoom 200% và quay video thực tế.
+- docs/qa/ui-upgrade/P08/: Lưu trữ 23 ảnh chụp màn hình, video p08-home-motion-flow.webm, trace-summary.json (0 long tasks, <16ms frame budget) và tài liệu README.md chi tiết.
+- docs/DESIGN.md: Bổ sung mục 12.12 Bảng Ma trận Chuyển động (Motion Matrix) và các nguyên tắc bảo tồn tương phản Accessibility First.
+- docs/STATUS.md: Cập nhật mục Nghiệm thu P08.
+
+Scene Ownership & Kiến trúc Quản lý:
+1. Scene 1 (Hero):
+   - Ownership: `src/components/motion/hero-settle.tsx` bọc `PropertyImage` trong `src/components/home/hero.tsx`.
+   - Node: `.hero-photo`.
+2. Scene 2 (Xland Story):
+   - Ownership: `src/components/motion/story-image-reveal.tsx` (media) và `src/components/motion/story-steps-reveal.tsx` (steps) trong `src/components/home/xland-story.tsx`.
+   - Nodes: `.story-photo`, `.story-step-item`.
+3. Scene 3 (NFT Story):
+   - Ownership: `src/components/motion/nft-story-motion.tsx` trong `src/components/home/nft-story.tsx`.
+   - Nodes: `.nft-media-frame img`, `[data-nft-step]`.
+4. Scene 4 (Chuyên viên):
+   - Ownership: `src/components/motion/advisors-reveal.tsx` trong `src/app/page.tsx`.
+   - Nodes: `.advisor-card`.
+
+Cách tắt từng scene để chẩn đoán (Diagnostic isolation):
+- Mỗi motion island là một wrapper component độc lập nhận `children`.
+- Tuyệt đối không thêm cờ UI hoặc nút bật/tắt trên giao diện gây rối người dùng.
+- Để chẩn đoán một scene cụ thể khi gỡ lỗi, lập tức bỏ thẻ bọc wrapper tương ứng trong JSX (hoặc thay bằng fragment `<>...</>`). Cây DOM bên trong vẫn render là Server Component với `opacity: 1` và CSS thuần hoàn chỉnh.
+
 Quyết định đã thực thi:
-- Triển khai GSAP theo mô hình Client Island cục bộ, không biến Server Component thành Client Component.
-- useGSAP scoped ref tự động dọn dẹp tween/ScrollTrigger khi unmount; tuyệt đối không dùng ScrollTrigger.killAll().
-- Thử nghiệm duy nhất tại khung ảnh Xland Story, bảo toàn ranh giới P07, không animate các section khác trước P08.
-- Kích thước JS trang chủ chỉ tăng ~48 KB (đạt budget ≤60 KB của BRIEF F); route nghiệp vụ không tải script GSAP.
+- Áp dụng ScrollTrigger.create kết hợp callback onEnter cho các animation từ dưới lên để tuyệt đối không gán `opacity: 0` hay `opacity: 0.35` vào DOM trước khi scroll tới. Nhờ vậy, bài kiểm tra tương phản màu WCAG AA và axe-core accessibility audit luôn đạt 100% tại mọi vị trí trang.
+- Sau khi hoàn thành tween, luôn gọi `clearProps: "all"` để trả lại toàn bộ thuộc tính CSS `:hover` và `:focus-visible`.
+- Desktop parallax trên NFT Story được giới hạn trong biên độ 20px, hoàn toàn tắt trên mobile và reduced motion.
+- Giữ nguyên số liệu định lượng tĩnh, không làm count-up gây phân tâm hoặc sai lệch giá trị tài sản.
+- Bundle GSAP chỉ tải tại trang chủ, các route nghiệp vụ hoàn toàn 0 KB GSAP.
+
 Hành vi bắt buộc đã giữ:
 - 46/46 unit tests pass 100%.
-- 64/64 Playwright E2E tests (bao gồm 10 test motion mới) pass 100% trên cả Desktop và Mobile Chromium.
+- 76/76 Playwright E2E tests (22 motion + 6 accessibility WCAG AA + 48 journeys/scaffold) pass 100% trên Chromium Desktop và Mobile.
+- 0 lỗi lint (0 error, 0 warning), typecheck sạch sẽ.
 - 25/25 routes SSG/dynamic build thành công.
-- Không có lỗi lint (0 error, 0 warning) và typecheck sạch sẽ.
+- Baseline 8 lỗi WebKit viewport trên Windows được giữ nguyên và cô lập như P00.
+
+Kiểm tra:
+- pnpm lint: ĐẠT.
+- pnpm typecheck: ĐẠT.
+- pnpm test: ĐẠT (46/46).
+- pnpm build: ĐẠT (25/25 routes).
+- Playwright E2E: ĐẠT (76/76).
+- Performance Trace: Long tasks = 0, DOMContentLoaded = 34ms.
+
+Ảnh và điểm đã quan sát:
+- 23 ảnh và video tại docs/qa/ui-upgrade/P08/ xác nhận các scene xuất hiện theo nhịp điệu hài hòa, text LCP có ngay lập tức, chuyển động settle scale và mask nhẹ nhàng, mobile cuộn mượt không giật lag.
+
+Blocker / rủi ro / nội dung còn dở:
+- 8 lỗi WebKit viewport trên môi trường Windows tiếp tục được ghi nhận và cô lập như P00; không gây ảnh hưởng đến Chromium desktop/mobile.
+
+Phase tiếp theo và 6 file nên đọc đầu tiên:
+1. docs/ui-upgrade/phases/P09-final-acceptance.md (Nhiệm vụ P09 — Nghiệm thu tổng thể và chốt giao diện)
+2. docs/ui-upgrade/BRIEF.md (Mục F/G — Tiêu chuẩn bàn giao)
+3. docs/DESIGN.md (Mục 12 — Design System & Motion Matrix)
+4. docs/STATUS.md (Trạng thái tổng thể dự án)
+5. docs/qa/ui-upgrade/P08/README.md (Kết quả kiểm thử P08)
+6. src/app/page.tsx (Trang chủ hoàn chỉnh sau 4 scenes motion)
+```lỗi lint (0 error, 0 warning) và typecheck sạch sẽ.
 Kiểm tra:
 - pnpm lint: ĐẠT.
 - pnpm typecheck: ĐẠT.
