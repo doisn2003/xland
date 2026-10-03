@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { PropertyImage } from "@/components/property-image";
 import { Icon } from "@/components/icon";
+import { StoryImageReveal } from "@/components/motion/story-image-reveal";
 
 interface StoryStep {
   number: string;
@@ -81,12 +82,14 @@ export function XlandStory() {
 
         <div className="story-media" data-story-media>
           <div className="story-media-frame">
-            <PropertyImage
-              src="/images/xland-story.webp"
-              alt="Cảnh quan thung lũng xanh và dòng sông uốn lượn tại Việt Nam"
-              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 480px"
-              className="story-photo"
-            />
+            <StoryImageReveal>
+              <PropertyImage
+                src="/images/xland-story.webp"
+                alt="Cảnh quan thung lũng xanh và dòng sông uốn lượn tại Việt Nam"
+                sizes="(max-width: 767px) 100vw, (max-width: 1023px) 50vw, 480px"
+                className="story-photo"
+              />
+            </StoryImageReveal>
           </div>
           <p className="story-media-caption">
             <span className="caption-tag">Bối cảnh tự nhiên</span> · Chiều sâu

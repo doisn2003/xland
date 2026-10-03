@@ -16,16 +16,52 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 | P04 | Đã hoàn thành | XlandStory component Server Component, semantic H2/H3, mobile order tự nhiên, desktop split 5/12 và 6.2/12, ảnh xland-story.webp, 3 bước đánh số 01/02/03 contrast 7.35:1 AAA, CTA /lo-dat + sublink #nguoi-dong-hanh, 6 ảnh tại docs/qa/ui-upgrade/P04/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P05 | Đã hoàn thành | NftStory component Server Component, nền Ink full-width, ảnh garden-retreat.webp, sơ đồ quy trình 3 bước HTML/SVG, panel định lượng presentation động, visual matrix 20 ô, CTA /nft + link phụ /nft/mien-xanh-ven-song, 7 ảnh tại docs/qa/ui-upgrade/P05/; 43/43 unit đạt, 54/54 E2E desktop/mobile-chromium đạt |
 | P06 | Đã hoàn thành | Lượt A (chân dung chuyên viên 4:5, card 4:3 display serif, detail support portrait) + Lượt B (đồng bộ font serif display, breadcrumb, empty states, panels giao dịch 1B), 18 ảnh tại docs/qa/ui-upgrade/P06/; 43/43 unit đạt, 54/54 E2E đạt |
-| P07 | Chưa bắt đầu | GSAP và @gsap/react chưa cài |
+| P07 | Đã hoàn thành | Cài đặt gsap@3.15.0 và @gsap/react@2.1.2 (--save-exact), client motion island (gsap-core, use-reduced-motion, story-image-reveal), 5 ảnh tại docs/qa/ui-upgrade/P07/; 46/46 unit đạt, 64/64 E2E đạt |
 | P08 | Chưa bắt đầu | Chưa có choreography mới |
 | P09 | Chưa bắt đầu | Chưa có nghiệm thu vòng nâng cấp |
 
 ## Bản ghi bàn giao gần nhất
 
 ```text
-Phase / ngày / commit hoặc working tree: P06 / 04/10/2026 / nền commit e4e6631.
+Phase / ngày / commit hoặc working tree: P07 / 04/10/2026 / nền commit 63b7380.
 Kết quả và file đã thay đổi:
-- LƯỢT A — CHUYÊN VIÊN, CARD, DETAIL:
+- package.json & pnpm-lock.yaml: Cài đặt chính xác gsap@3.15.0 và @gsap/react@2.1.2 bằng pnpm add --save-exact.
+- src/components/motion/gsap-core.ts: Module quản lý đăng ký plugin ScrollTrigger và useGSAP an toàn một lần trên client.
+- src/components/motion/use-reduced-motion.ts: Hook chuẩn React 19 dùng useSyncExternalStore để theo dõi prefers-reduced-motion, không ném hydration warning hay cascading render.
+- src/components/motion/story-image-reveal.tsx: Client motion island bọc khung ảnh trong Server Component xland-story.tsx; dùng useGSAP scoped ref và gsap.matchMedia() phân nhánh desktop (mask inset 8%->0%, scale 1.04->1, 850ms), mobile (opacity 0.2->1, y 12px->0, 600ms), reduced-motion (tĩnh hoàn chỉnh) và deep-link tức thì.
+- src/components/home/xland-story.tsx: Giữ nguyên Server Component, chỉ bọc StoryImageReveal quanh khung ảnh; toàn bộ tiêu đề, text, link tiếp tục SSR sạch sẽ.
+- src/app/globals.css: Thêm styling cho .story-reveal-container và .story-reveal-visual; giữ nguyên progressive enhancement (CSS mặc định visible 100%, không opacity: 0 trong stylesheet).
+- vitest.config.mts: Bổ sung alias @ trỏ về ./src bằng import.meta.dirname.
+- tests/unit/motion.test.ts: 3 test unit kiểm tra GSAP registration, SSR an toàn của StoryImageReveal và semantic HTML của XlandStory (46/46 unit tests pass).
+- tests/e2e/motion.spec.ts: 10 test Playwright E2E kiểm tra scroll reveal, deep link tức thì, reduced motion static, chuyển trang qua lại 5 lần, và cô lập bundle (route /lich-hen không tải GSAP chunk).
+- scripts/capture-p07.mjs: Chụp 5 ảnh có metadata tại docs/qa/ui-upgrade/P07/.
+- docs/qa/ui-upgrade/P07/: 5 ảnh nghiệm thu, metadata.json, README.md chi tiết.
+- docs/DESIGN.md: Bổ sung mục 12.11 quy chuẩn nền tảng GSAP và kịch bản thử nghiệm Xland Story.
+- docs/STATUS.md: Bổ sung mục Nghiệm thu P07 với số liệu kiểm tra thực tế.
+Quyết định đã thực thi:
+- Triển khai GSAP theo mô hình Client Island cục bộ, không biến Server Component thành Client Component.
+- useGSAP scoped ref tự động dọn dẹp tween/ScrollTrigger khi unmount; tuyệt đối không dùng ScrollTrigger.killAll().
+- Thử nghiệm duy nhất tại khung ảnh Xland Story, bảo toàn ranh giới P07, không animate các section khác trước P08.
+- Kích thước JS trang chủ chỉ tăng ~48 KB (đạt budget ≤60 KB của BRIEF F); route nghiệp vụ không tải script GSAP.
+Hành vi bắt buộc đã giữ:
+- 46/46 unit tests pass 100%.
+- 64/64 Playwright E2E tests (bao gồm 10 test motion mới) pass 100% trên cả Desktop và Mobile Chromium.
+- 25/25 routes SSG/dynamic build thành công.
+- Không có lỗi lint (0 error, 0 warning) và typecheck sạch sẽ.
+Kiểm tra:
+- pnpm lint: ĐẠT.
+- pnpm typecheck: ĐẠT.
+- pnpm test: ĐẠT (46/46).
+- pnpm build: ĐẠT (25/25 routes).
+- Playwright E2E: ĐẠT (64/64).
+Ảnh và điểm đã quan sát:
+- 5 ảnh trong docs/qa/ui-upgrade/P07/ xác nhận hiệu ứng mask reveal trên desktop mượt mà, mobile fade-up gọn gàng, reduced motion giữ tĩnh hoàn chỉnh, deep-link hiển thị ngay lập tức, không tràn ngang ở zoom 200%.
+Blocker / rủi ro / nội dung còn dở:
+- 8 lỗi WebKit viewport trên môi trường Windows tiếp tục được ghi nhận và cô lập như P00; không gây ảnh hưởng đến Chromium desktop/mobile.
+Phase tiếp theo và các file nên đọc đầu tiên:
+1. docs/ui-upgrade/phases/P08-motion-choreography.md (Nhiệm vụ P08 — Hoàn thiện chuyển động toàn trang)
+2. src/components/home/hero.tsx, src/components/home/xland-story.tsx, src/components/home/nft-story.tsx
+```
   + src/app/page.tsx: Chuyên viên Home (#nguoi-dong-hanh) chuyển sang dùng Avatar size="portrait" (140×175px, 4:5) từ asset P02; bố cục thẻ ngang trên mobile và thẻ dọc 3 cột trên tablet/desktop; CTA link trỏ trực tiếp /lo-dat/<slug>#ho-tro; bổ sung đầy đủ data hooks (data-advisors-section, data-advisors-heading, data-advisors-grid, data-advisor-card).
   + src/components/property-card.tsx: Cấu trúc dải card-meta-top kết hợp thể loại đất và nút SaveButton 44px tách khỏi anchor link; tên tài sản font serif display (20px), giá chào nổi bật 22px (strong) to rõ kèm đơn vị "tỷ đ", nút tròn điều hướng 44×44px touch target; hover scale 1.03 tinh tế không cắt focus ring.
   + src/components/property-gallery.tsx: Giữ nguyên 100% accessible navigation buttons và thumbnails.

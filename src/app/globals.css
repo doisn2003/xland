@@ -751,6 +751,15 @@ button:disabled,
   background: var(--color-border-subtle);
   box-shadow: var(--shadow-subtle);
 }
+.story-reveal-container,
+.story-reveal-visual {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.story-reveal-visual {
+  will-change: auto;
+}
 .story-photo {
   object-fit: cover;
   object-position: 50% 55%;

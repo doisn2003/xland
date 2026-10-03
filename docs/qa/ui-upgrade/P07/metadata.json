@@ -1,0 +1,110 @@
+{
+  "phase": "P07",
+  "title": "Nền GSAP an toàn cho React và mobile",
+  "generatedAt": "2026-10-03T19:26:11.836Z",
+  "baseURL": "http://127.0.0.1:3000",
+  "gitCommit": "63b738070a0160fd9eb779255d912c4fbed8ced5",
+  "totalCaptures": 5,
+  "captures": [
+    {
+      "file": "p07-story-reveal-1440.png",
+      "route": "/#cach-hoat-dong",
+      "cropOf": "section#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "no-preference",
+      "state": "desktop-mask-reveal-completed",
+      "commit": "63b738070a0160fd9eb779255d912c4fbed8ced5",
+      "timestamp": "2026-10-03T19:26:07.764Z"
+    },
+    {
+      "file": "p07-story-reveal-390.png",
+      "route": "/#cach-hoat-dong",
+      "cropOf": "section#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "no-preference",
+      "state": "mobile-fade-up-completed",
+      "commit": "63b738070a0160fd9eb779255d912c4fbed8ced5",
+      "timestamp": "2026-10-03T19:26:09.111Z"
+    },
+    {
+      "file": "p07-story-reduced-motion-1440.png",
+      "route": "/#cach-hoat-dong",
+      "cropOf": "section#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "static-fallback-no-transform",
+      "commit": "63b738070a0160fd9eb779255d912c4fbed8ced5",
+      "timestamp": "2026-10-03T19:26:10.004Z"
+    },
+    {
+      "file": "p07-story-deeplink-1440.png",
+      "route": "/#cach-hoat-dong",
+      "cropOf": "section#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "no-preference",
+      "state": "deeplink-immediate-visible",
+      "commit": "63b738070a0160fd9eb779255d912c4fbed8ced5",
+      "timestamp": "2026-10-03T19:26:10.805Z"
+    },
+    {
+      "file": "p07-story-zoom200.png",
+      "route": "/#cach-hoat-dong",
+      "cropOf": "section#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "no-preference",
+      "state": "zoom-200-percent",
+      "commit": "63b738070a0160fd9eb779255d912c4fbed8ced5",
+      "timestamp": "2026-10-03T19:26:11.785Z"
+    }
+  ]
+}

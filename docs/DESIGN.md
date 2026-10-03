@@ -293,3 +293,20 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
   - **Panel giao dịch (`.journey-panel`, `.visit-card`, `.nft-purchase`, `.nft-holding`)**: Đổ bóng nhẹ `var(--shadow-subtle)`, bo góc 16px, trường nhập liệu có viền focus ring 3px xanh sẫm.
   - **Nhãn cảnh báo & lưu ý**: Cảnh báo storage và ghi chú "Không phát sinh thanh toán" có độ tương phản cao, phông chữ 13–14px dễ đọc, đáp ứng tiêu chuẩn WCAG AA.
 
+### 12.11. Quy chuẩn Nền tảng Chuyển động GSAP & Thử nghiệm Xland Story (P07)
+- **Kiến trúc Client Motion Island:**
+  - Áp dụng triệt để mô hình Client Island cục bộ (`src/components/motion/`), không chuyển đổi Server Components toàn trang thành Client Component.
+  - Sử dụng `@gsap/react` với hook `useGSAP` có `scope: containerRef` để tự động hóa hoàn toàn vòng đời dọn dẹp tween và `ScrollTrigger`. Tuyệt đối không gọi `ScrollTrigger.killAll()` khi một component unmount.
+  - Media query thích ứng phân nhánh qua `gsap.matchMedia()` kết hợp hook `usePrefersReducedMotion` (`useSyncExternalStore`):
+    * **Desktop (≥1024px)**: Mask `inset(8% 8% 8% 8%) → inset(0% 0% 0% 0%)`, scale `1.04 → 1`, thời lượng 850ms, ease `power2.out`.
+    * **Mobile (<1024px)**: Opacity `0.2 → 1`, translateY `12px → 0px`, thời lượng 600ms, ease `power2.out`.
+    * **Reduced Motion**: Vô hiệu hóa hiệu ứng, duy trì trạng thái tĩnh hoàn chỉnh (`transform = none`).
+- **Nguyên tắc Progressive Enhancement:**
+  - CSS trong stylesheet mặc định giữ nguyên `opacity: 1`, không dùng `display: none` hay `opacity: 0` tĩnh để chờ JavaScript tải.
+  - Khi người dùng deep-link trực tiếp đến neo `#cach-hoat-dong` hoặc phần tử đã nằm trong viewport trước khi kịch bản chạy, hệ thống lập tức hiển thị nội dung, không chạy lại animation từ trạng thái ẩn.
+  - Khi unmount hoặc hoàn tất tween, áp dụng `clearProps` để tránh lưu lại các inline style tĩnh gây xung đột layout.
+- **Ranh giới thực thi:**
+  - Giới hạn thử nghiệm duy nhất ở khung ảnh của Xland Story (`src/components/home/xland-story.tsx`).
+  - Không mở rộng hiệu ứng sang các section khác trước Phase P08.
+
+

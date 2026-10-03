@@ -1,6 +1,35 @@
 # Trạng thái Xland
 
-Cập nhật: 04/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland), P05 (Chương bất động sản NFT) và **P06 — Tính nhất quán thị giác và hoàn thiện người đồng hành**.
+Cập nhật: 04/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland), P05 (Chương bất động sản NFT), P06 (Người đồng hành & Nhất quán 1B) và **P07 — Nền GSAP an toàn cho React và mobile**.
+
+## Nghiệm thu Giai đoạn P07 — 04/10/2026
+
+- Đã hoàn thành duy nhất phase **P07 (Nền GSAP an toàn cho React và mobile)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF E/F/G](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P07-motion-foundation](ui-upgrade/phases/P07-motion-foundation.md).
+- **Hạng mục hoàn thành:**
+  1. **Cài đặt Dependency:**
+     - Đã cài chính xác: `gsap@3.15.0` và `@gsap/react@2.1.2` qua pnpm `--save-exact`. Không có lockfile lạ, không dùng dependency trôi nổi.
+  2. **Kiến trúc Client Motion Island:**
+     - Tạo module `src/components/motion/gsap-core.ts` đăng ký plugin một lần duy nhất (`gsap.registerPlugin(ScrollTrigger, useGSAP)`).
+     - Tạo hook `src/components/motion/use-reduced-motion.ts` dùng `useSyncExternalStore` chuẩn React 19 để bắt media query `prefers-reduced-motion`, không gây cascading render.
+     - Tạo client island `StoryImageReveal` (`src/components/motion/story-image-reveal.tsx`) bọc khung ảnh trong Server Component `xland-story.tsx`.
+  3. **Kịch bản Reveal Thử nghiệm:**
+     - Desktop (≥1024px): Mask `inset(8% 8% 8% 8%) → inset(0% 0% 0% 0%)`, scale `1.04 → 1`, thời lượng 850ms, ease `power2.out`.
+     - Mobile (<1024px): Opacity `0.2 → 1`, translateY `12px → 0px`, thời lượng 600ms, ease `power2.out`.
+     - Reduced motion: Bỏ toàn bộ mask/transform, giữ nguyên bản tĩnh cuối (`transform = none`).
+     - Deep-link `#cach-hoat-dong` hoặc phần tử đã trong viewport: Hiển thị ngay tức thì, không bị trễ.
+  4. **Progressive Enhancement:**
+     - CSS mặc định là `opacity: 1`, hình ảnh và văn bản luôn đọc được ngay cả khi tắt JS hoặc lỗi mạng.
+  5. **Cô lập Bundle (Code Splitting):**
+     - Module motion chỉ được tải khi vào trang Home (`/`). Route form nghiệp vụ (`/lich-hen`) hoàn toàn không tải bất kỳ script nào của GSAP.
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 46/46 unit tests** (100%), bao gồm cả 3 test motion mới.
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic thành công).
+  + Playwright E2E: **64/64 tests PASSED (100%)** (bao gồm 54 tests regression + 10 tests motion mới `motion.spec.ts` trên cả desktop-chromium và mobile-chromium).
+- **Bộ ảnh Nghiệm thu P07 (`docs/qa/ui-upgrade/P07/`):**
+  + 5 ảnh có metadata đo đạc: `p07-story-reveal-1440.png`, `p07-story-reveal-390.png`, `p07-story-reduced-motion-1440.png`, `p07-story-deeplink-1440.png`, `p07-story-zoom200.png`.
+- Bước tiếp theo: [P08 — Hoàn thiện chuyển động toàn trang](ui-upgrade/phases/P08-motion-choreography.md).
 
 ## Nghiệm thu Giai đoạn P06 — 04/10/2026
 
