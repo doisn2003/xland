@@ -1,0 +1,231 @@
+{
+  "phase": "P03",
+  "capturedAt": "2026-10-03T13:30:00.937Z",
+  "totalCaptures": 10,
+  "baseURL": "http://127.0.0.1:3200",
+  "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+  "captures": [
+    {
+      "file": "p03-shell-hero-360.png",
+      "route": "/",
+      "cropOf": "viewport-top",
+      "requestedViewport": {
+        "width": 360,
+        "height": 740
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "shell-hero-top",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:49.820Z"
+    },
+    {
+      "file": "p03-shell-hero-390.png",
+      "route": "/",
+      "cropOf": "viewport-top",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "shell-hero-top",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:50.726Z"
+    },
+    {
+      "file": "p03-shell-hero-430.png",
+      "route": "/",
+      "cropOf": "viewport-top",
+      "requestedViewport": {
+        "width": 430,
+        "height": 932
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "shell-hero-top",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:51.653Z"
+    },
+    {
+      "file": "p03-shell-hero-768.png",
+      "route": "/",
+      "cropOf": "viewport-top",
+      "requestedViewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "shell-hero-top",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:52.634Z"
+    },
+    {
+      "file": "p03-shell-hero-1440.png",
+      "route": "/",
+      "cropOf": "viewport-top",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "shell-hero-top",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:53.790Z"
+    },
+    {
+      "file": "p03-mobile-menu-open-390.png",
+      "route": "/",
+      "cropOf": "site-header-open",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "mobile-menu-open",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:54.934Z"
+    },
+    {
+      "file": "p03-footer-390.png",
+      "route": "/",
+      "cropOf": "footer.site-footer",
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "site-footer",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:56.068Z"
+    },
+    {
+      "file": "p03-footer-1440.png",
+      "route": "/",
+      "cropOf": "footer.site-footer",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "site-footer",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:57.274Z"
+    },
+    {
+      "file": "p03-short-height-390.png",
+      "route": "/",
+      "cropOf": "short-viewport",
+      "requestedViewport": {
+        "width": 390,
+        "height": 600
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "short-height-mobile",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:58.175Z"
+    },
+    {
+      "file": "p03-zoom-200-1440.png",
+      "route": "/",
+      "cropOf": "zoom-200",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "zoom-200-percent",
+      "commit": "c9c8178da8aec158f0beead931a72b63125c295a",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T13:29:59.584Z"
+    },
+    {
+      "file": null,
+      "route": "/",
+      "cropOf": "keyboard-and-scroll-test",
+      "testResults": {
+        "escapeClosesMenu": true,
+        "escapeRestoresFocus": true,
+        "searchPanelVisibleAfterCta": true,
+        "searchPanelNotCoveredByStickyHeader": true
+      },
+      "timestamp": "2026-10-03T13:30:00.889Z"
+    }
+  ]
+}

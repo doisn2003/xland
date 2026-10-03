@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Hero } from "@/components/home/hero";
 import { PropertyImage } from "@/components/property-image";
 import { PropertyExplorer } from "@/components/property-explorer";
 import { Icon } from "@/components/icon";
@@ -8,17 +9,7 @@ import { featuredSupportProperties } from "@/data/properties";
 export default function Home() {
   return (
     <main id="main">
-      <section className="hero" aria-labelledby="hero-title">
-        <PropertyImage src="/images/hero.webp" alt="Cảnh quan ven biển nhìn từ trên cao" sizes="100vw" preload className="hero-photo" />
-        <div className="hero-shade" />
-        <div className="container hero-content">
-          <p className="hero-tag"><span /> KHÁM PHÁ GIÁ TRỊ TỪ ĐẤT</p>
-          <h1 id="hero-title">Một miền đất.<br /><em>Vạn khởi đầu.</em></h1>
-          <p className="hero-description">Tìm không gian cho ước muốn của bạn.<br className="desktop-break" /> Khám phá đất nền và những cách kết nối giá trị mới cùng Xland.</p>
-          <Link className="hero-link" href="#kham-pha">Bắt đầu hành trình <Icon name="arrow" /></Link>
-          <div className="hero-bottom"><span>ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT</span><span className="hero-location"><Icon name="pin" /> Cam Ranh, Việt Nam</span></div>
-        </div>
-      </section>
+      <Hero />
       <PropertyExplorer />
       <section className="why-section section" id="cach-hoat-dong">
         <div className="container"><div className="section-heading centered"><p className="eyebrow">CÙNG BẠN NHÌN XA HƠN</p><h2>Một hành trình. Nhiều giá trị.</h2><p>Từ cảm hứng đầu tiên đến hiểu rõ một miền đất,<br className="desktop-break" /> Xland kết nối từng bước trong cùng một trải nghiệm.</p></div>

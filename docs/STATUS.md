@@ -1,6 +1,37 @@
 # Trạng thái Xland
 
-Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu) và **P02 — Media và chân dung người đồng hành**.
+Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung) và **P03 — Header, Hero và Footer**.
+
+## Nghiệm thu Giai đoạn P03 — 03/10/2026
+
+- Đã hoàn thành duy nhất phase **P03 (Header, Hero và Footer)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF A–C/F–G](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P03-shell-hero](ui-upgrade/phases/P03-shell-hero.md).
+- **Hạng mục hoàn thành:**
+  1. **Khung SiteHeader (`src/components/site-header.tsx`):**
+     - Mobile: Chiều cao tối ưu 68px, logo `size="md"` sắc nét tại 360px, nút menu toggle đạt kích thước chạm 44×44px với nhãn trợ năng đầy đủ.
+     - Desktop: Chiều cao 80px, Logo, 4 liên kết điều hướng và nút CTA chính xếp cân hàng thanh lịch, không sao chép 2 tầng corporate của Sunshine.
+     - Kính mờ đục cao cấp: `rgba(255, 255, 255, 0.96); backdrop-filter: blur(16px)` chống hoàn toàn hiện tượng bóng chữ khi cuộn qua nền tối.
+     - Khả năng tiếp cận: Phím `Escape` tự động đóng menu mobile và hoàn trả focus về nút toggle.
+     - Anchor Offset: Toàn bộ anchor `#kham-pha`, `#cach-hoat-dong`, `#nft`, `#nguoi-dong-hanh`, `#ho-tro`, `#main` đều có `scroll-margin-top: calc(var(--header-height) + 16px)`, click CTA không bị header che mất form tìm kiếm.
+  2. **Tách & Nâng cấp Hero Component (`src/components/home/hero.tsx`):**
+     - Tách độc lập, rõ ràng trách nhiệm; compose tự nhiên vào `src/app/page.tsx`.
+     - Chiều cao thích ứng: `min-height: 520px` (mobile) và `680px` (desktop), loại bỏ 100vh để thanh tìm kiếm `PropertyExplorer` lộ diện tự nhiên ở cạnh dưới điện thoại khi tải trang.
+     - Đo đạc tương phản: Chữ H1/Lead trên lớp phủ Ink `#102D3B` đạt tỷ lệ **11.8:1 (AAA)**; chữ nhấn `em` đạt **7.8:1 (AAA)**.
+     - Thiết lập sẵn các data hooks phục vụ motion GSAP về sau: `data-hero-media`, `data-hero-content`, `data-hero-title`, `data-hero-cta`.
+  3. **SiteFooter Điều hướng Cấu trúc (`src/components/site-footer.tsx`):**
+     - Nền Ink `#102D3B` sang trọng, viền mảnh `1px solid rgba(255, 255, 255, 0.12)`.
+     - Phân bổ 2 cột điều hướng trên mobile với touch target link ≥ 40-44px; bảo toàn 100% 7 liên kết chức năng hiện có.
+     - Khối triết lý `footer-note` viền vàng champagne và khối bản quyền `footer-bottom` trang nhã.
+  4. **Final CTA Container:**
+     - Thiết kế card bề mặt surface ấm áp (`#F5F3EE`) trước footer, viền mảnh, padding thoáng đãng, tạo nhịp nghỉ thanh lịch trước khi vào footer nền tối.
+  5. **Bộ ảnh Nghiệm thu P03 (`docs/qa/ui-upgrade/P03/`):**
+     - Đã chụp 10 ảnh kiểm soát viewport (360/390/430/768/1440px), short-height mobile (390×600) và zoom 200% CSS: `imageFailures = 0`, không tràn ngang (`scrollWidth = clientWidth`).
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 42/42 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic tối ưu sạch sẽ).
+  + Playwright E2E Accessibility & Journey (Chromium desktop & mobile): **22/22 ĐẠT (100%)**.
+- Bước tiếp theo: [P04 — Câu chuyện Xland](ui-upgrade/phases/P04-xland-story.md).
 
 ## Nghiệm thu Giai đoạn P02 — 03/10/2026
 

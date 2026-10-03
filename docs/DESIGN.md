@@ -191,3 +191,23 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
 - **Cảnh quan Xland Story:** `public/images/xland-story.webp` (1080×1440, 211.8 KB), tỷ lệ 3:4 chiều dọc, chiều sâu phong cảnh thiên nhiên Việt Nam phù hợp cho section câu chuyện thương hiệu.
 - **Tối ưu PropertyImage:** Bổ sung cơ chế declarative `failedSrc` để tự động khôi phục hiển thị ảnh khi `src` thay đổi, không gây render cascade.
 - **Media Proof Sheet:** Tuyến đường `/qa-media-proof` đóng vai trò contact sheet nghiệm thu 4 persona, các kích thước Avatar, cảnh quan Xland story, và kịch bản phục hồi khi ảnh lỗi.
+
+### 12.7. Quy chuẩn Khung giao diện (Shell), Hero và Footer (P03)
+- **SiteHeader (`src/components/site-header.tsx`):**
+  - Chiều cao header: `--header-height: 68px` trên mobile (<1024px), `80px` trên desktop (≥1024px).
+  - Nền mờ kính đục: `rgba(255, 255, 255, 0.96); backdrop-filter: blur(16px)` loại bỏ hiện tượng bóng chữ khi cuộn qua nội dung tối/ảnh.
+  - Phân cách: Viền mảnh `1px solid var(--color-border-subtle)`.
+  - Menu toggle: Chạm tối thiểu 44×44px, có nhãn accessibility rõ ràng (`Mở menu điều hướng` / `Đóng menu điều hướng`).
+  - Mobile Menu Panel: Non-modal navigation panel dưới header, các liên kết có touch target ≥ 44px, nút CTA `Tìm lô đất phù hợp` chiếm trọn bề ngang dễ thao tác.
+  - Phím Escape: Tự động đóng menu và hoàn trả focus về toggle button.
+  - Anchor Offset: Tất cả các phân đoạn chính (`#kham-pha`, `#cach-hoat-dong`, `#nft`, `#nguoi-dong-hanh`, `#ho-tro`, `#main`) đều có `scroll-margin-top: calc(var(--header-height) + 16px)` chống che lấp nội dung bởi header cố định.
+- **Hero Section (`src/components/home/hero.tsx`):**
+  - Chiều cao thích ứng: `min-height: 520px` trên mobile, `680px` trên desktop; không dùng 100vh để thanh tìm kiếm `PropertyExplorer` lộ diện tự nhiên ở cạnh dưới màn hình điện thoại khi vừa tải trang.
+  - Lớp phủ bóng Ink: Gradient tuyến tính chuyển tiếp từ `rgb(16 45 59 / 76%)` đến `rgb(16 45 59 / 92%)` trên mobile, và 92% qua 76% đến 28% trên desktop. Độ tương phản chữ trắng trên nền đạt chuẩn AAA (11.8:1).
+  - Typography: H1 “Một miền đất. Vạn khởi đầu.” cân line break hoàn chỉnh tại 360/390/430px mà không ép cứng; chữ nhấn `em` màu On-dark Gold `#D8C49D`.
+  - Data hooks cho Motion tương lai (P07/P08): `data-hero-media`, `data-hero-content`, `data-hero-title`, `data-hero-cta`, `data-hero-bottom`.
+- **SiteFooter (`src/components/site-footer.tsx`):**
+  - Nền Ink `#102D3B`, viền trên `1px solid rgba(255, 255, 255, 0.12)`.
+  - Phân nhóm 2 cột điều hướng trên mobile với touch target link ≥ 40-44px. Đủ 7 liên kết hiện hữu.
+  - Khối triết lý `footer-note` viền vàng champagne và khối bản quyền `footer-bottom` trang nhã.
+- **Final CTA Container:** Chuyển thể thành card bề mặt surface ấm áp (`#F5F3EE`) trước footer, viền mảnh, padding thoáng đãng, tạo nhịp nghỉ thanh lịch trước khi vào footer nền tối.
