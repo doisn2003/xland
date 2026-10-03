@@ -239,3 +239,37 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
   - `data-story-step`: Từng bước đơn lẻ để animate staggered.
   - `data-story-actions`: Cụm nút CTA và sublink.
   - `data-story-media`: Khung ảnh chủ đạo bên cạnh.
+
+### 12.9. Quy chuẩn Section Bất động sản NFT Story (P05)
+- **Component & Cấu trúc Semantic (`src/components/home/nft-story.tsx`):**
+  - Section Server Component tinh gọn, `id="nft"`, `aria-labelledby="nft-heading"`.
+  - Heading hierarchy chuẩn: H2 cho tiêu đề section, H3 cho các bước quy trình và panel phương án.
+  - Mạch đọc mobile first: `Eyebrow → H2 → Lead → Ảnh lớn → Sơ đồ 3 bước → Panel phương án → Chú thích → CTAs`.
+- **Nhịp Thị giác Sáng / Tối (Dark Contrast Rhythm):**
+  - Nền Ink `#102D3B` (gradient `linear-gradient(180deg, #102d3b 0%, #0d2531 100%)`) full-width.
+  - Đóng vai trò khoảng lặng thị giác sang trọng, tạo điểm nhấn công nghệ giữa chương Xland Story (nền sáng `#F5F3EE`) và chương Người đồng hành (`#nguoi-dong-hanh`, nền sáng).
+- **Asset Media:**
+  - Asset `public/images/garden-retreat.webp` (1536×1024), tỷ lệ 16:10 trên mobile và 4:3 trên desktop.
+  - Tích hợp qua `PropertyImage` với declarative fallback giữ nguyên bố cục và khả năng đọc khi ảnh tải chậm hoặc offline.
+- **Sơ đồ Quy trình 3 bước (Native HTML/SVG):**
+  - Ba bước: `01. Hồ sơ tài sản` → `02. Phương án NFT` → `03. Danh mục của bạn`.
+  - Mũi tên kết nối mảnh `aria-hidden="true"`, số thứ tự badge viền champagne `#D8C49D`.
+  - Thể hiện quy trình tìm hiểu/tham gia minh bạch; không gây hiểu lầm là chia ranh giới địa chính hay thửa đất vật lý.
+- **Panel Định lượng Phương án Minh họa:**
+  - Dữ liệu động lấy từ `src/features/nft/presentation.ts` dựa trên offering mở bán thật (`XL-001` - `Miền xanh ven sông`): Tổng cung 1.000 NFT (chuẩn ERC-1155), đơn giá 2.800.000 ₫, tỷ lệ 0,1% / 1 NFT và 1% / 10 NFT.
+  - Loại bỏ hoàn toàn tồn seed để tránh nhầm lẫn sau khi mua theo BRIEF D2.
+  - Lưới Visual Matrix 20 ô nhỏ trực quan hóa tỷ lệ 1% / 10 NFT kèm disclaimer pháp lý rõ ràng.
+- **Tương phản & Khả năng tiếp cận (WCAG 2 AA & AAA):**
+  - Tiêu đề H2 (`.nft-title`): Chữ trắng `#FFFFFF` trên nền Ink `#102D3B`, đạt tương phản **14.2:1 (AAA)**; chữ nhấn Warm Gold `#D8C49D` đạt **7.8:1 (AAA)**.
+  - Nút CTA chính (`.nft-cta-primary`): Chữ đậm `#102D3B` trên nền Warm Gold `#D8C49D`, đạt tương phản **7.8:1 (AAA)**.
+  - Link phụ (`.nft-link-sub`): Chữ `#E0ECEF` trên nền Ink `#102D3B`, đạt tương phản **12.5:1 (AAA)**.
+  - Neo cuộn: `scroll-margin-top: 96px`, đảm bảo khi nhấn link anchor `#nft`, tiêu đề section luôn nằm dưới header cố định an toàn ít nhất 28–32px.
+- **Data Hooks chuẩn bị cho Motion (P07/P08):**
+  - `data-nft-story`: Vùng chứa toàn section.
+  - `data-nft-content`: Cột nội dung chính trên desktop.
+  - `data-nft-header`: Cụm eyebrow, tiêu đề H2 và đoạn lead.
+  - `data-nft-media`: Khung ảnh tài sản lớn.
+  - `data-nft-flow`: Sơ đồ quy trình 3 bước.
+  - `data-nft-step`: Từng bước trong sơ đồ.
+  - `data-nft-panel`: Khối panel định lượng và visual matrix.
+  - `data-nft-actions`: Cụm nút CTA và link phụ.

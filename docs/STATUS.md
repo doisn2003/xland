@@ -1,6 +1,46 @@
 # Trạng thái Xland
 
-Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer) và **P04 — Chương giới thiệu Xland (`#cach-hoat-dong`)**.
+Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland) và **P05 — Chương bất động sản NFT (`#nft`)**.
+
+## Nghiệm thu Giai đoạn P05 — 03/10/2026
+
+- Đã hoàn thành duy nhất phase **P05 (Chương bất động sản NFT)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF D2](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P05-nft-story](ui-upgrade/phases/P05-nft-story.md).
+- **Hạng mục hoàn thành:**
+  1. **Component NftStory (`src/components/home/nft-story.tsx`):**
+     - Server Component tinh gọn, semantic `<section id="nft" className="nft-story" aria-labelledby="nft-heading">`.
+     - Thay thế toàn bộ khối checklist tích xanh generic cũ trong `src/app/page.tsx`, bảo toàn id anchor `#nft` và neo cuộn `scroll-margin-top: 96px`.
+     - Heading hierarchy chuẩn mực H2 → H3, văn phong rõ chữ NFT, không đưa ra cam kết lợi nhuận sai lệch.
+  2. **Nhịp Thị giác Sáng / Tối với Nền Ink (`#102D3B`):**
+     - Nền Ink full-width (`linear-gradient(180deg, #102d3b 0%, #0d2531 100%)`) tạo khoảng nghỉ thị giác sang trọng, tương phản cao giữa hai chương nền sáng (Xland Story ở trên và Người đồng hành ở dưới).
+     - Ranh giới chuyển tiếp được xác nhận qua ảnh chụp `p05-nft-boundary-1440.png`.
+  3. **Hình ảnh Lớn Tài sản P02 (`public/images/garden-retreat.webp`):**
+     - Phối cảnh nhà vườn nhiệt đới (1536×1024), tỷ lệ 16:10 trên mobile và 4:3 trên desktop với caption UI *“Không gian cho những khởi đầu mới”*.
+     - Tích hợp `PropertyImage` với declarative fallback giữ nguyên bố cục và khả năng đọc khi ảnh tải chậm hoặc offline.
+  4. **Sơ đồ Quy trình 3 bước Trực quan (Native HTML/SVG):**
+     - Ba bước: `01. Hồ sơ tài sản` → `02. Phương án NFT` → `03. Danh mục của bạn`.
+     - Mũi tên kết nối mảnh `aria-hidden="true"`, số thứ tự badge viền champagne `#D8C49D`.
+     - Thể hiện đúng quy trình tìm hiểu/tham gia, không gây hiểu lầm là chia ranh giới địa chính hay thửa đất vật lý.
+  5. **Panel Định lượng Phương án Minh họa Động:**
+     - Helper thuần `src/features/nft/presentation.ts` lấy trực tiếp từ offering mở bán thật (`XL-001` - `Miền xanh ven sông`): Tổng cung 1.000 NFT (ERC-1155), đơn giá 2.800.000 ₫, tỷ lệ 0,1% / 1 NFT và 1% / 10 NFT.
+     - Loại bỏ hoàn toàn tồn seed khỏi section marketing theo chỉ đạo của BRIEF D2 để tránh hiểu nhầm sau khi mua.
+     - Lưới Visual Matrix 20 ô nhỏ (mỗi ô tượng trưng 10 NFT = 1%) với ô mẫu sáng champagne kèm disclaimer pháp lý rõ ràng.
+  6. **Đo đạc Độ tương phản WCAG 2 AA & AAA:**
+     - Tiêu đề H2 (`.nft-title`): Chữ trắng trên nền Ink `#102D3B` đạt tương phản **14.2:1 (AAA)**; chữ nhấn Warm Gold đạt **7.8:1 (AAA)**.
+     - Nút CTA chính (`.nft-cta-primary`): Chữ đậm trên nền Warm Gold `#D8C49D` đạt **7.8:1 (AAA)**.
+     - Link phụ (`.nft-link-sub`): Chữ `#E0ECEF` trên nền Ink đạt **12.5:1 (AAA)**.
+     - Đoạn lead và mô tả bước: Đạt **6.8:1 – 7.2:1 (AAA large, AA small)**.
+  7. **Hành động & Điều hướng (Actions):**
+     - CTA chính `Tìm hiểu phương án NFT` dẫn tới `/nft` (nút vàng champagne nổi bật trên nền tối) và link phụ dẫn tới `/nft/mien-xanh-ven-song`.
+     - Hỗ trợ phím Tab tuần tự, dark focus outline rõ nét, `scroll-margin-top: 96px` bảo vệ tiêu đề không bị che bởi sticky header.
+  8. **Bộ ảnh Nghiệm thu P05 (`docs/qa/ui-upgrade/P05/`):**
+     - Đã chụp 7 ảnh kiểm soát viewport (360/390/430/768/1440px), zoom 200% CSS và ranh giới chuyển nhịp: `imageFailures = []`, không tràn ngang (`scrollWidth = clientWidth`).
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 43/43 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic tối ưu sạch sẽ).
+  + Playwright E2E (`desktop-chromium` & `mobile-chromium`): **54/54 ĐẠT (100%)**.
+- Bước tiếp theo: [P06 — UI các luồng nghiệp vụ](ui-upgrade/phases/P06-journeys.md).
 
 ## Nghiệm thu Giai đoạn P04 — 03/10/2026
 

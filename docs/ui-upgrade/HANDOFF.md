@@ -14,7 +14,7 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 | P02 | Đã hoàn thành | Chân dung 4 persona hư cấu, cảnh quan Xland story, module advisors, Avatar component (sm/md/lg/portrait) & themes initials, PropertyImage failedSrc, proof sheet /qa-media-proof, 9 ảnh tại docs/qa/ui-upgrade/P02/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P03 | Đã hoàn thành | SiteHeader kính mờ 68/80px, mobile menu Escape/focus, Hero component tách riêng không 100vh lộ search, SiteFooter 2 cột điều hướng, final-cta card, 10 ảnh tại docs/qa/ui-upgrade/P03/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P04 | Đã hoàn thành | XlandStory component Server Component, semantic H2/H3, mobile order tự nhiên, desktop split 5/12 và 6.2/12, ảnh xland-story.webp, 3 bước đánh số 01/02/03 contrast 7.35:1 AAA, CTA /lo-dat + sublink #nguoi-dong-hanh, 6 ảnh tại docs/qa/ui-upgrade/P04/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
-| P05 | Chưa bắt đầu | Section NFT chưa đổi |
+| P05 | Đã hoàn thành | NftStory component Server Component, nền Ink full-width, ảnh garden-retreat.webp, sơ đồ quy trình 3 bước HTML/SVG, panel định lượng presentation động, visual matrix 20 ô, CTA /nft + link phụ /nft/mien-xanh-ven-song, 7 ảnh tại docs/qa/ui-upgrade/P05/; 43/43 unit đạt, 54/54 E2E desktop/mobile-chromium đạt |
 | P06 | Chưa bắt đầu | UI các luồng chưa đổi |
 | P07 | Chưa bắt đầu | GSAP và @gsap/react chưa cài |
 | P08 | Chưa bắt đầu | Chưa có choreography mới |
@@ -23,43 +23,45 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 ## Bản ghi bàn giao gần nhất
 
 ```text
-Phase / ngày / commit hoặc working tree: P04 / 03/10/2026 / nền commit ae86f5e.
+Phase / ngày / commit hoặc working tree: P05 / 03/10/2026 / nền commit 786a10f.
 Kết quả và file đã thay đổi:
-- src/components/home/xland-story.tsx: Tạo mới component XlandStory (Server Component), semantic section id="cach-hoat-dong", heading H2 "Mỗi miền đất, một khởi đầu đáng hiểu.", danh sách ol 3 bước đánh số 01/02/03 với aria-hidden cho số thứ tự, nút CTA primary /lo-dat và sublink ghost #nguoi-dong-hanh, đầy đủ data hooks cho GSAP (data-xland-story, data-story-content, data-story-header, data-story-steps, data-story-step, data-story-actions, data-story-media).
-- src/app/page.tsx: Thay thế khối .why-section và .values-grid cũ bằng <XlandStory />, bảo toàn thứ tự các section trên trang chủ.
-- src/app/globals.css: Loại bỏ class .why-section và .values-grid cũ; định nghĩa layout responsive cho .xland-story, .story-inner, .story-media-frame, .story-steps, .story-step-item, .story-actions. Trên mobile (<1024px) áp dụng .story-content { display: contents; } kết hợp CSS Grid order để đạt thứ tự Eyebrow → H2 → Lead → Ảnh → 3 Hàng → CTA mà không duplicate DOM. Trên desktop (≥1024px) phân chia 2 cột cân đối 5/12 ảnh và 6.2/12 nội dung.
-- scripts/capture-p04.mjs: Tạo script capture tự động kiểm tra và chụp 6 ảnh có metadata tại 5 viewports (360/390/430/768/1440px), zoom 200%, kiểm tra tương tác bàn phím và scroll anchor không bị header che lấp.
-- docs/qa/ui-upgrade/P04/: Lưu trữ 6 ảnh nghiệm thu, metadata.json và báo cáo chi tiết README.md (imageFailures = 0, scrollWidth = clientWidth).
-- docs/DESIGN.md: Bổ sung mục 12.8 quy chuẩn thiết kế Section Xland Story (layout, typography, contrast, data hooks).
-- docs/STATUS.md: Bổ sung mục Nghiệm thu P04 với số liệu kiểm tra thực tế.
+- src/components/home/nft-story.tsx: Tạo mới component NftStory (Server Component), semantic section id="nft", heading H2 "Một tài sản. Một phương án rõ ràng.", sơ đồ quy trình 3 bước (Hồ sơ tài sản → Phương án NFT → Danh mục của bạn) bằng native HTML/SVG, panel định lượng lấy số liệu từ nguồn thật (1.000 NFT, 2.800.000 ₫, 0,1% và 1%), lưới Visual Matrix 20 ô nhỏ trực quan hóa tỷ lệ phân đoạn, nút CTA chính /nft và link phụ /nft/mien-xanh-ven-song, đầy đủ data hooks cho GSAP.
+- src/features/nft/presentation.ts: Tạo helper thuần getFeaturedOfferingPresentation() và formatNftShare() derive dữ liệu an toàn từ offering mở bán thật (XL-001 - Miền xanh ven sông), có unit test biên độ đầy đủ.
+- src/app/page.tsx: Thay thế khối checklist tích xanh cũ bằng <NftStory />, bảo toàn thứ tự các section trên trang chủ.
+- src/app/globals.css: Loại bỏ CSS nft cũ; định nghĩa layout responsive cho .nft-story, .nft-story-inner, .nft-flow, .nft-panel, .nft-visual-matrix, .nft-actions trên nền Ink full-width. Trên mobile (<1024px) áp dụng display contents kết hợp order tự nhiên. Trên desktop (≥1024px) bố cục 2 cột cân xứng 5/12 ảnh sticky và 6.5/12 nội dung.
+- tests/unit/nft.test.ts: Bổ sung bộ test unit cho presentation helper (đạt 43/43 unit tests).
+- scripts/capture-p05.mjs: Tạo script capture tự động kiểm tra và chụp 7 ảnh có metadata tại 5 viewports (360/390/430/768/1440px), zoom 200%, ranh giới sáng-tối, dark focus và kiểm tra không chứa từ cấm.
+- docs/qa/ui-upgrade/P05/: Lưu trữ 7 ảnh nghiệm thu, metadata.json và báo cáo chi tiết README.md (imageFailures = 0, scrollWidth = clientWidth).
+- docs/DESIGN.md: Bổ sung mục 12.9 quy chuẩn thiết kế Section NFT Story (màu sắc, tỷ lệ, sơ đồ quy trình, visual fractional matrix, typography, data hooks).
+- docs/STATUS.md: Bổ sung mục Nghiệm thu P05 với số liệu kiểm tra thực tế.
 Quyết định đã thực thi:
-- Triệt để xóa bỏ 3 card trắng độc lập và 3 icon tròn xanh của mốc 1A; thay thế bằng bố cục thương hiệu cao cấp gắn kết, lấy cảm hứng từ nhịp Sunshine Group.
-- Số thứ tự bước 01/02/03 sử dụng token --color-primary (#164B60) trên nền --color-surface (#F5F3EE) đạt tỉ lệ tương phản 7.35:1 (chuẩn WCAG 2 AAA), vượt qua hoàn toàn bài test AxeBuilder a11y.
-- Dùng .story-content { display: contents; } trên mobile để các phần tử con trực tiếp tham gia CSS Grid của .story-inner, cho phép sắp đặt thứ tự ảnh nằm giữa lead và 3 bước một cách hoàn toàn tự nhiên theo art direction.
-- Khung ảnh PropertyImage tỷ lệ 4:3 (mobile) và 4:5 (desktop) với caption ngữ cảnh tự nhiên; giữ nguyên layout và khả năng đọc nếu ảnh lỗi.
-- Đặt scroll-margin-top: 96px để anchor #cach-hoat-dong luôn cuộn dừng cách header cố định 28-32px an toàn.
+- Xóa bỏ triệt để danh sách 3 checklist tích xanh đơn điệu của mốc 1A; thay bằng sơ đồ quy trình 3 bước trực quan và panel thông số phương án cao cấp.
+- Nền Ink (#102D3B) full-width với gradient nhẹ tạo khoảng lặng thị giác tương phản mạnh mẽ giữa chương Xland Story (nền sáng) và Người đồng hành (nền sáng).
+- Dữ liệu định lượng lấy trực tiếp từ offering mở bán thật (XL-001), loại bỏ hoàn toàn tồn seed khỏi section marketing theo BRIEF D2 để tránh hiểu nhầm sau khi mua.
+- Sơ đồ quy trình và visual matrix nhấn mạnh việc phân đoạn theo phương án phát hành, có disclaimer rõ ràng không thay thế quyền sử dụng đất hoặc chia ranh giới vật lý.
+- Độ tương phản WCAG 2 AAA: H2 (14.2:1), CTA chính (7.8:1), link phụ (12.5:1).
 Hành vi bắt buộc đã giữ:
-- 42/42 unit tests tiếp tục pass 100%.
-- 22/22 Playwright E2E tests (accessibility WCAG 2 AA & journey) tiếp tục pass 100% trên cả Desktop và Mobile Chromium.
-- Toàn bộ flow nghiệp vụ 1B (search, filter, save, booking, purchase panel, catalog) hoạt động trơn tru.
-- Giữ nguyên anchor #cach-hoat-dong, liên kết footer và header không bị xáo trộn.
+- 43/43 unit tests pass 100%.
+- 54/54 Playwright E2E tests (accessibility WCAG 2 AA & journey) pass 100% trên cả Desktop và Mobile Chromium.
+- Toàn bộ luồng nghiệp vụ 1B (search, filter, save, booking, purchase panel, catalog) hoạt động nguyên vẹn.
+- Giữ nguyên anchor #nft, liên kết footer và header không bị xáo trộn.
 Kiểm tra:
 - pnpm lint: ĐẠT (0 warning, 0 error).
 - pnpm typecheck: ĐẠT (0 error).
-- pnpm test: ĐẠT (42/42 unit tests passed).
+- pnpm test: ĐẠT (43/43 unit tests passed).
 - pnpm build: ĐẠT (25 routes SSG/dynamic tối ưu sạch sẽ).
-- Playwright E2E a11y & journey: ĐẠT 22/22.
+- Playwright E2E desktop-chromium & mobile-chromium: ĐẠT 54/54.
 Ảnh và điểm đã quan sát:
-- 6 ảnh chụp trong docs/qa/ui-upgrade/P04/ xác nhận ảnh chủ đạo sắc nét, bố cục 2 cột cân xứng trên desktop, 1 luồng đọc dọc liền mạch trên mobile, không tràn ngang ở zoom 200%.
+- 7 ảnh chụp trong docs/qa/ui-upgrade/P05/ xác nhận nền Ink sang trọng, ảnh nhà vườn nhiệt đới sắc nét, sơ đồ quy trình mạch lạc, panel định lượng rõ ràng, không tràn ngang ở zoom 200%.
 Blocker / rủi ro / nội dung còn dở:
-- 7 lỗi WebKit viewport trên môi trường Windows tiếp tục được ghi nhận và cô lập như P00; không gây ảnh hưởng đến Chromium desktop/mobile.
+- 8 lỗi WebKit viewport trên môi trường Windows tiếp tục được ghi nhận và cô lập như P00; không gây ảnh hưởng đến Chromium desktop/mobile.
 Phase tiếp theo và 6 file nên đọc đầu tiên:
-1. docs/ui-upgrade/phases/P05-nft-section.md (Nhiệm vụ P05 — Section NFT và công nghệ)
-2. docs/ui-upgrade/BRIEF.md (Mục D2 — Chương NFT và công nghệ)
+1. docs/ui-upgrade/phases/P06-journeys.md (Nhiệm vụ P06 — Nâng cấp UI các luồng nghiệp vụ)
+2. docs/ui-upgrade/BRIEF.md (Mục F/G — Quy chuẩn kiểm tra và nghiệm thu)
 3. docs/DESIGN.md (Mục 12 — Design System & Tokens)
-4. src/app/page.tsx (Section #nft hiện tại)
-5. src/components/home/xland-story.tsx (Tham chiếu cấu trúc section vừa hoàn thiện)
-6. src/app/globals.css (CSS tokens và utility layout)
+4. src/features/journey/ (Luồng lưu lô đất, lịch xem thực địa, reset demo)
+5. src/features/nft/purchase-panel.tsx (Giao diện mua NFT và portfolio)
+6. src/app/globals.css (CSS tokens và forms/controls)
 ```
 
 ## Điểm mở cần kế thừa
