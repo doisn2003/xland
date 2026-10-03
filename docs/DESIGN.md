@@ -211,3 +211,31 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
   - Phân nhóm 2 cột điều hướng trên mobile với touch target link ≥ 40-44px. Đủ 7 liên kết hiện hữu.
   - Khối triết lý `footer-note` viền vàng champagne và khối bản quyền `footer-bottom` trang nhã.
 - **Final CTA Container:** Chuyển thể thành card bề mặt surface ấm áp (`#F5F3EE`) trước footer, viền mảnh, padding thoáng đãng, tạo nhịp nghỉ thanh lịch trước khi vào footer nền tối.
+
+### 12.8. Quy chuẩn Chương Giới thiệu Xland Story (P04)
+- **Component & Cấu trúc Semantic (`src/components/home/xland-story.tsx`):**
+  - Section Server Component nhẹ, `id="cach-hoat-dong"`, `aria-labelledby="story-heading"`.
+  - Heading hierarchy chuẩn: H2 cho tiêu đề section, H3 cho từng bước đánh số trong danh sách `<ol class="story-steps">`.
+  - Số thứ tự bước `01`, `02`, `03` có `aria-hidden="true"` để trình đọc màn hình đọc trực tiếp tiêu đề bước mà không bị lặp âm.
+- **Thứ tự Đọc & Hiển thị Mobile First (<1024px):**
+  - Mạch tiếp nhận thông tin tự nhiên: `Eyebrow → H2 → Lead → Ảnh chủ đạo → 3 Hàng bước → CTA Actions`.
+  - Kỹ thuật: Sử dụng `.story-content { display: contents; }` kết hợp CSS Grid `order` trên container `.story-inner` để đạt chính xác thứ tự thị giác mà không cần duplicate DOM hay phụ thuộc JavaScript.
+- **Bố cục Desktop (≥1024px):**
+  - Tỷ lệ 2 cột thanh lịch: Ảnh chủ đạo chiếm 5/12 bên trái, khối nội dung dẫn dắt chiếm 6.2/12 bên phải, khoảng cách cột `72px`, padding-block `96px`.
+  - Khung ảnh có viền hairline `1px solid var(--color-border-subtle)` và chú thích bối cảnh tự nhiên bên dưới.
+- **Asset Media:**
+  - Ảnh chủ đạo `public/images/xland-story.webp` (1600×1200 WebP), tỷ lệ 4:3 trên mobile và 4:5 trên desktop.
+  - Tích hợp `PropertyImage` với declarative fallback giữ nguyên bố cục và khả năng đọc khi ảnh tải chậm hoặc offline.
+- **Tương phản & Khả năng tiếp cận (WCAG 2 AA & AAA):**
+  - Số bước `01`, `02`, `03` (`.story-step-num`): Sử dụng Deep Teal `var(--color-primary)` (`#164B60`) trên nền bề mặt ấm `var(--color-surface)` (`#F5F3EE`), đạt tương phản **7.35:1 (AAA)**.
+  - Tiêu đề H2 và Heading H3: Ink `#162429` trên `#F5F3EE`, đạt tương phản **12.1:1 (AAA)**.
+  - Đoạn lead và mô tả: Muted Slate `#455A64` trên `#F5F3EE`, đạt tương phản **6.2:1 (AA)**.
+  - Neo cuộn: `scroll-margin-top: 96px`, đảm bảo khi click link anchor `#cach-hoat-dong` từ bất kỳ vị trí nào, tiêu đề section luôn nằm dưới header cố định an toàn ít nhất 28–32px.
+- **Data Hooks chuẩn bị cho Motion (P07/P08):**
+  - `data-xland-story`: Vùng chứa toàn section.
+  - `data-story-content`: Vùng văn bản và bước dẫn dắt.
+  - `data-story-header`: Cụm eyebrow, tiêu đề H2 và đoạn lead.
+  - `data-story-steps`: Danh sách các bước.
+  - `data-story-step`: Từng bước đơn lẻ để animate staggered.
+  - `data-story-actions`: Cụm nút CTA và sublink.
+  - `data-story-media`: Khung ảnh chủ đạo bên cạnh.

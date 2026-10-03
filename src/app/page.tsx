@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Hero } from "@/components/home/hero";
+import { XlandStory } from "@/components/home/xland-story";
 import { PropertyImage } from "@/components/property-image";
 import { PropertyExplorer } from "@/components/property-explorer";
 import { Icon } from "@/components/icon";
@@ -11,15 +12,7 @@ export default function Home() {
     <main id="main">
       <Hero />
       <PropertyExplorer />
-      <section className="why-section section" id="cach-hoat-dong">
-        <div className="container"><div className="section-heading centered"><p className="eyebrow">CÙNG BẠN NHÌN XA HƠN</p><h2>Một hành trình. Nhiều giá trị.</h2><p>Từ cảm hứng đầu tiên đến hiểu rõ một miền đất,<br className="desktop-break" /> Xland kết nối từng bước trong cùng một trải nghiệm.</p></div>
-          <div className="values-grid">
-            <article><span className="feature-icon"><Icon name="search" /></span><h3>Khám phá có chọn lọc</h3><p>Tìm theo khu vực, ngân sách và không gian sống. Những thông tin quan trọng nằm ngay trong tầm mắt.</p></article>
-            <article><span className="feature-icon"><Icon name="area" /></span><h3>Hiểu rõ trước khi chọn</h3><p>Cảnh quan, diện tích, lối tiếp cận và hồ sơ được đặt cạnh nhau để bạn có thêm cơ sở tìm hiểu.</p></article>
-            <article><span className="feature-icon"><Icon name="layers" /></span><h3>Kết nối cùng NFT</h3><p>Khám phá mô hình nhiều người tham gia một tài sản với số lượng NFT và tỷ lệ phân đoạn rõ ràng.</p></article>
-          </div>
-        </div>
-      </section>
+      <XlandStory />
       <section className="container section nft-section" id="nft">
         <div className="nft-photo"><PropertyImage src="/images/garden-retreat.webp" alt="Không gian nhà vườn mở ra đồng xanh và đồi núi" sizes="(max-width: 767px) 100vw, 600px" /><span className="photo-caption">Không gian cho những khởi đầu mới</span></div>
         <div className="nft-copy"><p className="eyebrow">BẤT ĐỘNG SẢN NFT</p><h2>Cùng một miền đất.<br /><em>Thêm nhiều cơ hội.</em></h2><p>Một cách tiếp cận mới với bất động sản: tìm hiểu phương án phân đoạn, số lượng NFT và quyền lợi gắn với từng tài sản.</p><ul><li><Icon name="check" /> Hồ sơ tài sản và phương án đi cùng nhau</li><li><Icon name="check" /> Giá mỗi NFT và tỷ lệ được thể hiện rõ</li><li><Icon name="check" /> Bắt đầu bằng một trải nghiệm dễ hiểu</li></ul><Link className="button" href="/nft">Tìm hiểu phương án NFT <Icon name="arrow" /></Link></div>

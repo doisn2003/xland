@@ -1,6 +1,44 @@
 # Trạng thái Xland
 
-Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung) và **P03 — Header, Hero và Footer**.
+Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer) và **P04 — Chương giới thiệu Xland (`#cach-hoat-dong`)**.
+
+## Nghiệm thu Giai đoạn P04 — 03/10/2026
+
+- Đã hoàn thành duy nhất phase **P04 (Chương giới thiệu Xland)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF D1](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P04-xland-story](ui-upgrade/phases/P04-xland-story.md).
+- **Hạng mục hoàn thành:**
+  1. **Component XlandStory (`src/components/home/xland-story.tsx`):**
+     - Tách độc lập, Server Component tinh gọn, semantic `<section id="cach-hoat-dong" aria-labelledby="story-heading">`.
+     - Thay thế toàn bộ khối `.why-section` / `.values-grid` cũ trong `src/app/page.tsx`, bảo toàn thứ tự các section trên trang chủ.
+     - Heading hierarchy chuẩn mực H2 → H3; các số thứ tự `01`, `02`, `03` có `aria-hidden="true"` để trình đọc màn hình tiếp cận mạch lạc.
+  2. **Thứ tự Mobile First Tự nhiên (<1024px):**
+     - Đạt chính xác trình tự yêu cầu: `Eyebrow → H2 → Lead → Ảnh chủ đạo → 3 Hàng bước → CTA Actions`.
+     - Kỹ thuật: Sử dụng `.story-content { display: contents; }` kết hợp CSS Grid `order` trên container `.story-inner` để thay đổi thứ tự thị giác mà không duplicate DOM.
+  3. **Bố cục Desktop (≥1024px):**
+     - Tỷ lệ 2 cột cân xứng: 5/12 ảnh chủ đạo bên trái, 6.2/12 nội dung bên phải, khoảng cách cột `72px`, padding-block `96px`.
+     - Không để khoảng trống thừa ở chân ảnh. Khung ảnh có hairline viền mảnh và chú thích ngữ cảnh tự nhiên.
+  4. **Hình ảnh Chủ đạo P02 (`public/images/xland-story.webp`):**
+     - Cảnh đồi chè và thung lũng Bảo Lộc trong nắng sớm (1600×1200 WebP), tỷ lệ 4:3 trên mobile và 4:5 trên desktop.
+     - Tích hợp qua `PropertyImage` với declarative fallback giữ nguyên bố cục và khả năng đọc khi ảnh tải chậm hoặc offline.
+  5. **Ba Hàng Đánh số Thay thế Khối Card Cũ:**
+     - Xóa bỏ triệt để 3 card trắng rời rạc và 3 icon tròn xanh generic của mốc 1A.
+     - Danh sách `<ol class="story-steps">` với 3 bước hành động thực tế: `01. Khám phá có chọn lọc`, `02. Hiểu rõ từng lựa chọn`, `03. Kết nối bước tiếp theo`.
+     - Đường divider hairline mảnh giữa các bước tạo nhịp thị giác thanh thoát.
+  6. **Đo đạc Độ tương phản WCAG 2 AA & AAA:**
+     - Số bước `01`, `02`, `03` (`.story-step-num`): Sử dụng Deep Teal `var(--color-primary)` (`#164B60`) trên nền surface `#F5F3EE`, đạt tương phản **7.35:1 (AAA)**.
+     - Tiêu đề H2 và Heading H3: Ink `#162429` trên `#F5F3EE`, đạt tương phản **12.1:1 (AAA)**.
+     - Đoạn lead và mô tả: Muted Slate `#455A64` trên `#F5F3EE`, đạt tương phản **6.2:1 (AA)**.
+  7. **Hành động & Điều hướng (Actions):**
+     - CTA primary `/lo-dat` ("Khám phá các lô đất") với icon mũi tên rõ nét, kèm sublink ghost `#nguoi-dong-hanh` ("Gặp người đồng hành").
+     - Hỗ trợ phím Tab tuần tự, outline focus tiêu chuẩn, `scroll-margin-top: 96px` bảo vệ tiêu đề không bị che bởi sticky header.
+  8. **Bộ ảnh Nghiệm thu P04 (`docs/qa/ui-upgrade/P04/`):**
+     - Đã chụp 6 ảnh kiểm soát viewport (360/390/430/768/1440px) và zoom 200% CSS: `imageFailures = []`, không tràn ngang (`scrollWidth = clientWidth`).
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 42/42 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic tối ưu sạch sẽ).
+  + Playwright E2E Accessibility & Journey (Chromium desktop & mobile): **22/22 ĐẠT (100%)**.
+- Bước tiếp theo: [P05 — Section NFT và công nghệ](ui-upgrade/phases/P05-nft-section.md).
 
 ## Nghiệm thu Giai đoạn P03 — 03/10/2026
 
