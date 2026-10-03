@@ -168,3 +168,26 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
   - Pending: Giữ nguyên kích thước bề ngang, con trỏ `wait`, opacity `0.85`.
   - Disabled: Độ mờ `0.55`, `pointer-events: none`, triệt tiêu toàn bộ glow/animation/shadow.
 - **Proof Sheet:** Tuyến đường kiểm định nội bộ `/qa-identity-proof` hiển thị toàn bộ logo, icon 15 món, bảng màu & độ tương phản đo đạc, button states và chuỗi dấu tiếng Việt.
+
+### 12.5. Quy chuẩn Component Avatar (`src/components/avatar.tsx`)
+- **Kích thước định sẵn:**
+  - `sm` (44 × 44px): Dùng cho badge chuyên viên trong card, inline context, touch target đạt tối thiểu 44px.
+  - `md` (64 × 64px): Kích thước mặc định, dùng trong section người đồng hành trang chủ và detail page.
+  - `lg` (80 × 80px): Dùng cho hồ sơ người đồng hành nổi bật.
+  - `portrait` (140 × 175px, tỷ lệ 4:5): Dùng cho hồ sơ chi tiết và presentation card.
+- **Hệ thống Theme Fallback:** Khi ảnh không tồn tại hoặc lỗi tải mạng, Avatar hiển thị chữ viết tắt (initials) trên nền màu token thương hiệu với tương phản cao (vượt chuẩn WCAG 2 AA ≥ 4.5:1):
+  - `MA` (`avatar-theme-teal`): Nền `#E6F4F1`, chữ `#0F5B4C` (tương phản 6.8:1).
+  - `HN` (`avatar-theme-sage`): Nền `#EDF5EE`, chữ `#2D5936` (tương phản 6.3:1).
+  - `TH` (`avatar-theme-navy`): Nền `#EAF0F6`, chữ `#1E4870` (tương phản 7.2:1).
+  - `NL` (`avatar-theme-sand`): Nền `#F6F0E6`, chữ `#6B4F1A` (tương phản 5.9:1).
+- **Khả năng tiếp cận (A11y):** Thuộc tính `decorative` mặc định `true` khi avatar đặt cạnh tên hiển thị nhằm ẩn thẻ `img` khỏi VoiceOver/NVDA (`aria-hidden="true"`, `alt=""`), tránh đọc lặp tên người hỗ trợ hai lần.
+
+### 12.6. Quy hoạch Asset Media & Tỷ lệ Khung hình (P02)
+- **Chân dung 4 Persona hư cấu:** Định dạng WebP, ánh sáng tự nhiên studio, hậu cảnh kiến trúc bokeh sang trọng, không logo công ty khác, không huy hiệu/chữ trong ảnh.
+  - `ADV-001` (Nguyễn Minh Anh): `public/images/advisors/minh-anh.webp` (512×512, 26.4 KB) & thumb (128×128, 4.8 KB).
+  - `ADV-002` (Trần Hoàng Nam): `public/images/advisors/hoang-nam.webp` (512×512, 26.5 KB) & thumb (128×128, 4.1 KB).
+  - `ADV-003` (Lê Thanh Hà): `public/images/advisors/thanh-ha.webp` (512×512, 18.9 KB) & thumb (128×128, 3.6 KB).
+  - `ADV-004` (Phạm Ngọc Lan): `public/images/advisors/ngoc-lan.webp` (512×512, 21.6 KB) & thumb (128×128, 4.3 KB).
+- **Cảnh quan Xland Story:** `public/images/xland-story.webp` (1080×1440, 211.8 KB), tỷ lệ 3:4 chiều dọc, chiều sâu phong cảnh thiên nhiên Việt Nam phù hợp cho section câu chuyện thương hiệu.
+- **Tối ưu PropertyImage:** Bổ sung cơ chế declarative `failedSrc` để tự động khôi phục hiển thị ảnh khi `src` thay đổi, không gây render cascade.
+- **Media Proof Sheet:** Tuyến đường `/qa-media-proof` đóng vai trò contact sheet nghiệm thu 4 persona, các kích thước Avatar, cảnh quan Xland story, và kịch bản phục hồi khi ảnh lỗi.

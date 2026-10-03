@@ -1,3 +1,5 @@
+import { advisors } from "./advisors";
+
 // The order is a product requirement, shared by discovery and related listings.
 export const propertyCategories = ["Đô thị", "Vùng ven đô thị", "Ocean Park", "Vùng quê"] as const;
 export type PropertyCategory = typeof propertyCategories[number];
@@ -20,7 +22,7 @@ export type Property = {
   status: "available" | "paused";
   description: string;
   images: { src: string; alt: string; caption: string }[];
-  advisor: { name: string; initials: string; role: string };
+  advisor: { id?: string; name: string; initials: string; role: string; avatar?: string; avatarThumb?: string };
   nft?: { supply: number; price: number };
 };
 
@@ -36,7 +38,7 @@ const propertyFixtures: Property[] = [
     price: 2800000000, area: 1250, frontage: 25, road: 6, status: "available",
     landUse: "Đất trồng cây lâu năm", updatedAt: "25/09/2026",
     description: "Một khoảng xanh bên dòng nước, mở ra nhịp sống gần thiên nhiên. Diện tích 1.250 m², mặt tiền 25 m và đường tiếp cận 6 m tạo nên một không gian rộng mở để tìm hiểu những dự định dài lâu tại Cam Lâm.",
-    images: [camLam, camRanh], advisor: { name: "Nguyễn Minh Anh", initials: "MA", role: "Chuyên viên khu vực Khánh Hòa" },
+    images: [camLam, camRanh], advisor: advisors["ADV-001"],
     nft: { supply: 1000, price: 2800000 },
   },
   {
@@ -46,7 +48,7 @@ const propertyFixtures: Property[] = [
     price: 4200000000, area: 1800, frontage: 30, road: 5, status: "available",
     landUse: "Đất trồng cây lâu năm", updatedAt: "25/09/2026",
     description: "Nắng sớm, những khu vườn và cảnh quan rộng mở của Cam Ranh. Không gian 1.800 m² dành cho người yêu sự yên tĩnh, muốn tìm về nhịp sống xanh và kết nối với thiên nhiên.",
-    images: [camRanh, camLam], advisor: { name: "Trần Hoàng Nam", initials: "HN", role: "Chuyên viên trải nghiệm nhà vườn" },
+    images: [camRanh, camLam], advisor: advisors["ADV-002"],
   },
   {
     id: "XL-003", slug: "khoang-xanh-dong-que", name: "Khoảng xanh đồng quê",
@@ -56,7 +58,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất nông nghiệp", updatedAt: "25/09/2026",
     description: "Những ô ruộng đan xen dòng nước và nếp sống làng quê tạo nên một góc nhìn khác về không gian xanh. Một miền đất bình yên, gắn với cảnh quan đồng bằng và những giá trị mộc mạc của cuộc sống nông thôn.",
     images: [{ src: "/images/dong-bang.webp", alt: "Cánh đồng và sông ở vùng nông thôn Việt Nam nhìn từ trên cao", caption: "Cảnh quan đồng quê Việt Nam · Ảnh HONG SON" }],
-    advisor: { name: "Lê Thanh Hà", initials: "TH", role: "Chuyên viên khu vực miền Bắc" },
+    advisor: advisors["ADV-003"],
   },
   {
     id: "XL-004", slug: "goc-pho-long-bien", name: "Góc phố Long Biên",
@@ -65,7 +67,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất ở đô thị", updatedAt: "25/09/2026",
     description: "Lô góc 100 m² trong không gian phố xanh Long Biên, mặt tiền 5 m và đường tiếp cận 12 m. Nhịp sống đô thị hiện hữu, những hàng cây và dãy nhà thấp tầng tạo nên một nơi chốn gần gũi cho kế hoạch an cư lâu dài.",
     images: [{ src: "/images/long-bien.webp", alt: "Lô góc giữa dãy nhà phố và hàng cây xanh", caption: "Không gian phố xanh · Long Biên" }],
-    advisor: { name: "Lê Thanh Hà", initials: "TH", role: "Chuyên viên khu vực miền Bắc" },
+    advisor: advisors["ADV-003"],
   },
   {
     id: "XL-005", slug: "hien-xanh-dong-anh", name: "Hiên xanh Đông Anh",
@@ -74,7 +76,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất ở", updatedAt: "25/09/2026",
     description: "Khoảng đất 120 m² giữa khu dân cư thấp tầng phía Bắc Hà Nội. Mặt tiền 6 m, đường tiếp cận 7 m và những khoảng xanh đan xen mang đến cảm giác thoáng đãng, cân bằng giữa sự yên tĩnh và nhịp sống ven đô.",
     images: [{ src: "/images/dong-anh.webp", alt: "Khoảng đất xanh bên đường và khu nhà thấp tầng ven đô", caption: "Nhịp sống ven đô · Đông Anh" }],
-    advisor: { name: "Lê Thanh Hà", initials: "TH", role: "Chuyên viên khu vực miền Bắc" },
+    advisor: advisors["ADV-003"],
   },
   {
     id: "XL-006", slug: "vuon-nho-gia-lam", name: "Vườn nhỏ Gia Lâm",
@@ -83,7 +85,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất ở", updatedAt: "25/09/2026",
     description: "Một khoảng xanh 180 m² ở Gia Lâm, nơi những con đường nhỏ nối qua khu vườn và nếp nhà quen thuộc. Mặt tiền 9 m mở ra không gian rộng rãi cho người yêu cuộc sống gần thiên nhiên ở phía Đông Hà Nội.",
     images: [{ src: "/images/gia-lam.webp", alt: "Khu đất có cây vườn giữa nếp nhà thấp tầng và đường nhỏ", caption: "Khoảng xanh phía Đông · Gia Lâm" }],
-    advisor: { name: "Lê Thanh Hà", initials: "TH", role: "Chuyên viên khu vực miền Bắc" },
+    advisor: advisors["ADV-003"],
   },
   {
     id: "XL-007", slug: "loi-nang-hoai-duc", name: "Lối nắng Hoài Đức",
@@ -92,7 +94,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất ở", updatedAt: "25/09/2026",
     description: "Không gian 150 m² trong khu dân cư phía Tây Hà Nội, có mặt tiền 7,5 m và đường tiếp cận 8 m. Dãy nhà thấp tầng, đường thoáng và vỉa hè xanh tạo nên bối cảnh an cư gọn gàng, nhiều ánh sáng.",
     images: [{ src: "/images/hoai-duc.webp", alt: "Khu đất bên đường rộng và những ngôi nhà thấp tầng phía Tây", caption: "Nắng trên phố mới · Hoài Đức" }],
-    advisor: { name: "Lê Thanh Hà", initials: "TH", role: "Chuyên viên khu vực miền Bắc" },
+    advisor: advisors["ADV-003"],
   },
   {
     id: "XL-008", slug: "mien-vuon-thanh-tri", name: "Miền vườn Thanh Trì",
@@ -101,7 +103,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất ở", updatedAt: "25/09/2026",
     description: "Khoảng đất 200 m² giữa không gian vườn và khu dân cư Thanh Trì. Mặt tiền 10 m dành nhiều khoảng mở, phù hợp với người muốn tìm hiểu một chốn ở yên tĩnh ở phía Nam Hà Nội.",
     images: [{ src: "/images/thanh-tri.webp", alt: "Khu đất rộng cạnh vườn cây và lối đi trong khu dân cư", caption: "Một nhịp sống xanh · Thanh Trì" }],
-    advisor: { name: "Lê Thanh Hà", initials: "TH", role: "Chuyên viên khu vực miền Bắc" },
+    advisor: advisors["ADV-003"],
   },
   {
     id: "XL-009", slug: "nha-pho-ocean-park-2", name: "Nhà phố Ocean Park 2",
@@ -110,7 +112,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất ở đô thị", updatedAt: "25/09/2026",
     description: "Nhà phố trên diện tích đất 90 m², mặt tiền 5 m, nằm trong không gian sống Ocean Park 2 tại Hưng Yên. Kiến trúc sáng màu, ban công và hàng cây dọc phố mang đến một nhịp sống đô thị gần gũi, thuận tiện cho sinh hoạt gia đình.",
     images: [{ src: "/images/ocean-park-2.webp", alt: "Dãy nhà phố sáng màu với ban công và hàng cây ven đường", caption: "Nhịp sống nhà phố · Ocean Park 2" }],
-    advisor: { name: "Phạm Ngọc Lan", initials: "NL", role: "Chuyên viên khu vực Hưng Yên" },
+    advisor: advisors["ADV-004"],
   },
   {
     id: "XL-010", slug: "biet-thu-ocean-park-3", name: "Biệt thự Ocean Park 3",
@@ -119,7 +121,7 @@ const propertyFixtures: Property[] = [
     landUse: "Đất ở đô thị", updatedAt: "25/09/2026",
     description: "Biệt thự với diện tích đất 180 m² và mặt tiền 10 m trong không gian Ocean Park 3 tại Hưng Yên. Khoảng sân xanh, hiên nhà và tầm nhìn mở về khu dạo bộ tạo nên sự riêng tư cùng cảm giác thư thái mỗi ngày.",
     images: [{ src: "/images/ocean-park-3.webp", alt: "Biệt thự sáng màu với sân vườn và lối dạo xanh phía trước", caption: "Không gian vườn và phố · Ocean Park 3" }],
-    advisor: { name: "Phạm Ngọc Lan", initials: "NL", role: "Chuyên viên khu vực Hưng Yên" },
+    advisor: advisors["ADV-004"],
   },
 ];
 

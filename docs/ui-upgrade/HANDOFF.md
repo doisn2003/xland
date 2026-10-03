@@ -11,7 +11,7 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 | --- | --- | --- |
 | P00 | Đã hoàn thành | Baseline 50 ảnh có metadata tại docs/qa/ui-upgrade/P00/; 42/42 unit đạt, 74/81 E2E đạt; xác nhận WebKit blocker |
 | P01 | Đã hoàn thành | Logo SVG độc bản (Phương án A), 15 icon chuẩn hóa, semantic tokens, button primitives, proof sheet, 17 ảnh tại docs/qa/ui-upgrade/P01/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
-| P02 | Chưa bắt đầu | Chưa tuyển/tạo avatar hoặc media mới |
+| P02 | Đã hoàn thành | Chân dung 4 persona hư cấu, cảnh quan Xland story, module advisors, Avatar component (sm/md/lg/portrait) & themes initials, PropertyImage failedSrc, proof sheet /qa-media-proof, 9 ảnh tại docs/qa/ui-upgrade/P02/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P03 | Chưa bắt đầu | Header/hero/footer chưa đổi |
 | P04 | Chưa bắt đầu | Giới thiệu Xland chưa đổi |
 | P05 | Chưa bắt đầu | Section NFT chưa đổi |
@@ -23,44 +23,47 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 ## Bản ghi bàn giao gần nhất
 
 ```text
-Phase / ngày / commit hoặc working tree: P01 / 03/10/2026 / nền commit 0bf496c.
+Phase / ngày / commit hoặc working tree: P02 / 03/10/2026 / nền commit 9c195d2.
 Kết quả và file đã thay đổi:
-- src/components/logo.tsx: Tạo mới component Logo và XlandSymbol SVG độc bản (Phương án A - Horizon & Parcels), wordmark serif cân baseline, hỗ trợ variant default/inverse và size sm/md/lg.
-- src/app/icon.svg: Favicon vector 32x32 biểu tượng Xland chuẩn Next.js App Router.
-- src/components/icon.tsx: Chuẩn hóa toàn bộ icon về viewBox 0 0 24 24, stroke 1.75, round cap/join. Bổ sung bookmark, calendar, user, shield, share, filter, sparkle.
-- src/components/site-header.tsx: Nối Logo default, giữ accessible name duy nhất trên link, đảm bảo .header-cta giữ chữ trắng đạt contrast AAA.
-- src/components/site-footer.tsx: Nối Logo inverse trên nền Ink tối, căn chỉnh layout footer sang trọng.
-- src/features/journey/save-button.tsx: Thay SVG inline bằng <Icon name="bookmark" filled={saved} />, bảo toàn 100% aria-label, aria-pressed và text nhãn.
-- src/app/globals.css: Áp dụng bảng tokens semantic (Deep Teal #164B60, Ink #102D3B, Warm Gold #B89962, On-dark Gold #D8C49D, Surfaces ấm, Radii 8/12px); Button primitives đầy đủ states (default, hover trượt arrow 3px, active, focus-visible kép, pending, disabled không glow); tinh chỉnh tương phản header button và advisor avatar.
-- src/app/qa-identity-proof/page.tsx: Trang proof sheet nội bộ kiểm tra logo, icons, tokens, buttons và chuỗi dấu tiếng Việt.
-- scripts/capture-p01.mjs: Script tự động chụp 17 ảnh có metadata tại 5 viewports chuẩn (360, 390, 430, 768, 1440px).
-- docs/qa/ui-upgrade/P01/: Lưu trữ 17 ảnh chụp, metadata.json và báo cáo nghiệm thu README.md.
-- docs/DESIGN.md: Cập nhật mục 12 tài liệu hóa tokens thực thi và các quyết định thiết kế.
-- docs/STATUS.md: Cập nhật trạng thái nghiệm thu P01 với các số liệu test thực tế.
+- assets/media/generated/advisors/ & public/images/advisors/: Tạo 4 chân dung persona hư cấu đồng nhất (Nguyễn Minh Anh, Trần Hoàng Nam, Lê Thanh Hà, Phạm Ngọc Lan) kèm WebP 512x512 (18.9-26.5 KB) và thumbnail 128x128 (3.6-4.8 KB), vượt sâu budget BRIEF C.
+- assets/media/generated/story/ & public/images/xland-story.webp: Ảnh cảnh quan Xland story 1080x1440 (211.8 KB, budget <= 250 KB) có chiều sâu thiên nhiên Việt Nam.
+- src/data/advisors.ts: Tạo mới module danh bạ người đồng hành với stable ID (ADV-001..ADV-004), theme fallback, helper lookups.
+- src/data/properties.ts: Gắn advisors mapping trực tiếp vào 10 fixtures, giữ nguyên 100% shape nghiệp vụ cũ (name, initials, role).
+- src/components/avatar.tsx: Component Avatar hỗ trợ kích thước sm (44px), md (64px), lg (80px), portrait (140x175px); cơ chế fallback initials 4 theme màu token đạt tương phản WCAG 2 AA (5.7:1-7.2:1); decorative a11y tránh đọc lặp tên; mô hình declarative failedSrc.
+- src/components/property-image.tsx: Chuẩn hóa mô hình declarative failedSrc để khôi phục hiển thị ảnh đúng chuẩn khi đổi src và thỏa mãn react-hooks linter.
+- src/app/globals.css: Bổ sung CSS tokens và styling cho Avatar (.avatar-image-wrap, .avatar-photo, .avatar-portrait, 4 themes màu fallback).
+- src/app/qa-media-proof/page.tsx: Tuyến đường proof sheet nội bộ kiểm tra 4 persona, các kích thước Avatar, cảnh quan Xland story và kịch bản ảnh lỗi.
+- scripts/capture-p02.mjs & scripts/process-media.mjs: Công cụ xử lý WebP canvas và script chụp kiểm thử 9 viewports chuẩn.
+- docs/qa/ui-upgrade/P02/: Lưu trữ 9 ảnh chụp, metadata.json và báo cáo nghiệm thu README.md (imageFailures = 0, không tràn ngang).
+- docs/ASSETS.md: Cập nhật đầy đủ bảng danh mục tài sản, nguồn, bản quyền, dimensions, bytes và prompt của toàn bộ asset P02.
+- docs/DESIGN.md: Cập nhật mục 12.5 và 12.6 đặc tả component Avatar và asset slots.
+- docs/STATUS.md: Cập nhật trạng thái nghiệm thu P02 với các số liệu test thực tế.
 Quyết định đã thực thi:
-- Đã đối chiếu 2 phương án logo: Chọn Phương án A (Horizon & Land Parcels) vì tính nhận diện đất đai rõ ràng, tính hình học chữ X khúc chiết và khả năng scale sắc nét từ 24px đến 1440px.
-- Điều chỉnh màu chữ advisor avatar-1 từ #8C7343 sang #745722 trên nền #F3EFE6 để nâng tỷ lệ tương phản từ 3.93:1 lên 5.70:1, vượt chuẩn WCAG 2 AA (4.5:1).
-- Quy định rõ màu chữ .navigation > .button là #FFFFFF để tránh bị ghi đè màu text menu.
+- Dùng Chromium canvas Playwright để chuyển đổi WebP tối ưu dung lượng cao cấp mà không cần cài thêm dependency sharp bên ngoài.
+- Không sửa bất kỳ trường nghiệp vụ nào của fixture Property; không đổi id/slug/giá/diện tích/trạng thái.
+- Thuộc tính decorative={true} mặc định trên Avatar khi đặt cạnh tên người hỗ trợ giúp ẩn thẻ img khỏi VoiceOver/NVDA, loại bỏ hoàn toàn lỗi đọc lặp tên.
+- Sử dụng mô hình state failedSrc declarative thay vì useEffect setState để tránh cascading render.
 Hành vi bắt buộc đã giữ:
-- Giữ nguyên toàn bộ 4 biên dữ liệu 1B: SaveButton text/aria-pressed, form lịch hẹn, panel mua NFT, URL catalog query filter/sort.
-- Không chạm vào logic form/query/store, không cài thêm dependency ngoài (icon/font library hay GSAP).
+- 42/42 unit test cũ tiếp tục pass 100% không cần sửa một dòng test nào.
+- 22/22 Playwright E2E accessibility & journey tests trên Chromium desktop & mobile tiếp tục pass 100%.
+- Không chạm vào logic form/query/store, không đổi dữ liệu giao dịch hoặc seed ledger.
 Kiểm tra:
-- pnpm lint: ĐẠT (0 warnings, 0 errors).
-- pnpm typecheck: ĐẠT (0 errors).
+- pnpm lint: ĐẠT (0 warning, 0 error).
+- pnpm typecheck: ĐẠT (0 error).
 - pnpm test: ĐẠT (42/42 unit tests passed).
-- pnpm build: ĐẠT (24 routes SSG/dynamic tối ưu sạch sẽ).
-- Playwright E2E a11y & journey: ĐẠT 22/22 (100% test accessibility WCAG 2 AA, zoom 200%, keyboard, reduced motion và state saving trên cả desktop & mobile).
+- pnpm build: ĐẠT (25 routes SSG/dynamic tối ưu sạch sẽ).
+- Playwright E2E a11y & journey: ĐẠT 22/22.
 Ảnh và điểm đã quan sát:
-- 17 ảnh chụp trong docs/qa/ui-upgrade/P01/ xác nhận logo sắc nét ở mọi kích thước, không vỡ nét ở DPR cao, nút bấm tương tác rõ ràng, không tràn ngang ở bất kỳ viewport nào.
+- 9 ảnh chụp trong docs/qa/ui-upgrade/P02/ xác nhận 4 persona đồng điệu phong cách, avatar hiển thị sắc nét ở mọi kích thước, fallback initials hiển thị chuẩn khi ảnh hỏng, không tràn ngang ở bất kỳ viewport nào.
 Blocker / rủi ro / nội dung còn dở:
 - 7 lỗi WebKit viewport trên môi trường Windows tiếp tục được ghi nhận và cô lập như P00; không gây ảnh hưởng đến Chromium desktop/mobile.
 Phase tiếp theo và 6 file nên đọc đầu tiên:
-1. docs/ui-upgrade/phases/P02-media.md (Nhiệm vụ P02 — Media và chân dung)
-2. docs/ui-upgrade/BRIEF.md (Mục B4 — Media và chân dung)
-3. docs/ASSETS.md (Quy định nguồn, bản quyền và phân loại stock/ảnh thực địa)
-4. src/data/properties.ts (Dữ liệu hình ảnh lô đất hiện có)
-5. src/data/journey.ts (Dữ liệu personas và avatar chuyên viên tư vấn)
-6. docs/DESIGN.md (Mục 8 & 12 về media và tokens thiết kế)
+1. docs/ui-upgrade/phases/P03-shell-hero.md (Nhiệm vụ P03 — Header, Hero và Footer)
+2. docs/ui-upgrade/BRIEF.md (Mục A — Header/Hero/Footer Sunshine)
+3. docs/DESIGN.md (Mục 12 — Design System & Tokens)
+4. src/components/site-header.tsx (Header hiện tại)
+5. src/components/site-footer.tsx (Footer hiện tại)
+6. src/app/page.tsx (Hero section trang chủ hiện tại)
 ```
 
 ## Điểm mở cần kế thừa

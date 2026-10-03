@@ -68,3 +68,29 @@ Bối cảnh tên dự án/loại hình Ocean Park tham khảo [Vinhomes Ocean P
 ## Sử dụng lại ở mốc 1B — 30/09/2026
 
 Danh sách `/lo-dat`, `/da-luu`, trang chi tiết và các route NFT tiếp tục dùng chính media của 10 hồ sơ đã phân loại ở trên. Không thêm ảnh/video, không thay tài liệu/ảnh nguồn. Việc nối media vào luồng lưu, lịch xem hoặc mua NFT không biến ảnh stock/phối cảnh thành bằng chứng xác minh tài sản. Lịch, persona, giá và phương án NFT vẫn là fixture nội bộ; video chưa được tuyển và chưa triển khai trong vòng này.
+
+## Bổ sung Media và Chân dung Persona — P02 (03/10/2026)
+
+Triển khai theo hợp đồng [BRIEF C](ui-upgrade/BRIEF.md). Tạo ảnh chân dung cho 4 persona hư cấu và cảnh quan Xland Story bằng công cụ `generate_image`. Bản gốc JPG lưu tại `assets/media/generated/` kèm prompt; bản WebP tối ưu phục vụ web tại `public/images/`.
+
+### 1. Bảng Chân dung 4 Persona Người đồng hành
+
+| ID | Persona | Vai trò | File WebP (kèm Thumb) | Kích thước | Dung lượng (Byte / KB) | Prompt tóm tắt & Phong cách |
+| --- | --- | --- | --- | --- | --- | --- |
+| `ADV-001` | **Nguyễn Minh Anh** (MA) | Chuyên viên khu vực Khánh Hòa | `advisors/minh-anh.webp`<br/>`advisors/minh-anh-thumb.webp` | 512 × 512<br/>128 × 128 | 27.050 byte (26.4 KB)<br/>4.932 byte (4.8 KB) | Nữ 29 tuổi, người Việt Nam, nụ cười ấm áp, trang phục kem thanh lịch. Ánh sáng cửa sổ tự nhiên, nền nội thất mờ sâu. Bản gốc: `assets/media/generated/advisors/minh-anh.jpg`. |
+| `ADV-002` | **Trần Hoàng Nam** (HN) | Chuyên viên trải nghiệm nhà vườn | `advisors/hoang-nam.webp`<br/>`advisors/hoang-nam-thumb.webp` | 512 × 512<br/>128 × 128 | 27.116 byte (26.5 KB)<br/>4.236 byte (4.1 KB) | Nam 34 tuổi, người Việt Nam, nét mặt điềm đạm, blazer xám nhạt và sơ mi xanh. Ánh sáng ban ngày, nền gỗ ấm mờ. Bản gốc: `assets/media/generated/advisors/hoang-nam.jpg`. |
+| `ADV-003` | **Lê Thanh Hà** (TH) | Chuyên viên khu vực miền Bắc | `advisors/thanh-ha.webp`<br/>`advisors/thanh-ha-thumb.webp` | 512 × 512<br/>128 × 128 | 19.382 byte (18.9 KB)<br/>3.702 byte (3.6 KB) | Nữ 36 tuổi, người Việt Nam, phong thái chững chạc, blazer navy thanh lịch. Ánh sáng dịu, nền mờ trung tính. Bản gốc: `assets/media/generated/advisors/thanh-ha.jpg`. |
+| `ADV-004` | **Phạm Ngọc Lan** (NL) | Chuyên viên khu vực Hưng Yên | `advisors/ngoc-lan.webp`<br/>`advisors/ngoc-lan-thumb.webp` | 512 × 512<br/>128 × 128 | 22.150 byte (21.6 KB)<br/>4.444 byte (4.3 KB) | Nữ 28 tuổi, người Việt Nam, phong cách hiện đại năng động, blazer màu be sáng. Ánh sáng tự nhiên, nền văn phòng sáng sủa. Bản gốc: `assets/media/generated/advisors/ngoc-lan.jpg`. |
+
+- **Giới hạn & Quy chuẩn:** Chân dung persona là hư cấu, phục vụ minh họa trải nghiệm người đồng hành; không gán vào người thật, không dán huy hiệu/logo/chữ lạ.
+- **Focal point:** Tâm điểm ngực và khuôn mặt (center 50% 50%).
+- **Fallback:** Khi không có ảnh hoặc ảnh tải lỗi, hiển thị `initials` (MA, HN, TH, NL) trên 4 theme màu tương phản cao cố định (`avatar-theme-teal`, `avatar-theme-sage`, `avatar-theme-navy`, `avatar-theme-sand`).
+
+### 2. Cảnh quan Xland Story (Section Về Xland)
+
+| Slot | File WebP | Kích thước | Dung lượng (Byte / KB) | Nguồn & Bản quyền |
+| --- | --- | --- | --- | --- |
+| `xland-story` | `public/images/xland-story.webp` | 1080 × 1440 (Tỷ lệ 3:4) | 216.926 byte (211.8 KB) | Tạo bằng `generate_image` ngày 03/10/2026. Bản gốc lưu tại `assets/media/generated/story/xland-story.jpg`, prompt tại `xland-story.prompt.txt`. Phối cảnh cảnh quan tự nhiên có chiều sâu (tiền cảnh cây cỏ, trung cảnh dòng sông uốn quanh thửa đất xanh, hậu cảnh núi đồi sương sớm). |
+
+- **Focal point:** Chiều dọc 3:4, ưu tiên vùng trung cảnh dòng sông và thung lũng (center 50% 60%).
+- **Ngân sách:** Nằm trong budget 150–250KB của BRIEF C.

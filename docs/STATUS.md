@@ -1,8 +1,40 @@
 # Trạng thái Xland
 
-Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 đóng baseline và hoàn thành **P01 — Nhận diện thương hiệu và tiểu tiết tương tác**.
+Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu) và **P02 — Media và chân dung người đồng hành**.
 
-## Nghiệm thu Giai đoạn P01 — 03/10/2026
+## Nghiệm thu Giai đoạn P02 — 03/10/2026
+
+- Đã hoàn thành duy nhất phase **P02 (Media và chân dung người đồng hành)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF C/D/F/G](ui-upgrade/BRIEF.md), [ASSETS](../docs/ASSETS.md) và [P02-media](ui-upgrade/phases/P02-media.md).
+- **Hạng mục hoàn thành:**
+  1. **Chân dung 4 Persona hư cấu đồng nhất:**
+     - Tạo ảnh qua `generate_image` với ánh sáng tự nhiên studio, nền kiến trúc bokeh, crop vai/ngực chuyên nghiệp, không logo công ty khác, không huy hiệu/chữ:
+       + `ADV-001` (Nguyễn Minh Anh - Khánh Hòa): `public/images/advisors/minh-anh.webp` (512×512, 26.4 KB) & thumb (128×128, 4.8 KB).
+       + `ADV-002` (Trần Hoàng Nam - Nhà vườn): `public/images/advisors/hoang-nam.webp` (512×512, 26.5 KB) & thumb (128×128, 4.1 KB).
+       + `ADV-003` (Lê Thanh Hà - Miền Bắc): `public/images/advisors/thanh-ha.webp` (512×512, 18.9 KB) & thumb (128×128, 3.6 KB).
+       + `ADV-004` (Phạm Ngọc Lan - Hưng Yên): `public/images/advisors/ngoc-lan.webp` (512×512, 21.6 KB) & thumb (128×128, 4.3 KB).
+     - Toàn bộ dung lượng WebP đều nằm sâu dưới budget BRIEF C (≤ 60 KB cho ảnh chính, ≤ 15 KB cho thumbnail).
+  2. **Cảnh quan Xland Story có chiều sâu:**
+     - Tạo ảnh `public/images/xland-story.webp` (1080×1440, 211.8 KB, budget ≤ 250 KB), tỷ lệ 3:4 chiều dọc, phong cảnh đồi nương xanh mát và dòng sông uốn lượn tại Việt Nam, mang chiều sâu cảm xúc cho thương hiệu.
+  3. **Module Dữ liệu & Fixture Mapping (`src/data/advisors.ts`, `src/data/properties.ts`):**
+     - Định nghĩa stable advisor id (`ADV-001`..`ADV-004`), phân vùng và vai trò rõ ràng.
+     - Giữ nguyên 100% các trường nghiệp vụ cũ (`name`, `initials`, `role`) trong `Property.advisor` và bổ sung thêm `id`, `avatar`, `avatarThumb`, đảm bảo không làm gãy bất kỳ model dữ liệu hay unit test nào.
+  4. **Component Avatar (`src/components/avatar.tsx`):**
+     - Hỗ trợ đầy đủ các kích thước: `sm` (44px), `md` (64px), `lg` (80px), `portrait` (140×175px).
+     - Cơ chế fallback initials trên 4 theme màu token (`avatar-theme-teal`, `avatar-theme-sage`, `avatar-theme-navy`, `avatar-theme-sand`) đạt chuẩn tương phản WCAG 2 AA (5.7:1 – 7.2:1).
+     - Khả năng tiếp cận: hỗ trợ `decorative={true}` mặc định khi đứng cạnh text để tránh đọc lặp tên chuyên viên hai lần trên trình đọc màn hình.
+     - Xử lý lỗi declarative `failedSrc`: tự động reset trạng thái lỗi khi đổi `src`, không gây cascading render.
+  5. **Tối ưu PropertyImage (`src/components/property-image.tsx`):**
+     - Chuyển đổi sang mẫu declarative `failedSrc` sạch sẽ, khắc phục lỗi ESLint hook và xử lý khôi phục hiển thị ảnh đúng chuẩn khi đổi `src`.
+  6. **Proof Sheet & Bộ ảnh Nghiệm thu P02 (`docs/qa/ui-upgrade/P02/`):**
+     - Tuyến đường `/qa-media-proof` hiển thị toàn bộ 4 persona cạnh nhau, 4 kích thước avatar, kịch bản ảnh lỗi/thay thế, ảnh Xland story.
+     - Chụp 9 ảnh kiểm soát viewports (360/390/430/768/1440px): `imageFailures = 0`, không tràn ngang (scrollWidth = clientWidth).
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 42/42 unit tests** (`nft.test.ts`, `journey.test.ts`, `home.test.ts`).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic thành công).
+  + Playwright E2E Accessibility & Journey (Chromium desktop & mobile): **22/22 ĐẠT (100%)**.
+- Bước tiếp theo: [P03 — Header, Hero và Footer](ui-upgrade/phases/P03-shell-hero.md).
 
 - Đã hoàn thành duy nhất phase **P01 (Nhận diện và tiểu tiết tương tác)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF A–B](ui-upgrade/BRIEF.md) và [P01-identity](ui-upgrade/phases/P01-identity.md).
 - **Hạng mục hoàn thành:**
