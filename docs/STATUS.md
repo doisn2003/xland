@@ -1,6 +1,51 @@
 # Trạng thái Xland
 
-Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland) và **P05 — Chương bất động sản NFT (`#nft`)**.
+Cập nhật: 04/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland), P05 (Chương bất động sản NFT) và **P06 — Tính nhất quán thị giác và hoàn thiện người đồng hành**.
+
+## Nghiệm thu Giai đoạn P06 — 04/10/2026
+
+- Đã hoàn thành toàn bộ phase **P06 (Tính nhất quán thị giác và hoàn thiện người đồng hành)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF A–C/F–G](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P06-consistency](ui-upgrade/phases/P06-consistency.md).
+- Triển khai nghiêm ngặt theo quy trình hai lượt: **Lượt A (Chuyên viên, Card, Detail)** và **Lượt B (Màn hình & Trạng thái 1B)**.
+- **Hạng mục hoàn thành:**
+
+### 1. LƯỢT A — CHUYÊN VIÊN, CARD, DETAIL
+1. **Chuyên viên Home (`#nguoi-dong-hanh`, `src/app/page.tsx`):**
+   - Đưa ảnh chân dung tỉ lệ 4:5 (`Avatar size="portrait"` 140×175px) vào sử dụng chính thức, thay thế hoàn toàn vòng tròn initials đơn điệu.
+   - Thẻ ngang trên mobile (chân dung bên trái, tên font serif và CTA bên phải), lưới 3 cột cân xứng trên tablet/desktop.
+   - Nút liên hệ/trao đổi dẫn trực tiếp về hồ sơ hỗ trợ chi tiết `/lo-dat/<slug>#ho-tro`.
+   - Cơ chế fallback initials theo theme màu (`MA`, `HN`, `TH`, `NL`) hoạt động hoàn hảo khi offline hoặc ảnh tải lỗi.
+2. **Thẻ Bất động sản (`src/components/property-card.tsx`):**
+   - Khung ảnh tỷ lệ 4:3, bo góc `var(--radius-card)` (16px), scale nhẹ 1.03 khi hover trên thiết bị trỏ chính xác (`@media (hover: hover)`).
+   - Dải `card-meta-top` kết hợp loại đất in hoa bên trái và nút lưu `SaveButton` 44px bên phải, tách biệt hoàn toàn khỏi anchor link, bảo toàn `aria-label` và `aria-pressed`.
+   - Tiêu đề tài sản dùng font serif display (`font-family: var(--font-display)`), giá chào nổi bật 22px to rõ kèm đơn vị "tỷ đ", nút tròn điều hướng 44×44px touch target.
+3. **Trang Chi tiết Lô đất (`src/app/lo-dat/[slug]/page.tsx` & `src/components/property-gallery.tsx`):**
+   - Khối hỗ trợ `#ho-tro`: Layout ngang thoáng đãng với `Avatar size="portrait"` của chuyên viên phụ trách lô đất, mô tả đầu mối hỗ trợ trực tiếp.
+   - Khối summary bên phải: Giữ `Avatar size="sm"` cho tóm tắt gọn gàng, nút lưu 100% chiều rộng.
+   - Gallery ảnh: Giữ nguyên 100% các nút điều hướng accessible (`Ảnh trước`, `Ảnh tiếp theo`), thumbnails chuyển đổi nhịp nhàng.
+
+### 2. LƯỢT B — MÀN HÌNH VÀ TRẠNG THÁI HIỆN CÓ
+1. **Đồng bộ Typography & Panel:**
+   - Áp dụng font serif display (`font-family: var(--font-display)`) cho toàn bộ tiêu đề H1/H2 của các trang `/lo-dat`, `/da-luu`, `/lich-hen`, `/nft`, `/nft/[slug]`, `/danh-muc-nft`, `/trai-nghiem`.
+   - Panel giao dịch (`.journey-panel`, `.visit-card`, `.nft-purchase`, `.nft-holding`, `.nft-portfolio-summary`): Nền trắng/surface sang trọng, viền mảnh `var(--color-border)`, đổ bóng tinh tế `var(--shadow-subtle)` / `var(--shadow-card)`.
+2. **Breadcrumb & Empty States:**
+   - Styling phân cấp cho `.breadcrumb`: Liên kết màu muted, mục hiện tại màu ink đậm nét.
+   - Thiết kế lại `.empty-state` và `.nft-empty`: Nền `var(--color-surface)` ấm áp, viền đứt đoạn nhẹ nhàng, tiêu đề serif và nút CTA rõ ràng.
+3. **Bảo toàn 100% Luồng Nghiệp vụ 1B:**
+   - **Catalog (`/lo-dat`)**: Giữ filter URL, số lượng danh mục, sắp xếp giá/diện tích, pending state.
+   - **Đã lưu (`/da-luu`)**: Badge số lượng `.saved-count` dạng pill nổi bật; xử lý êm trạng thái storage warning.
+   - **Lịch hẹn (`/lich-hen`)**: Liên kết form field/error với `aria-describedby` và `aria-invalid`, bảo toàn persona người đề nghị ("Đinh Duy"), trạng thái đổi/hủy giữ đúng quy trình "Chờ điều phối" không hứa hẹn sai.
+   - **NFT (`/nft`, `/nft/[slug]`, `/danh-muc-nft`)**: Bảng tính số lượng, tỷ lệ phân đoạn, đơn vị tiền tệ rõ ràng, phân biệt rạch ròi giữa các outcome `success`, `cancelled`, `failed`. Nhãn lưu ý không phát sinh thanh toán hiển thị rõ nét với độ tương phản cao.
+   - **Cài đặt trải nghiệm (`/trai-nghiem`)**: Nút đặt lại hành trình với xác nhận an toàn 2 bước đúng namespace.
+
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 43/43 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic tối ưu sạch sẽ).
+  + Playwright E2E (`desktop-chromium` & `mobile-chromium`): **54/54 ĐẠT (100%)**.
+- **Bộ ảnh Nghiệm thu P06 (`docs/qa/ui-upgrade/P06/`):**
+  + 18 ảnh có metadata đầy đủ đo đạc tại 5 viewports (360/390/430/768/1440px), zoom 200% CSS và các trạng thái nghiệp vụ: `imageFailures = []`, không tràn ngang (`scrollWidth = clientWidth`).
+- Bước tiếp theo: [P07 — Cài đặt và cấu hình GSAP](ui-upgrade/phases/P07-gsap-setup.md).
 
 ## Nghiệm thu Giai đoạn P05 — 03/10/2026
 

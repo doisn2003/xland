@@ -273,3 +273,23 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
   - `data-nft-step`: Từng bước trong sơ đồ.
   - `data-nft-panel`: Khối panel định lượng và visual matrix.
   - `data-nft-actions`: Cụm nút CTA và link phụ.
+
+### 12.10. Quy chuẩn Người đồng hành, Card, Detail và Đồng bộ Trạng thái 1B (P06)
+- **Hình tượng Người đồng hành (`#nguoi-dong-hanh` & `#ho-tro`):**
+  - Sử dụng ảnh chân dung tỉ lệ 4:5 (`Avatar size="portrait"` 140×175px) với phong cách ánh sáng ấm tự nhiên, crop chuẩn khuôn mặt và đồng nhất chất lượng từ asset P02.
+  - Mobile: Thẻ ngang sang trọng, chân dung bên trái, tên font serif và CTA "Xem hồ sơ hỗ trợ →" bên phải dẫn trực tiếp đến `/lo-dat/<slug>#ho-tro`.
+  - Tablet/Desktop: Lưới 3 cột cân xứng, tối đa 3 chuyên viên theo logic phân vùng thực tế (Hà Nội, Hưng Yên, Khánh Hòa).
+  - Khối hỗ trợ `#ho-tro` trên trang chi tiết: Layout ngang thoáng đãng với chân dung chuyên viên phụ trách lô đất, thông tin đầu mối trực tiếp.
+  - Fallback initials: Tự động kích hoạt các huy hiệu chữ cái đầu (`MA`, `HN`, `TH`, `NL`) theo bảng màu nhận diện khi ảnh tải chậm hoặc offline.
+- **Quy chuẩn Thẻ bất động sản (`PropertyCard`):**
+  - Khung ảnh: Tỉ lệ 4:3 cố định, bo góc `var(--radius-card)` (16px), scale nhẹ 1.03 khi hover trên thiết bị trỏ chính xác.
+  - Cụm `card-meta-top`: Phân loại bất động sản in hoa trang nhã bên trái, nút lưu `SaveButton` dạng ghost 44px bên phải, tách biệt hoàn toàn khỏi anchor link để đảm bảo tính độc lập và khả năng tiếp cận (`aria-pressed`).
+  - Tiêu đề tài sản: Sử dụng font serif display (`font-family: var(--font-display)`), cỡ chữ 20px, line-height 1.35.
+  - Giá chào & Điều hướng: Giá chào nổi bật 22px (`strong`) kèm đơn vị "tỷ đ", nút tròn điều hướng 44×44px touch target với mũi tên hướng đông.
+- **Đồng bộ Màn hình & Trạng thái 1B:**
+  - **Typography display serif**: Toàn bộ tiêu đề H1/H2 của các trang `/lo-dat`, `/da-luu`, `/lich-hen`, `/nft`, `/nft/[slug]`, `/danh-muc-nft`, `/trai-nghiem` được đồng bộ với font serif display mang tinh thần Sunshine Group.
+  - **Breadcrumb**: Định dạng phân cấp đường dẫn trang nhã, màu mực dịu nhẹ, phân cách bằng dấu gạch chéo tinh tế.
+  - **Empty States (`.empty-state`, `.nft-empty`)**: Nền `var(--color-surface)` ấm áp, viền đứt đoạn nhẹ nhàng, tiêu đề serif và nút CTA rõ ràng.
+  - **Panel giao dịch (`.journey-panel`, `.visit-card`, `.nft-purchase`, `.nft-holding`)**: Đổ bóng nhẹ `var(--shadow-subtle)`, bo góc 16px, trường nhập liệu có viền focus ring 3px xanh sẫm.
+  - **Nhãn cảnh báo & lưu ý**: Cảnh báo storage và ghi chú "Không phát sinh thanh toán" có độ tương phản cao, phông chữ 13–14px dễ đọc, đáp ứng tiêu chuẩn WCAG AA.
+

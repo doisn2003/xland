@@ -15,7 +15,7 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 | P03 | Đã hoàn thành | SiteHeader kính mờ 68/80px, mobile menu Escape/focus, Hero component tách riêng không 100vh lộ search, SiteFooter 2 cột điều hướng, final-cta card, 10 ảnh tại docs/qa/ui-upgrade/P03/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P04 | Đã hoàn thành | XlandStory component Server Component, semantic H2/H3, mobile order tự nhiên, desktop split 5/12 và 6.2/12, ảnh xland-story.webp, 3 bước đánh số 01/02/03 contrast 7.35:1 AAA, CTA /lo-dat + sublink #nguoi-dong-hanh, 6 ảnh tại docs/qa/ui-upgrade/P04/; 42/42 unit đạt, 22/22 a11y & journey E2E đạt |
 | P05 | Đã hoàn thành | NftStory component Server Component, nền Ink full-width, ảnh garden-retreat.webp, sơ đồ quy trình 3 bước HTML/SVG, panel định lượng presentation động, visual matrix 20 ô, CTA /nft + link phụ /nft/mien-xanh-ven-song, 7 ảnh tại docs/qa/ui-upgrade/P05/; 43/43 unit đạt, 54/54 E2E desktop/mobile-chromium đạt |
-| P06 | Chưa bắt đầu | UI các luồng chưa đổi |
+| P06 | Đã hoàn thành | Lượt A (chân dung chuyên viên 4:5, card 4:3 display serif, detail support portrait) + Lượt B (đồng bộ font serif display, breadcrumb, empty states, panels giao dịch 1B), 18 ảnh tại docs/qa/ui-upgrade/P06/; 43/43 unit đạt, 54/54 E2E đạt |
 | P07 | Chưa bắt đầu | GSAP và @gsap/react chưa cài |
 | P08 | Chưa bắt đầu | Chưa có choreography mới |
 | P09 | Chưa bắt đầu | Chưa có nghiệm thu vòng nâng cấp |
@@ -23,11 +23,45 @@ Ngày lập: 01/10/2026. Tài liệu kế hoạch đã có; **chưa bắt đầu
 ## Bản ghi bàn giao gần nhất
 
 ```text
-Phase / ngày / commit hoặc working tree: P05 / 03/10/2026 / nền commit 786a10f.
+Phase / ngày / commit hoặc working tree: P06 / 04/10/2026 / nền commit e4e6631.
 Kết quả và file đã thay đổi:
-- src/components/home/nft-story.tsx: Tạo mới component NftStory (Server Component), semantic section id="nft", heading H2 "Một tài sản. Một phương án rõ ràng.", sơ đồ quy trình 3 bước (Hồ sơ tài sản → Phương án NFT → Danh mục của bạn) bằng native HTML/SVG, panel định lượng lấy số liệu từ nguồn thật (1.000 NFT, 2.800.000 ₫, 0,1% và 1%), lưới Visual Matrix 20 ô nhỏ trực quan hóa tỷ lệ phân đoạn, nút CTA chính /nft và link phụ /nft/mien-xanh-ven-song, đầy đủ data hooks cho GSAP.
-- src/features/nft/presentation.ts: Tạo helper thuần getFeaturedOfferingPresentation() và formatNftShare() derive dữ liệu an toàn từ offering mở bán thật (XL-001 - Miền xanh ven sông), có unit test biên độ đầy đủ.
-- src/app/page.tsx: Thay thế khối checklist tích xanh cũ bằng <NftStory />, bảo toàn thứ tự các section trên trang chủ.
+- LƯỢT A — CHUYÊN VIÊN, CARD, DETAIL:
+  + src/app/page.tsx: Chuyên viên Home (#nguoi-dong-hanh) chuyển sang dùng Avatar size="portrait" (140×175px, 4:5) từ asset P02; bố cục thẻ ngang trên mobile và thẻ dọc 3 cột trên tablet/desktop; CTA link trỏ trực tiếp /lo-dat/<slug>#ho-tro; bổ sung đầy đủ data hooks (data-advisors-section, data-advisors-heading, data-advisors-grid, data-advisor-card).
+  + src/components/property-card.tsx: Cấu trúc dải card-meta-top kết hợp thể loại đất và nút SaveButton 44px tách khỏi anchor link; tên tài sản font serif display (20px), giá chào nổi bật 22px (strong) to rõ kèm đơn vị "tỷ đ", nút tròn điều hướng 44×44px touch target; hover scale 1.03 tinh tế không cắt focus ring.
+  + src/components/property-gallery.tsx: Giữ nguyên 100% accessible navigation buttons và thumbnails.
+  + src/app/lo-dat/[slug]/page.tsx: Khối hỗ trợ #ho-tro dùng Avatar size="portrait" với layout ngang thoáng đãng; khối tóm tắt giá giữ Avatar size="sm" gọn gàng; bảo toàn toàn bộ bảng facts, tài liệu pháp lý và CTA đặt lịch.
+- LƯỢT B — MÀN HÌNH VÀ TRẠNG THÁI 1B:
+  + src/app/globals.css: Đồng bộ typography font serif display cho tiêu đề H1/H2 của các màn hình /lo-dat, /da-luu, /lich-hen, /nft, /nft/[slug], /danh-muc-nft, /trai-nghiem; thêm styling cho .breadcrumb, .empty-state, .nft-empty, .saved-count; tinh chỉnh subtle shadow, border và focus ring cho các panel giao dịch (.journey-panel, .visit-card, .nft-purchase, .nft-holding, .nft-portfolio-summary).
+  + Giữ nguyên toàn bộ model/store/fixture nghiệp vụ 1B; không sửa text thành lời hứa sai khi state đang là chờ điều phối; không biến các trang thành pure client.
+- KIỂM TRA & TÀI LIỆU:
+  + scripts/capture-p06.mjs: Tự động chụp 18 ảnh có metadata đo đạc tại 5 viewports (360/390/430/768/1440px), zoom 200%, các trạng thái nghiệp vụ.
+  + docs/qa/ui-upgrade/P06/: 18 ảnh nghiệm thu, metadata.json, README.md chi tiết.
+  + docs/DESIGN.md: Bổ sung mục 12.10 quy chuẩn Người đồng hành, Card, Detail và Trạng thái 1B.
+  + docs/ASSETS.md: Bổ sung mục 3 ghi nhận vị trí sử dụng ảnh chân dung chuyên viên.
+  + docs/STATUS.md: Bổ sung mục Nghiệm thu P06 với số liệu kiểm tra thực tế.
+Quyết định đã thực thi:
+- Thay thế hoàn toàn vòng tròn initials đơn điệu trên Home và Detail bằng ảnh chân dung chuyên viên tỉ lệ 4:5 đã chuẩn bị từ P02 với phong cách ánh sáng ấm đồng đều.
+- Thẻ bất động sản tổ chức phân cấp rõ nét: Ảnh 4:3 → Meta top (Loại đất + Nút Lưu) → Tên Display Serif → Vị trí/Diện tích/Không gian → Trục Giá chào 22px + Nút mũi tên 44px.
+- Các màn hình nghiệp vụ 1B được khoác lên ngôn ngữ thiết kế nhất quán mà không làm thay đổi hay phá vỡ bất kỳ logic/state/model nào.
+Hành vi bắt buộc đã giữ:
+- 43/43 unit tests pass 100%.
+- 54/54 Playwright E2E tests (accessibility WCAG 2 AA & journeys) pass 100% trên cả Desktop và Mobile Chromium.
+- 25/25 routes SSG/dynamic build thành công.
+- Không có lỗi lint (0 error, 0 warning) và typecheck sạch sẽ.
+Kiểm tra:
+- pnpm lint: ĐẠT.
+- pnpm typecheck: ĐẠT.
+- pnpm test: ĐẠT (43/43).
+- pnpm build: ĐẠT (25/25 routes).
+- Playwright E2E: ĐẠT (54/54).
+Ảnh và điểm đã quan sát:
+- 18 ảnh trong docs/qa/ui-upgrade/P06/ xác nhận ảnh portrait chuyên viên sắc nét, card bất động sản sang trọng, detail thoáng đãng, empty states và panels giao dịch hòa quyện cùng ngôn ngữ Sunshine Group.
+Blocker / rủi ro / nội dung còn dở:
+- 8 lỗi WebKit viewport trên môi trường Windows tiếp tục được ghi nhận và cô lập như P00; không gây ảnh hưởng đến Chromium desktop/mobile.
+Phase tiếp theo và các file nên đọc đầu tiên:
+1. docs/ui-upgrade/phases/P07-gsap-setup.md (Nhiệm vụ P07 — Cài đặt và cấu hình GSAP)
+2. package.json, next.config.ts, src/app/globals.css
+```
 - src/app/globals.css: Loại bỏ CSS nft cũ; định nghĩa layout responsive cho .nft-story, .nft-story-inner, .nft-flow, .nft-panel, .nft-visual-matrix, .nft-actions trên nền Ink full-width. Trên mobile (<1024px) áp dụng display contents kết hợp order tự nhiên. Trên desktop (≥1024px) bố cục 2 cột cân xứng 5/12 ảnh sticky và 6.5/12 nội dung.
 - tests/unit/nft.test.ts: Bổ sung bộ test unit cho presentation helper (đạt 43/43 unit tests).
 - scripts/capture-p05.mjs: Tạo script capture tự động kiểm tra và chụp 7 ảnh có metadata tại 5 viewports (360/390/430/768/1440px), zoom 200%, ranh giới sáng-tối, dark focus và kiểm tra không chứa từ cấm.

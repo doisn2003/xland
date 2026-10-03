@@ -94,3 +94,19 @@ Triển khai theo hợp đồng [BRIEF C](ui-upgrade/BRIEF.md). Tạo ảnh châ
 
 - **Focal point:** Chiều dọc 3:4, ưu tiên vùng trung cảnh dòng sông và thung lũng (center 50% 60%).
 - **Ngân sách:** Nằm trong budget 150–250KB của BRIEF C.
+
+### 3. Vị trí sử dụng Ảnh chân dung Chuyên viên (P06)
+
+Từ phase P06, ảnh chân dung chuyên viên được đưa vào sử dụng chính thức trên giao diện:
+
+| Slot hiển thị | Component / File | Kích thước / Tỉ lệ | Persona áp dụng | Mục đích & Trải nghiệm |
+| --- | --- | --- | --- | --- |
+| **Chuyên viên Home** | `section#nguoi-dong-hanh`<br/>`src/app/page.tsx` | `size="portrait"`<br/>(140 × 175px, tỉ lệ 4:5) | `ADV-003` (Lê Thanh Hà)<br/>`ADV-004` (Phạm Ngọc Lan)<br/>`ADV-001` (Nguyễn Minh Anh) | Thẻ ngang mobile và thẻ dọc 3 cột desktop. Nút CTA dẫn trực tiếp về hồ sơ hỗ trợ chi tiết `/lo-dat/<slug>#ho-tro`. Thay thế hoàn toàn vòng tròn initials đơn điệu. |
+| **Khối Hỗ trợ Detail** | `section#ho-tro`<br/>`src/app/lo-dat/[slug]/page.tsx` | `size="portrait"`<br/>(140 × 175px, tỉ lệ 4:5) | Tương ứng theo lô đất (`advisor.id`):<br/>- `ADV-001`: Khánh Hòa<br/>- `ADV-002`: Nhà vườn<br/>- `ADV-003`: Miền Bắc<br/>- `ADV-004`: Hưng Yên | Chân dung sắc nét, ấm áp tạo sự tin cậy trong khối tư vấn trực tiếp của lô đất. |
+| **Sidebar Summary Detail** | `.property-summary`<br/>`src/app/lo-dat/[slug]/page.tsx` | `size="sm"`<br/>(36 × 36px, tròn) | Tương ứng theo lô đất | Thumbnail nhỏ gọn kèm tên chuyên viên trong khối tóm tắt giá và đặt lịch nhanh. |
+
+**Quy tắc hiển thị & Fallback:**
+- Luôn hiển thị ảnh chân dung WebP đã chuẩn bị (`advisors/*.webp`).
+- Nếu ảnh tải chậm hoặc offline, hệ thống tự động kích hoạt huy hiệu `initials` với màu sắc nhận diện tương phản chuẩn WCAG 2 AA (`avatar-theme-teal`, `avatar-theme-sage`, `avatar-theme-navy`, `avatar-theme-sand`).
+- Không dùng initials làm hình chính khi ảnh chân dung đã sẵn sàng.
+
