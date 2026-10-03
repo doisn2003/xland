@@ -1,0 +1,1058 @@
+{
+  "session": "P00-baseline",
+  "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+  "baseURL": "http://127.0.0.1:3200",
+  "totalCaptures": 50,
+  "captures": [
+    {
+      "file": "home-360.png",
+      "route": "/",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 360,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:22.337Z"
+    },
+    {
+      "file": "home-360-crop-hero.png",
+      "route": "/",
+      "cropOf": ".hero",
+      "requestedViewport": {
+        "width": 360,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:22.528Z"
+    },
+    {
+      "file": "home-360-crop-xland.png",
+      "route": "/",
+      "cropOf": "#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 360,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:22.616Z"
+    },
+    {
+      "file": "home-360-crop-nft.png",
+      "route": "/",
+      "cropOf": "#nft",
+      "requestedViewport": {
+        "width": 360,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:22.723Z"
+    },
+    {
+      "file": "home-360-crop-advisors.png",
+      "route": "/",
+      "cropOf": "#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 360,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:22.839Z"
+    },
+    {
+      "file": "home-360-crop-card.png",
+      "route": "/",
+      "cropOf": ".property-card:first",
+      "requestedViewport": {
+        "width": 360,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:22.956Z"
+    },
+    {
+      "file": "home-390.png",
+      "route": "/",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:24.883Z"
+    },
+    {
+      "file": "home-390-crop-hero.png",
+      "route": "/",
+      "cropOf": ".hero",
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:25.097Z"
+    },
+    {
+      "file": "home-390-crop-xland.png",
+      "route": "/",
+      "cropOf": "#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:25.210Z"
+    },
+    {
+      "file": "home-390-crop-nft.png",
+      "route": "/",
+      "cropOf": "#nft",
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:25.364Z"
+    },
+    {
+      "file": "home-390-crop-advisors.png",
+      "route": "/",
+      "cropOf": "#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:25.491Z"
+    },
+    {
+      "file": "home-390-crop-card.png",
+      "route": "/",
+      "cropOf": ".property-card:first",
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:25.616Z"
+    },
+    {
+      "file": "home-430.png",
+      "route": "/",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 430,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:27.530Z"
+    },
+    {
+      "file": "home-430-crop-hero.png",
+      "route": "/",
+      "cropOf": ".hero",
+      "requestedViewport": {
+        "width": 430,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:27.814Z"
+    },
+    {
+      "file": "home-430-crop-xland.png",
+      "route": "/",
+      "cropOf": "#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 430,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:27.915Z"
+    },
+    {
+      "file": "home-430-crop-nft.png",
+      "route": "/",
+      "cropOf": "#nft",
+      "requestedViewport": {
+        "width": 430,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:28.044Z"
+    },
+    {
+      "file": "home-430-crop-advisors.png",
+      "route": "/",
+      "cropOf": "#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 430,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:28.192Z"
+    },
+    {
+      "file": "home-430-crop-card.png",
+      "route": "/",
+      "cropOf": ".property-card:first",
+      "requestedViewport": {
+        "width": 430,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:28.348Z"
+    },
+    {
+      "file": "home-768.png",
+      "route": "/",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 768,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:30.532Z"
+    },
+    {
+      "file": "home-768-crop-hero.png",
+      "route": "/",
+      "cropOf": ".hero",
+      "requestedViewport": {
+        "width": 768,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:30.858Z"
+    },
+    {
+      "file": "home-768-crop-xland.png",
+      "route": "/",
+      "cropOf": "#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 768,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:30.973Z"
+    },
+    {
+      "file": "home-768-crop-nft.png",
+      "route": "/",
+      "cropOf": "#nft",
+      "requestedViewport": {
+        "width": 768,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:31.125Z"
+    },
+    {
+      "file": "home-768-crop-advisors.png",
+      "route": "/",
+      "cropOf": "#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 768,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:31.215Z"
+    },
+    {
+      "file": "home-768-crop-card.png",
+      "route": "/",
+      "cropOf": ".property-card:first",
+      "requestedViewport": {
+        "width": 768,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:31.315Z"
+    },
+    {
+      "file": "home-1440.png",
+      "route": "/",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:33.815Z"
+    },
+    {
+      "file": "home-1440-crop-hero.png",
+      "route": "/",
+      "cropOf": ".hero",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:34.297Z"
+    },
+    {
+      "file": "home-1440-crop-xland.png",
+      "route": "/",
+      "cropOf": "#cach-hoat-dong",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:34.393Z"
+    },
+    {
+      "file": "home-1440-crop-nft.png",
+      "route": "/",
+      "cropOf": "#nft",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:34.574Z"
+    },
+    {
+      "file": "home-1440-crop-advisors.png",
+      "route": "/",
+      "cropOf": "#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:34.709Z"
+    },
+    {
+      "file": "home-1440-crop-card.png",
+      "route": "/",
+      "cropOf": ".property-card:first",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:34.848Z"
+    },
+    {
+      "file": "detail-urban-390.png",
+      "route": "/lo-dat/goc-pho-long-bien",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed (lô đô thị XL-004)",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:36.095Z"
+    },
+    {
+      "file": "detail-urban-1440.png",
+      "route": "/lo-dat/goc-pho-long-bien",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed (lô đô thị XL-004)",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:37.503Z"
+    },
+    {
+      "file": "detail-nft-390.png",
+      "route": "/nft/mien-xanh-ven-song",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed (NFT-XL-001 mở bán)",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:38.698Z"
+    },
+    {
+      "file": "detail-nft-1440.png",
+      "route": "/nft/mien-xanh-ven-song",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "default seed (NFT-XL-001 mở bán)",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:39.835Z"
+    },
+    {
+      "file": "functional-catalog-390.png",
+      "route": "/lo-dat?region=Khánh Hòa",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "filtered by region Khánh Hòa",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:40.996Z"
+    },
+    {
+      "file": "functional-saved-390.png",
+      "route": "/da-luu",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "1 property saved",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:41.744Z"
+    },
+    {
+      "file": "functional-visit-form-390.png",
+      "route": "/lich-hen?lo=mien-xanh-ven-song",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit form active",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:42.516Z"
+    },
+    {
+      "file": "functional-visit-review-390.png",
+      "route": "/lich-hen?lo=mien-xanh-ven-song",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit review mode",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:42.692Z"
+    },
+    {
+      "file": "functional-visits-list-390.png",
+      "route": "/lich-hen",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit list with new request",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:42.897Z"
+    },
+    {
+      "file": "functional-nft-catalog-390.png",
+      "route": "/nft",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "3 NFT offerings (open, sold_out, paused)",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:43.672Z"
+    },
+    {
+      "file": "functional-nft-portfolio-390.png",
+      "route": "/danh-muc-nft",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "portfolio with 5 NFT purchased",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:44.960Z"
+    },
+    {
+      "file": "functional-reset-390.png",
+      "route": "/trai-nghiem",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 390,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "reset settings screen",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:45.797Z"
+    },
+    {
+      "file": "functional-catalog-1440.png",
+      "route": "/lo-dat?region=Khánh Hòa",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "filtered by region Khánh Hòa",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:46.910Z"
+    },
+    {
+      "file": "functional-saved-1440.png",
+      "route": "/da-luu",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "1 property saved",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:47.694Z"
+    },
+    {
+      "file": "functional-visit-form-1440.png",
+      "route": "/lich-hen?lo=mien-xanh-ven-song",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit form active",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:48.522Z"
+    },
+    {
+      "file": "functional-visit-review-1440.png",
+      "route": "/lich-hen?lo=mien-xanh-ven-song",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit review mode",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:48.789Z"
+    },
+    {
+      "file": "functional-visits-list-1440.png",
+      "route": "/lich-hen",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit list with new request",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:49.083Z"
+    },
+    {
+      "file": "functional-nft-catalog-1440.png",
+      "route": "/nft",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "3 NFT offerings (open, sold_out, paused)",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:50.042Z"
+    },
+    {
+      "file": "functional-nft-portfolio-1440.png",
+      "route": "/danh-muc-nft",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "portfolio with 5 NFT purchased",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:51.555Z"
+    },
+    {
+      "file": "functional-reset-1440.png",
+      "route": "/trai-nghiem",
+      "cropOf": null,
+      "requestedViewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "reset settings screen",
+      "commit": "0bf496cda428676db1cc70f0cd9d88bfa0c600d8",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T12:20:52.317Z"
+    }
+  ]
+}
