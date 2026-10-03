@@ -1,0 +1,388 @@
+{
+  "phase": "P06",
+  "title": "Tính nhất quán thị giác và hoàn thiện người đồng hành",
+  "generatedAt": "2026-10-03T18:25:25.892Z",
+  "baseURL": "http://127.0.0.1:3000",
+  "gitCommit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+  "totalCaptures": 18,
+  "captures": [
+    {
+      "file": "p06-advisors-home-360.png",
+      "route": "/#nguoi-dong-hanh",
+      "cropOf": "section#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 360,
+        "height": 740
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "advisors-home-portrait",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:14.991Z"
+    },
+    {
+      "file": "p06-advisors-home-390.png",
+      "route": "/#nguoi-dong-hanh",
+      "cropOf": "section#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "advisors-home-portrait",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:15.774Z"
+    },
+    {
+      "file": "p06-advisors-home-430.png",
+      "route": "/#nguoi-dong-hanh",
+      "cropOf": "section#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 430,
+        "height": 932
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "advisors-home-portrait",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:16.569Z"
+    },
+    {
+      "file": "p06-advisors-home-768.png",
+      "route": "/#nguoi-dong-hanh",
+      "cropOf": "section#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "advisors-home-portrait",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:17.445Z"
+    },
+    {
+      "file": "p06-advisors-home-1440.png",
+      "route": "/#nguoi-dong-hanh",
+      "cropOf": "section#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "advisors-home-portrait",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:18.291Z"
+    },
+    {
+      "file": "p06-card-grid-390.png",
+      "route": "/#kham-pha",
+      "cropOf": ".property-grid",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "card-grid-display-serif",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:19.286Z"
+    },
+    {
+      "file": "p06-card-grid-1440.png",
+      "route": "/#kham-pha",
+      "cropOf": ".property-grid",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "card-grid-display-serif",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:20.358Z"
+    },
+    {
+      "file": "p06-detail-support-390.png",
+      "route": "/lo-dat/mien-xanh-ven-song#ho-tro",
+      "cropOf": "section#ho-tro",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "detail-support-portrait",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:21.090Z"
+    },
+    {
+      "file": "p06-detail-support-1440.png",
+      "route": "/lo-dat/mien-xanh-ven-song#ho-tro",
+      "cropOf": "section#ho-tro",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "detail-support-portrait",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:21.881Z"
+    },
+    {
+      "file": "p06-saved-empty-390.png",
+      "route": "/da-luu",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "favorites-empty-state",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:22.158Z"
+    },
+    {
+      "file": "p06-saved-populated-1440.png",
+      "route": "/da-luu",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "favorites-populated",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:22.694Z"
+    },
+    {
+      "file": "p06-visit-form-390.png",
+      "route": "/lich-hen?lo=mien-xanh-ven-song",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit-form-request",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:23.073Z"
+    },
+    {
+      "file": "p06-visit-list-1440.png",
+      "route": "/lich-hen",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "visit-list-seed",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:23.405Z"
+    },
+    {
+      "file": "p06-nft-detail-390.png",
+      "route": "/nft/mien-xanh-ven-song",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-detail-mobile",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:23.798Z"
+    },
+    {
+      "file": "p06-nft-detail-1440.png",
+      "route": "/nft/mien-xanh-ven-song",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-detail-desktop",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:24.168Z"
+    },
+    {
+      "file": "p06-nft-portfolio-1440.png",
+      "route": "/danh-muc-nft",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-portfolio-summary",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:24.500Z"
+    },
+    {
+      "file": "p06-experience-reset-390.png",
+      "route": "/trai-nghiem",
+      "cropOf": "full-viewport",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "experience-reset",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:24.823Z"
+    },
+    {
+      "file": "p06-advisors-zoom200.png",
+      "route": "/#nguoi-dong-hanh",
+      "cropOf": "section#nguoi-dong-hanh",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "advisors-zoom-200",
+      "commit": "e4e6631bfdbe8aa26f3ac4f20829d86b4d6d56f2",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T18:25:25.824Z"
+    }
+  ]
+}

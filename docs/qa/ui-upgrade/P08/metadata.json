@@ -1,0 +1,338 @@
+{
+  "phase": "P08",
+  "title": "Biên đạo GSAP cho home Xland (4 motion scenes)",
+  "generatedAt": "2026-10-03T20:02:04.497Z",
+  "baseURL": "http://127.0.0.1:3100",
+  "gitCommit": "65cf0bc64f82dfb3336b2290916172a9eea0a561",
+  "totalCaptures": 23,
+  "captures": [
+    {
+      "file": "p08-hero-360.png",
+      "scene": "Scene 1: Hero settle",
+      "viewport": {
+        "width": 360,
+        "height": 740,
+        "name": "360"
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-story-360.png",
+      "scene": "Scene 2: Xland Story steps reveal",
+      "viewport": {
+        "width": 360,
+        "height": 740,
+        "name": "360"
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-nft-360.png",
+      "scene": "Scene 3: NFT Story & media parallax",
+      "viewport": {
+        "width": 360,
+        "height": 740,
+        "name": "360"
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-advisors-360.png",
+      "scene": "Scene 4: Advisors reveal",
+      "viewport": {
+        "width": 360,
+        "height": 740,
+        "name": "360"
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-hero-390.png",
+      "scene": "Scene 1: Hero settle",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "name": "390"
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-story-390.png",
+      "scene": "Scene 2: Xland Story steps reveal",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "name": "390"
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-nft-390.png",
+      "scene": "Scene 3: NFT Story & media parallax",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "name": "390"
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-advisors-390.png",
+      "scene": "Scene 4: Advisors reveal",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "name": "390"
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-hero-430.png",
+      "scene": "Scene 1: Hero settle",
+      "viewport": {
+        "width": 430,
+        "height": 932,
+        "name": "430"
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-story-430.png",
+      "scene": "Scene 2: Xland Story steps reveal",
+      "viewport": {
+        "width": 430,
+        "height": 932,
+        "name": "430"
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-nft-430.png",
+      "scene": "Scene 3: NFT Story & media parallax",
+      "viewport": {
+        "width": 430,
+        "height": 932,
+        "name": "430"
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-advisors-430.png",
+      "scene": "Scene 4: Advisors reveal",
+      "viewport": {
+        "width": 430,
+        "height": 932,
+        "name": "430"
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-hero-768.png",
+      "scene": "Scene 1: Hero settle",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "name": "768"
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-story-768.png",
+      "scene": "Scene 2: Xland Story steps reveal",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "name": "768"
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-nft-768.png",
+      "scene": "Scene 3: NFT Story & media parallax",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "name": "768"
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-advisors-768.png",
+      "scene": "Scene 4: Advisors reveal",
+      "viewport": {
+        "width": 768,
+        "height": 1024,
+        "name": "768"
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-hero-1440.png",
+      "scene": "Scene 1: Hero settle",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "name": "1440"
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-story-1440.png",
+      "scene": "Scene 2: Xland Story steps reveal",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "name": "1440"
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-nft-1440.png",
+      "scene": "Scene 3: NFT Story & media parallax",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "name": "1440"
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-advisors-1440.png",
+      "scene": "Scene 4: Advisors reveal",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "name": "1440"
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      }
+    },
+    {
+      "file": "p08-reduced-motion-advisors-1440.png",
+      "scene": "Reduced Motion (Scene 4)",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "name": "1440"
+      },
+      "reducedMotion": "reduce"
+    },
+    {
+      "file": "p08-deeplink-nft-1440.png",
+      "scene": "Deep link direct navigation #nft",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "name": "1440"
+      }
+    },
+    {
+      "file": "p08-zoom200-story-1440.png",
+      "scene": "Zoom 200% (Scene 2)",
+      "viewport": {
+        "width": 1440,
+        "height": 900,
+        "name": "1440"
+      }
+    }
+  ]
+}

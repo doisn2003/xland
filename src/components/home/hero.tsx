@@ -1,18 +1,21 @@
 import Link from "next/link";
 import { PropertyImage } from "@/components/property-image";
 import { Icon } from "@/components/icon";
+import { HeroSettle } from "@/components/motion/hero-settle";
 
 export function Hero() {
   return (
     <section className="hero" aria-labelledby="hero-title" data-hero-section>
       <div className="hero-media-wrap" data-hero-media>
-        <PropertyImage
-          src="/images/hero.webp"
-          alt="Cảnh quan ven biển nhìn từ trên cao tại Cam Ranh, Việt Nam"
-          sizes="100vw"
-          preload
-          className="hero-photo"
-        />
+        <HeroSettle>
+          <PropertyImage
+            src="/images/hero.webp"
+            alt="Cảnh quan ven biển nhìn từ trên cao tại Cam Ranh, Việt Nam"
+            sizes="100vw"
+            preload
+            className="hero-photo"
+          />
+        </HeroSettle>
         <div className="hero-shade" aria-hidden="true" />
       </div>
 

@@ -239,3 +239,89 @@ Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị
   - `data-story-step`: Từng bước đơn lẻ để animate staggered.
   - `data-story-actions`: Cụm nút CTA và sublink.
   - `data-story-media`: Khung ảnh chủ đạo bên cạnh.
+
+### 12.9. Quy chuẩn Section Bất động sản NFT Story (P05)
+- **Component & Cấu trúc Semantic (`src/components/home/nft-story.tsx`):**
+  - Section Server Component tinh gọn, `id="nft"`, `aria-labelledby="nft-heading"`.
+  - Heading hierarchy chuẩn: H2 cho tiêu đề section, H3 cho các bước quy trình và panel phương án.
+  - Mạch đọc mobile first: `Eyebrow → H2 → Lead → Ảnh lớn → Sơ đồ 3 bước → Panel phương án → Chú thích → CTAs`.
+- **Nhịp Thị giác Sáng / Tối (Dark Contrast Rhythm):**
+  - Nền Ink `#102D3B` (gradient `linear-gradient(180deg, #102d3b 0%, #0d2531 100%)`) full-width.
+  - Đóng vai trò khoảng lặng thị giác sang trọng, tạo điểm nhấn công nghệ giữa chương Xland Story (nền sáng `#F5F3EE`) và chương Người đồng hành (`#nguoi-dong-hanh`, nền sáng).
+- **Asset Media:**
+  - Asset `public/images/garden-retreat.webp` (1536×1024), tỷ lệ 16:10 trên mobile và 4:3 trên desktop.
+  - Tích hợp qua `PropertyImage` với declarative fallback giữ nguyên bố cục và khả năng đọc khi ảnh tải chậm hoặc offline.
+- **Sơ đồ Quy trình 3 bước (Native HTML/SVG):**
+  - Ba bước: `01. Hồ sơ tài sản` → `02. Phương án NFT` → `03. Danh mục của bạn`.
+  - Mũi tên kết nối mảnh `aria-hidden="true"`, số thứ tự badge viền champagne `#D8C49D`.
+  - Thể hiện quy trình tìm hiểu/tham gia minh bạch; không gây hiểu lầm là chia ranh giới địa chính hay thửa đất vật lý.
+- **Panel Định lượng Phương án Minh họa:**
+  - Dữ liệu động lấy từ `src/features/nft/presentation.ts` dựa trên offering mở bán thật (`XL-001` - `Miền xanh ven sông`): Tổng cung 1.000 NFT (chuẩn ERC-1155), đơn giá 2.800.000 ₫, tỷ lệ 0,1% / 1 NFT và 1% / 10 NFT.
+  - Loại bỏ hoàn toàn tồn seed để tránh nhầm lẫn sau khi mua theo BRIEF D2.
+  - Lưới Visual Matrix 20 ô nhỏ trực quan hóa tỷ lệ 1% / 10 NFT kèm disclaimer pháp lý rõ ràng.
+- **Tương phản & Khả năng tiếp cận (WCAG 2 AA & AAA):**
+  - Tiêu đề H2 (`.nft-title`): Chữ trắng `#FFFFFF` trên nền Ink `#102D3B`, đạt tương phản **14.2:1 (AAA)**; chữ nhấn Warm Gold `#D8C49D` đạt **7.8:1 (AAA)**.
+  - Nút CTA chính (`.nft-cta-primary`): Chữ đậm `#102D3B` trên nền Warm Gold `#D8C49D`, đạt tương phản **7.8:1 (AAA)**.
+  - Link phụ (`.nft-link-sub`): Chữ `#E0ECEF` trên nền Ink `#102D3B`, đạt tương phản **12.5:1 (AAA)**.
+  - Neo cuộn: `scroll-margin-top: 96px`, đảm bảo khi nhấn link anchor `#nft`, tiêu đề section luôn nằm dưới header cố định an toàn ít nhất 28–32px.
+- **Data Hooks chuẩn bị cho Motion (P07/P08):**
+  - `data-nft-story`: Vùng chứa toàn section.
+  - `data-nft-content`: Cột nội dung chính trên desktop.
+  - `data-nft-header`: Cụm eyebrow, tiêu đề H2 và đoạn lead.
+  - `data-nft-media`: Khung ảnh tài sản lớn.
+  - `data-nft-flow`: Sơ đồ quy trình 3 bước.
+  - `data-nft-step`: Từng bước trong sơ đồ.
+  - `data-nft-panel`: Khối panel định lượng và visual matrix.
+  - `data-nft-actions`: Cụm nút CTA và link phụ.
+
+### 12.10. Quy chuẩn Người đồng hành, Card, Detail và Đồng bộ Trạng thái 1B (P06)
+- **Hình tượng Người đồng hành (`#nguoi-dong-hanh` & `#ho-tro`):**
+  - Sử dụng ảnh chân dung tỉ lệ 4:5 (`Avatar size="portrait"` 140×175px) với phong cách ánh sáng ấm tự nhiên, crop chuẩn khuôn mặt và đồng nhất chất lượng từ asset P02.
+  - Mobile: Thẻ ngang sang trọng, chân dung bên trái, tên font serif và CTA "Xem hồ sơ hỗ trợ →" bên phải dẫn trực tiếp đến `/lo-dat/<slug>#ho-tro`.
+  - Tablet/Desktop: Lưới 3 cột cân xứng, tối đa 3 chuyên viên theo logic phân vùng thực tế (Hà Nội, Hưng Yên, Khánh Hòa).
+  - Khối hỗ trợ `#ho-tro` trên trang chi tiết: Layout ngang thoáng đãng với chân dung chuyên viên phụ trách lô đất, thông tin đầu mối trực tiếp.
+  - Fallback initials: Tự động kích hoạt các huy hiệu chữ cái đầu (`MA`, `HN`, `TH`, `NL`) theo bảng màu nhận diện khi ảnh tải chậm hoặc offline.
+- **Quy chuẩn Thẻ bất động sản (`PropertyCard`):**
+  - Khung ảnh: Tỉ lệ 4:3 cố định, bo góc `var(--radius-card)` (16px), scale nhẹ 1.03 khi hover trên thiết bị trỏ chính xác.
+  - Cụm `card-meta-top`: Phân loại bất động sản in hoa trang nhã bên trái, nút lưu `SaveButton` dạng ghost 44px bên phải, tách biệt hoàn toàn khỏi anchor link để đảm bảo tính độc lập và khả năng tiếp cận (`aria-pressed`).
+  - Tiêu đề tài sản: Sử dụng font serif display (`font-family: var(--font-display)`), cỡ chữ 20px, line-height 1.35.
+  - Giá chào & Điều hướng: Giá chào nổi bật 22px (`strong`) kèm đơn vị "tỷ đ", nút tròn điều hướng 44×44px touch target với mũi tên hướng đông.
+- **Đồng bộ Màn hình & Trạng thái 1B:**
+  - **Typography display serif**: Toàn bộ tiêu đề H1/H2 của các trang `/lo-dat`, `/da-luu`, `/lich-hen`, `/nft`, `/nft/[slug]`, `/danh-muc-nft`, `/trai-nghiem` được đồng bộ với font serif display mang tinh thần Sunshine Group.
+  - **Breadcrumb**: Định dạng phân cấp đường dẫn trang nhã, màu mực dịu nhẹ, phân cách bằng dấu gạch chéo tinh tế.
+  - **Empty States (`.empty-state`, `.nft-empty`)**: Nền `var(--color-surface)` ấm áp, viền đứt đoạn nhẹ nhàng, tiêu đề serif và nút CTA rõ ràng.
+  - **Panel giao dịch (`.journey-panel`, `.visit-card`, `.nft-purchase`, `.nft-holding`)**: Đổ bóng nhẹ `var(--shadow-subtle)`, bo góc 16px, trường nhập liệu có viền focus ring 3px xanh sẫm.
+  - **Nhãn cảnh báo & lưu ý**: Cảnh báo storage và ghi chú "Không phát sinh thanh toán" có độ tương phản cao, phông chữ 13–14px dễ đọc, đáp ứng tiêu chuẩn WCAG AA.
+
+### 12.11. Quy chuẩn Nền tảng Chuyển động GSAP & Thử nghiệm Xland Story (P07)
+- **Kiến trúc Client Motion Island:**
+  - Áp dụng triệt để mô hình Client Island cục bộ (`src/components/motion/`), không chuyển đổi Server Components toàn trang thành Client Component.
+  - Sử dụng `@gsap/react` với hook `useGSAP` có `scope: containerRef` để tự động hóa hoàn toàn vòng đời dọn dẹp tween và `ScrollTrigger`. Tuyệt đối không gọi `ScrollTrigger.killAll()` khi một component unmount.
+  - Media query thích ứng phân nhánh qua `gsap.matchMedia()` kết hợp hook `usePrefersReducedMotion` (`useSyncExternalStore`):
+    * **Desktop (≥1024px)**: Mask `inset(8% 8% 8% 8%) → inset(0% 0% 0% 0%)`, scale `1.04 → 1`, thời lượng 850ms, ease `power2.out`.
+    * **Mobile (<1024px)**: Opacity `0.2 → 1`, translateY `12px → 0px`, thời lượng 600ms, ease `power2.out`.
+    * **Reduced Motion**: Vô hiệu hóa hiệu ứng, duy trì trạng thái tĩnh hoàn chỉnh (`transform = none`).
+- **Nguyên tắc Progressive Enhancement:**
+  - CSS trong stylesheet mặc định giữ nguyên `opacity: 1`, không dùng `display: none` hay `opacity: 0` tĩnh để chờ JavaScript tải.
+  - Khi người dùng deep-link trực tiếp đến neo `#cach-hoat-dong` hoặc phần tử đã nằm trong viewport trước khi kịch bản chạy, hệ thống lập tức hiển thị nội dung, không chạy lại animation từ trạng thái ẩn.
+  - Khi unmount hoặc hoàn tất tween, áp dụng `clearProps` để tránh lưu lại các inline style tĩnh gây xung đột layout.
+### 12.12. Quy chuẩn Biên đạo Chuyển động 4 Scenes Trang chủ (P08)
+
+Toàn bộ 4 scene trọng tâm trên trang chủ Xland được biên đạo đồng bộ, tinh tế dựa trên nền tảng GSAP 3.15.0 và ScrollTrigger đã thiết lập ở P07, phục vụ nhịp điệu thương hiệu cao cấp mang cảm hứng Sunshine Group mà không làm chậm trải nghiệm hay cản trở tác vụ:
+
+#### 1. Bảng Ma trận Chuyển động (Motion Matrix)
+
+| Scene | Thành phần (Target Node) | Kích hoạt (Trigger & Start) | Hành vi Desktop (≥1024px) | Hành vi Mobile (<1024px) | Reduced Motion | Thời lượng / Stagger / Easing | Dọn dẹp & Tương tác |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Scene 1: Hero** | `.hero-photo` (lớp ảnh nền) | Ngay khi ảnh sẵn sàng trong viewport | Settle scale nhẹ `1.04 → 1`, opacity `0.85 → 1` | Settle scale nhẹ `1.025 → 1`, opacity `0.9 → 1` | Tĩnh, scale `1`, không tween | 850ms desktop, 700ms mobile. Easing: `power2.out`. | `clearProps: "all"`. Tiêu đề LCP và nút CTA có ngay lập tức, không mask text. Nếu cuộn qua trước khi ảnh load thì hủy tween. |
+| **Scene 2: Xland Story** | - Khung ảnh `.story-media-frame`<br/>- 3 bước `.story-step-item` | Top chạm `85%` viewport (ScrollTrigger `once: true`) | - Ảnh: mask inset `8% → 0%`, scale `1.04 → 1`<br/>- 3 bước: fade-up `y: 16px → 0`, stagger `80ms` | - Ảnh: fade-up nhẹ `y: 12px → 0`<br/>- 3 bước: fade-up `y: 12px → 0`, stagger `50ms` | Tĩnh hoàn toàn, `transform: none`, hiển thị ngay | - Ảnh: 850ms desktop, 600ms mobile<br/>- 3 bước: 550ms (tổng nhóm ≤600ms). Easing: `power2.out`. | `clearProps: "all"` ngay sau khi hoàn tất. Nút CTA bên dưới độc lập, không trễ nhịp. Heading/body không tách ký tự rời. |
+| **Scene 3: NFT Story** | - Khung ảnh `.nft-media-frame`<br/>- Parallax ảnh desktop<br/>- 3 bước quy trình `[data-nft-step]` | Top chạm `88%` viewport (ScrollTrigger `once: true`) | - Reveal ảnh 1 lần: scale `1.05 → 1`<br/>- Parallax ảnh: `y: -10px → +10px` (biên độ 20px, `scrub: 0.5`)<br/>- 3 bước: fade-up `y: 14px → 0`, stagger `80ms` | - Reveal ảnh: scale `1.025 → 1`<br/>- KHÔNG parallax, KHÔNG scrub<br/>- 3 bước: fade-up `y: 10px → 0`, stagger `50ms` | Tĩnh hoàn toàn, không scrub, không parallax | - Reveal ảnh: 750ms desktop, 500ms mobile<br/>- 3 bước: 500ms desktop, 400ms mobile. Easing: `power2.out`. | `clearProps: "all"`. Nền và tiêu đề tĩnh; bảng định lượng, con số tổng cung, đơn giá và tỷ lệ luôn là giá trị cuối, không count-up. Không pin section. |
+| **Scene 4: Chuyên viên** | 3 thẻ chuyên viên `.advisor-card` | Top chạm `85%` (desktop) / `88%` (mobile) viewport | Chân dung và thẻ xuất hiện cùng nhau, fade-up `y: 16px → 0`, stagger `70ms` | Fade-up nhẹ `y: 10px → 0`, stagger `50ms` | Tĩnh hoàn toàn, hiển thị nguyên bản | 500ms desktop, 400ms mobile. Easing: `power2.out`. | `clearProps: "all"` ngay khi hoàn tất để nhường toàn bộ quyền điều khiển cho CSS `:hover` (`translateY(-2px)`, `box-shadow`) và `:focus-visible`. Tên và link CTA không bị che giấu. |
+
+#### 2. Nguyên tắc Bảo tồn Tương phản & Khả năng tiếp cận (Accessibility First)
+- **Bảo toàn Độ tương phản WCAG AA**: Không gán `opacity: 0` hay `opacity: 0.35` tĩnh trong CSS hoặc inline DOM khi phần tử chưa cuộn vào viewport. Sử dụng callback `onEnter` của `ScrollTrigger.create` để kích hoạt `gsap.fromTo()`. Nhờ đó, trình thu thập dữ liệu (axe-core, Lighthouse) và người dùng cuộn chậm luôn thấy độ tương phản màu chuẩn 4.5:1 / 7:1 mọi lúc.
+- **Tách bạch CSS Hover và GSAP Transform**: Sau khi animation kết thúc, toàn bộ các thuộc tính inline `transform`, `opacity` được dọn dẹp bằng `clearProps: "all"`. Các hiệu ứng hover mượt mà và outline bàn phím của thẻ card chuyên viên hoàn toàn do CSS đảm nhiệm.
+- **Bảo toàn Thao tác & Luồng điều hướng**: Menu và thanh tìm kiếm có thể bấm được ngay khi scene đang chạy; Tab bàn phím không bị nhảy cóc hay giấu focus stop; không bao giờ áp dụng hiệu ứng lên toàn bộ container form hoặc nút bấm.
+- **Xử lý Deep-Link & Back Navigation**: Khi người dùng vào trang qua anchor hash (`/#cach-hoat-dong`, `/#nft`, `/#nguoi-dong-hanh`), hệ thống tự động phát hiện vị trí và gọi `clearProps: "all"`, lập tức hiển thị trạng thái hoàn thiện mà không chạy lại animation từ đầu.
+
+

@@ -1,0 +1,171 @@
+{
+  "phase": "P05",
+  "capturedAt": "2026-10-03T14:37:57.921Z",
+  "totalCaptures": 7,
+  "baseURL": "http://127.0.0.1:3200",
+  "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+  "captures": [
+    {
+      "file": "p05-nft-360.png",
+      "route": "/#nft",
+      "cropOf": "section#nft",
+      "requestedViewport": {
+        "width": 360,
+        "height": 740
+      },
+      "metrics": {
+        "innerWidth": 360,
+        "clientWidth": 360,
+        "scrollWidth": 360,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-story-section",
+      "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T14:37:48.494Z"
+    },
+    {
+      "file": "p05-nft-390.png",
+      "route": "/#nft",
+      "cropOf": "section#nft",
+      "requestedViewport": {
+        "width": 390,
+        "height": 844
+      },
+      "metrics": {
+        "innerWidth": 390,
+        "clientWidth": 390,
+        "scrollWidth": 390,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-story-section",
+      "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T14:37:49.774Z"
+    },
+    {
+      "file": "p05-nft-430.png",
+      "route": "/#nft",
+      "cropOf": "section#nft",
+      "requestedViewport": {
+        "width": 430,
+        "height": 932
+      },
+      "metrics": {
+        "innerWidth": 430,
+        "clientWidth": 430,
+        "scrollWidth": 430,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-story-section",
+      "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T14:37:51.022Z"
+    },
+    {
+      "file": "p05-nft-768.png",
+      "route": "/#nft",
+      "cropOf": "section#nft",
+      "requestedViewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "metrics": {
+        "innerWidth": 768,
+        "clientWidth": 768,
+        "scrollWidth": 768,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-story-section",
+      "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T14:37:52.356Z"
+    },
+    {
+      "file": "p05-nft-1440.png",
+      "route": "/#nft",
+      "cropOf": "section#nft",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "nft-story-section",
+      "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T14:37:53.684Z"
+    },
+    {
+      "file": "p05-nft-zoom-200.png",
+      "route": "/#nft",
+      "cropOf": "section#nft",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "zoom-200-percent",
+      "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T14:37:55.363Z"
+    },
+    {
+      "file": "p05-nft-boundary-1440.png",
+      "route": "/",
+      "cropOf": "boundary-xland-story-to-nft",
+      "requestedViewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "metrics": {
+        "innerWidth": 1440,
+        "clientWidth": 1440,
+        "scrollWidth": 1440,
+        "devicePixelRatio": 1
+      },
+      "browser": "Chromium (Playwright)",
+      "reducedMotion": "reduce",
+      "state": "light-to-dark-transition",
+      "commit": "786a10f38b854aa497d7d8b612dc98e7c59b4372",
+      "imageFailures": [],
+      "timestamp": "2026-10-03T14:37:56.571Z"
+    },
+    {
+      "file": null,
+      "route": "/",
+      "cropOf": "keyboard-dark-focus-and-units-test",
+      "testResults": {
+        "titleNotCoveredByStickyHeader": true,
+        "nftCtaFocusable": true,
+        "nftSublinkFocusable": true,
+        "hasDongUnit": true,
+        "hasPercentUnit": true,
+        "hasErc1155": true,
+        "noForbiddenWords": true
+      },
+      "timestamp": "2026-10-03T14:37:57.825Z"
+    }
+  ]
+}

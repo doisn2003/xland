@@ -1,6 +1,149 @@
 # Trạng thái Xland
 
-Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer) và **P04 — Chương giới thiệu Xland (`#cach-hoat-dong`)**.
+Cập nhật: 04/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland), P05 (Chương bất động sản NFT), P06 (Người đồng hành & Nhất quán 1B), P07 (Nền GSAP an toàn) và **P08 — Biên đạo GSAP cho home Xland (4 motion scenes)**.
+
+## Nghiệm thu Giai đoạn P08 — 04/10/2026
+
+- Đã hoàn thành duy nhất phase **P08 (Biên đạo GSAP cho home Xland)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF E/F/G](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P08-motion-scenes](ui-upgrade/phases/P08-motion-scenes.md).
+- **Hạng mục hoàn thành:**
+  1. **Biên đạo 4 Scenes Trang chủ (Scoped Client Islands):**
+     - **Scene 1 (Hero)**: Settle scale nhẹ ảnh nền `.hero-photo` (1.04 → 1 desktop, 1.025 → 1 mobile trong 700–850ms, ease `power2.out`). LCP text và nút CTA hiển thị ngay lập tức, không mask text LCP. Tự động bỏ qua animation nếu người dùng đã cuộn qua hoặc late load.
+     - **Scene 2 (Xland Story)**: Khung ảnh reveal mask kết hợp 3 bước `.story-steps` xuất hiện stagger ngắn (80ms desktop, 50ms mobile; tổng thời lượng ≤600ms). CTA không bị delay.
+     - **Scene 3 (NFT Story)**: Nền và tiêu đề tĩnh; media reveal 1 lần; desktop parallax nhẹ trên lớp ảnh riêng biệt trong khung overflow (biên độ ≤20px, `scrub: 0.5`); mobile/reduced motion không scrub/parallax; 3 bước sơ đồ stagger 80ms; số liệu định lượng, đơn giá, tổng cung và tỷ lệ luôn là giá trị cuối, không count-up.
+     - **Scene 4 (Chuyên viên)**: 3 thẻ `.advisor-card` và chân dung xuất hiện cùng nhau, fade-up `y: 16px → 0`, stagger 70ms desktop, 50ms mobile. Kết thúc bằng `clearProps: "all"` để nhường 100% quyền điều khiển cho CSS `:hover` (`translateY(-2px)`, `box-shadow`) và `:focus-visible`.
+  2. **Bảo tồn Tương phản & Khả năng tiếp cận (Accessibility First):**
+     - Áp dụng `ScrollTrigger.create` với callback `onEnter` để kích hoạt `gsap.fromTo()`. Không gán `opacity: 0` hay `opacity: 0.35` vào DOM trước khi phần tử cuộn vào tầm nhìn. Đảm bảo toàn bộ bài kiểm tra tương phản màu WCAG AA và axe-core accessibility audit luôn đạt 100% tại mọi vị trí trang.
+     - Phân tách rõ ràng giữa node chịu GSAP transform và CSS hover/focus.
+     - Menu, thanh tìm kiếm và phím Tab hoạt động bình thường ngay khi animation đang chạy.
+     - Xử lý mượt mà khi deep-link qua hash (`#cach-hoat-dong`, `#nft`, `#nguoi-dong-hanh`) hoặc Back navigation: lập tức khôi phục trạng thái hoàn chỉnh bằng `clearProps`.
+  3. **Hiệu năng & Cô lập Bundle:**
+     - Đo đạc qua Performance API: **Long Task Count (>50ms) = 0**, **Max Long Task Duration = 0ms**, DOMContentLoaded = 34ms.
+     - Kích thước JS trang chủ chỉ tăng ~2 KB so với P07 (~643 KB). Các route nghiệp vụ (`/lich-hen`, `/nft/[slug]`, v.v.) hoàn toàn 0 KB GSAP.
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 46/46 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic thành công).
+  + Playwright E2E Suite: **76/76 tests PASSED (100%)** trên Chromium Desktop và Mobile (bao gồm 22 tests motion `motion.spec.ts`, 6 tests accessibility WCAG AA, 48 tests scaffold & journeys).
+- **Bộ chứng cứ Nghiệm thu P08 (`docs/qa/ui-upgrade/P08/`):**
+  + 23 ảnh chụp màn hình kiểm soát đa viewport (360/390/430/768/1440px), zoom 200%, reduced motion, deep links.
+  + Video thực tế `p08-home-motion-flow.webm` thể hiện quá trình cuộn thực tế mượt mà, không giật layout.
+  + `trace-summary.json` và `README.md` báo cáo chi tiết.
+- Bước tiếp theo: [P09 — Nghiệm thu tổng thể và chốt giao diện](ui-upgrade/phases/P09-final-acceptance.md).
+
+## Nghiệm thu Giai đoạn P07 — 04/10/2026
+
+- Đã hoàn thành duy nhất phase **P07 (Nền GSAP an toàn cho React và mobile)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF E/F/G](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P07-motion-foundation](ui-upgrade/phases/P07-motion-foundation.md).
+- **Hạng mục hoàn thành:**
+  1. **Cài đặt Dependency:**
+     - Đã cài chính xác: `gsap@3.15.0` và `@gsap/react@2.1.2` qua pnpm `--save-exact`. Không có lockfile lạ, không dùng dependency trôi nổi.
+  2. **Kiến trúc Client Motion Island:**
+     - Tạo module `src/components/motion/gsap-core.ts` đăng ký plugin một lần duy nhất (`gsap.registerPlugin(ScrollTrigger, useGSAP)`).
+     - Tạo hook `src/components/motion/use-reduced-motion.ts` dùng `useSyncExternalStore` chuẩn React 19 để bắt media query `prefers-reduced-motion`, không gây cascading render.
+     - Tạo client island `StoryImageReveal` (`src/components/motion/story-image-reveal.tsx`) bọc khung ảnh trong Server Component `xland-story.tsx`.
+  3. **Kịch bản Reveal Thử nghiệm:**
+     - Desktop (≥1024px): Mask `inset(8% 8% 8% 8%) → inset(0% 0% 0% 0%)`, scale `1.04 → 1`, thời lượng 850ms, ease `power2.out`.
+     - Mobile (<1024px): Opacity `0.2 → 1`, translateY `12px → 0px`, thời lượng 600ms, ease `power2.out`.
+     - Reduced motion: Bỏ toàn bộ mask/transform, giữ nguyên bản tĩnh cuối (`transform = none`).
+     - Deep-link `#cach-hoat-dong` hoặc phần tử đã trong viewport: Hiển thị ngay tức thì, không bị trễ.
+  4. **Progressive Enhancement:**
+     - CSS mặc định là `opacity: 1`, hình ảnh và văn bản luôn đọc được ngay cả khi tắt JS hoặc lỗi mạng.
+  5. **Cô lập Bundle (Code Splitting):**
+     - Module motion chỉ được tải khi vào trang Home (`/`). Route form nghiệp vụ (`/lich-hen`) hoàn toàn không tải bất kỳ script nào của GSAP.
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 46/46 unit tests** (100%), bao gồm cả 3 test motion mới.
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic thành công).
+  + Playwright E2E: **64/64 tests PASSED (100%)** (bao gồm 54 tests regression + 10 tests motion mới `motion.spec.ts` trên cả desktop-chromium và mobile-chromium).
+- **Bộ ảnh Nghiệm thu P07 (`docs/qa/ui-upgrade/P07/`):**
+  + 5 ảnh có metadata đo đạc: `p07-story-reveal-1440.png`, `p07-story-reveal-390.png`, `p07-story-reduced-motion-1440.png`, `p07-story-deeplink-1440.png`, `p07-story-zoom200.png`.
+- Bước tiếp theo: [P08 — Hoàn thiện chuyển động toàn trang](ui-upgrade/phases/P08-motion-choreography.md).
+
+## Nghiệm thu Giai đoạn P06 — 04/10/2026
+
+- Đã hoàn thành toàn bộ phase **P06 (Tính nhất quán thị giác và hoàn thiện người đồng hành)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF A–C/F–G](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P06-consistency](ui-upgrade/phases/P06-consistency.md).
+- Triển khai nghiêm ngặt theo quy trình hai lượt: **Lượt A (Chuyên viên, Card, Detail)** và **Lượt B (Màn hình & Trạng thái 1B)**.
+- **Hạng mục hoàn thành:**
+
+### 1. LƯỢT A — CHUYÊN VIÊN, CARD, DETAIL
+1. **Chuyên viên Home (`#nguoi-dong-hanh`, `src/app/page.tsx`):**
+   - Đưa ảnh chân dung tỉ lệ 4:5 (`Avatar size="portrait"` 140×175px) vào sử dụng chính thức, thay thế hoàn toàn vòng tròn initials đơn điệu.
+   - Thẻ ngang trên mobile (chân dung bên trái, tên font serif và CTA bên phải), lưới 3 cột cân xứng trên tablet/desktop.
+   - Nút liên hệ/trao đổi dẫn trực tiếp về hồ sơ hỗ trợ chi tiết `/lo-dat/<slug>#ho-tro`.
+   - Cơ chế fallback initials theo theme màu (`MA`, `HN`, `TH`, `NL`) hoạt động hoàn hảo khi offline hoặc ảnh tải lỗi.
+2. **Thẻ Bất động sản (`src/components/property-card.tsx`):**
+   - Khung ảnh tỷ lệ 4:3, bo góc `var(--radius-card)` (16px), scale nhẹ 1.03 khi hover trên thiết bị trỏ chính xác (`@media (hover: hover)`).
+   - Dải `card-meta-top` kết hợp loại đất in hoa bên trái và nút lưu `SaveButton` 44px bên phải, tách biệt hoàn toàn khỏi anchor link, bảo toàn `aria-label` và `aria-pressed`.
+   - Tiêu đề tài sản dùng font serif display (`font-family: var(--font-display)`), giá chào nổi bật 22px to rõ kèm đơn vị "tỷ đ", nút tròn điều hướng 44×44px touch target.
+3. **Trang Chi tiết Lô đất (`src/app/lo-dat/[slug]/page.tsx` & `src/components/property-gallery.tsx`):**
+   - Khối hỗ trợ `#ho-tro`: Layout ngang thoáng đãng với `Avatar size="portrait"` của chuyên viên phụ trách lô đất, mô tả đầu mối hỗ trợ trực tiếp.
+   - Khối summary bên phải: Giữ `Avatar size="sm"` cho tóm tắt gọn gàng, nút lưu 100% chiều rộng.
+   - Gallery ảnh: Giữ nguyên 100% các nút điều hướng accessible (`Ảnh trước`, `Ảnh tiếp theo`), thumbnails chuyển đổi nhịp nhàng.
+
+### 2. LƯỢT B — MÀN HÌNH VÀ TRẠNG THÁI HIỆN CÓ
+1. **Đồng bộ Typography & Panel:**
+   - Áp dụng font serif display (`font-family: var(--font-display)`) cho toàn bộ tiêu đề H1/H2 của các trang `/lo-dat`, `/da-luu`, `/lich-hen`, `/nft`, `/nft/[slug]`, `/danh-muc-nft`, `/trai-nghiem`.
+   - Panel giao dịch (`.journey-panel`, `.visit-card`, `.nft-purchase`, `.nft-holding`, `.nft-portfolio-summary`): Nền trắng/surface sang trọng, viền mảnh `var(--color-border)`, đổ bóng tinh tế `var(--shadow-subtle)` / `var(--shadow-card)`.
+2. **Breadcrumb & Empty States:**
+   - Styling phân cấp cho `.breadcrumb`: Liên kết màu muted, mục hiện tại màu ink đậm nét.
+   - Thiết kế lại `.empty-state` và `.nft-empty`: Nền `var(--color-surface)` ấm áp, viền đứt đoạn nhẹ nhàng, tiêu đề serif và nút CTA rõ ràng.
+3. **Bảo toàn 100% Luồng Nghiệp vụ 1B:**
+   - **Catalog (`/lo-dat`)**: Giữ filter URL, số lượng danh mục, sắp xếp giá/diện tích, pending state.
+   - **Đã lưu (`/da-luu`)**: Badge số lượng `.saved-count` dạng pill nổi bật; xử lý êm trạng thái storage warning.
+   - **Lịch hẹn (`/lich-hen`)**: Liên kết form field/error với `aria-describedby` và `aria-invalid`, bảo toàn persona người đề nghị ("Đinh Duy"), trạng thái đổi/hủy giữ đúng quy trình "Chờ điều phối" không hứa hẹn sai.
+   - **NFT (`/nft`, `/nft/[slug]`, `/danh-muc-nft`)**: Bảng tính số lượng, tỷ lệ phân đoạn, đơn vị tiền tệ rõ ràng, phân biệt rạch ròi giữa các outcome `success`, `cancelled`, `failed`. Nhãn lưu ý không phát sinh thanh toán hiển thị rõ nét với độ tương phản cao.
+   - **Cài đặt trải nghiệm (`/trai-nghiem`)**: Nút đặt lại hành trình với xác nhận an toàn 2 bước đúng namespace.
+
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 43/43 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic tối ưu sạch sẽ).
+  + Playwright E2E (`desktop-chromium` & `mobile-chromium`): **54/54 ĐẠT (100%)**.
+- **Bộ ảnh Nghiệm thu P06 (`docs/qa/ui-upgrade/P06/`):**
+  + 18 ảnh có metadata đầy đủ đo đạc tại 5 viewports (360/390/430/768/1440px), zoom 200% CSS và các trạng thái nghiệp vụ: `imageFailures = []`, không tràn ngang (`scrollWidth = clientWidth`).
+- Bước tiếp theo: [P07 — Cài đặt và cấu hình GSAP](ui-upgrade/phases/P07-gsap-setup.md).
+
+## Nghiệm thu Giai đoạn P05 — 03/10/2026
+
+- Đã hoàn thành duy nhất phase **P05 (Chương bất động sản NFT)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF D2](ui-upgrade/BRIEF.md), [DESIGN](../docs/DESIGN.md) và [P05-nft-story](ui-upgrade/phases/P05-nft-story.md).
+- **Hạng mục hoàn thành:**
+  1. **Component NftStory (`src/components/home/nft-story.tsx`):**
+     - Server Component tinh gọn, semantic `<section id="nft" className="nft-story" aria-labelledby="nft-heading">`.
+     - Thay thế toàn bộ khối checklist tích xanh generic cũ trong `src/app/page.tsx`, bảo toàn id anchor `#nft` và neo cuộn `scroll-margin-top: 96px`.
+     - Heading hierarchy chuẩn mực H2 → H3, văn phong rõ chữ NFT, không đưa ra cam kết lợi nhuận sai lệch.
+  2. **Nhịp Thị giác Sáng / Tối với Nền Ink (`#102D3B`):**
+     - Nền Ink full-width (`linear-gradient(180deg, #102d3b 0%, #0d2531 100%)`) tạo khoảng nghỉ thị giác sang trọng, tương phản cao giữa hai chương nền sáng (Xland Story ở trên và Người đồng hành ở dưới).
+     - Ranh giới chuyển tiếp được xác nhận qua ảnh chụp `p05-nft-boundary-1440.png`.
+  3. **Hình ảnh Lớn Tài sản P02 (`public/images/garden-retreat.webp`):**
+     - Phối cảnh nhà vườn nhiệt đới (1536×1024), tỷ lệ 16:10 trên mobile và 4:3 trên desktop với caption UI *“Không gian cho những khởi đầu mới”*.
+     - Tích hợp `PropertyImage` với declarative fallback giữ nguyên bố cục và khả năng đọc khi ảnh tải chậm hoặc offline.
+  4. **Sơ đồ Quy trình 3 bước Trực quan (Native HTML/SVG):**
+     - Ba bước: `01. Hồ sơ tài sản` → `02. Phương án NFT` → `03. Danh mục của bạn`.
+     - Mũi tên kết nối mảnh `aria-hidden="true"`, số thứ tự badge viền champagne `#D8C49D`.
+     - Thể hiện đúng quy trình tìm hiểu/tham gia, không gây hiểu lầm là chia ranh giới địa chính hay thửa đất vật lý.
+  5. **Panel Định lượng Phương án Minh họa Động:**
+     - Helper thuần `src/features/nft/presentation.ts` lấy trực tiếp từ offering mở bán thật (`XL-001` - `Miền xanh ven sông`): Tổng cung 1.000 NFT (ERC-1155), đơn giá 2.800.000 ₫, tỷ lệ 0,1% / 1 NFT và 1% / 10 NFT.
+     - Loại bỏ hoàn toàn tồn seed khỏi section marketing theo chỉ đạo của BRIEF D2 để tránh hiểu nhầm sau khi mua.
+     - Lưới Visual Matrix 20 ô nhỏ (mỗi ô tượng trưng 10 NFT = 1%) với ô mẫu sáng champagne kèm disclaimer pháp lý rõ ràng.
+  6. **Đo đạc Độ tương phản WCAG 2 AA & AAA:**
+     - Tiêu đề H2 (`.nft-title`): Chữ trắng trên nền Ink `#102D3B` đạt tương phản **14.2:1 (AAA)**; chữ nhấn Warm Gold đạt **7.8:1 (AAA)**.
+     - Nút CTA chính (`.nft-cta-primary`): Chữ đậm trên nền Warm Gold `#D8C49D` đạt **7.8:1 (AAA)**.
+     - Link phụ (`.nft-link-sub`): Chữ `#E0ECEF` trên nền Ink đạt **12.5:1 (AAA)**.
+     - Đoạn lead và mô tả bước: Đạt **6.8:1 – 7.2:1 (AAA large, AA small)**.
+  7. **Hành động & Điều hướng (Actions):**
+     - CTA chính `Tìm hiểu phương án NFT` dẫn tới `/nft` (nút vàng champagne nổi bật trên nền tối) và link phụ dẫn tới `/nft/mien-xanh-ven-song`.
+     - Hỗ trợ phím Tab tuần tự, dark focus outline rõ nét, `scroll-margin-top: 96px` bảo vệ tiêu đề không bị che bởi sticky header.
+  8. **Bộ ảnh Nghiệm thu P05 (`docs/qa/ui-upgrade/P05/`):**
+     - Đã chụp 7 ảnh kiểm soát viewport (360/390/430/768/1440px), zoom 200% CSS và ranh giới chuyển nhịp: `imageFailures = []`, không tràn ngang (`scrollWidth = clientWidth`).
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: **ĐẠT** (0 warning, 0 error).
+  + `pnpm typecheck`: **ĐẠT** (`next typegen && tsc --noEmit`).
+  + `pnpm test`: **ĐẠT 43/43 unit tests** (100%).
+  + `pnpm build`: **ĐẠT** (25 routes SSG/dynamic tối ưu sạch sẽ).
+  + Playwright E2E (`desktop-chromium` & `mobile-chromium`): **54/54 ĐẠT (100%)**.
+- Bước tiếp theo: [P06 — UI các luồng nghiệp vụ](ui-upgrade/phases/P06-journeys.md).
 
 ## Nghiệm thu Giai đoạn P04 — 03/10/2026
 

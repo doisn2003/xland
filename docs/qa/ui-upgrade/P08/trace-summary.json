@@ -1,0 +1,18 @@
+{
+  "phase": "P08",
+  "comparisonWithP07": "Long task count duy trì 0; không có CPU spike hay giật layout",
+  "performanceTraces": {
+    "390": {
+      "domContentLoaded": 35,
+      "loadTime": 203,
+      "longTaskCount": 0,
+      "maxLongTaskDuration": 0
+    },
+    "1440": {
+      "domContentLoaded": 34,
+      "loadTime": 230,
+      "longTaskCount": 0,
+      "maxLongTaskDuration": 0
+    }
+  }
+}

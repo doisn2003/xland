@@ -36,3 +36,25 @@ describe("NFT demo ledger", () => {
     for (const raw of ["{", '{"version":0,"orders":[]}', '{"version":1,"orders":[null]}']) expect(() => restoreLedger(raw)).toThrow();
   });
 });
+
+describe("NFT story presentation helper", () => {
+  it("derives consistent marketing metrics from open offering fixture", async () => {
+    const { getFeaturedOfferingPresentation, formatNftShare } = await import("../../src/features/nft/presentation");
+    const presentation = getFeaturedOfferingPresentation();
+    expect(presentation).not.toBeNull();
+    expect(presentation?.offering.status).toBe("open");
+    expect(presentation?.property.id).toBe("XL-001");
+    expect(presentation?.property.name).toBe("Miền xanh ven sông");
+    expect(presentation?.supplyFormatted).toBe("1.000");
+    expect(presentation?.formattedPrice).toBe("2.800.000 ₫");
+    expect(presentation?.sampleShare1).toBe("0,1%");
+    expect(presentation?.sampleShare10).toBe("1%");
+
+    // Edge cases for formatNftShare
+    expect(formatNftShare(0, 1000)).toBe("0%");
+    expect(formatNftShare(-1, 1000)).toBe("0%");
+    expect(formatNftShare(1, 0)).toBe("0%");
+    expect(formatNftShare(1, -100)).toBe("0%");
+    expect(formatNftShare(50, 1000)).toBe("5%");
+  });
+});
