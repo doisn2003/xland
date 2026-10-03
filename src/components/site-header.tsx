@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "./icon";
+import { Logo } from "./logo";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -19,7 +20,9 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container header-inner">
-        <Link className="brand" href="/" aria-label="Xland — Trang chủ" onClick={close}>X<span>LAND</span><i /></Link>
+        <Link className="brand" href="/" aria-label="Xland — Trang chủ" onClick={close}>
+          <Logo variant="default" size="md" />
+        </Link>
         <button ref={trigger} className="menu-toggle" aria-label={open ? "Đóng menu" : "Mở menu"} aria-expanded={open} aria-controls="site-navigation" onClick={() => setOpen(!open)}><Icon name={open ? "close" : "menu"} /></button>
         <nav id="site-navigation" className={open ? "navigation is-open" : "navigation"} aria-label="Điều hướng chính">
           <Link href="/lo-dat" onClick={close}>Khám phá</Link>

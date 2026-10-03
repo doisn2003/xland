@@ -2,6 +2,8 @@
 
 Cập nhật: 25/09/2026. Đặc tả và quyết định thực thi; kết quả nghiệm thu kỹ thuật và ảnh kiểm tra nằm trong STATUS. Phạm vi và quyết định sản phẩm nằm trong [PREPARE.md](../PREPARE.md); kết quả kiểm tra nằm trong [STATUS.md](STATUS.md).
 
+**Định hướng tiếp theo — 01/10/2026:** chủ dự án yêu cầu nâng chất lượng giao diện theo Sunshine Group, tập trung mobile, logo/icon/button/avatar, hai chương Xland/NFT và GSAP. Xem [lộ trình 10 phase](UI-UPGRADE.md) và [đặc tả đề xuất](ui-upgrade/BRIEF.md). Chưa triển khai vòng này; các token/font/layout đang chạy bên dưới vẫn là hiện trạng. Khi thực thi P01 và các phase sau, cập nhật chính tài liệu này cùng CSS; không xem bảng màu đề xuất là token đã áp dụng.
+
 ## 1. Đích thiết kế và tham chiếu
 
 Xland là website khám phá đất nền và bất động sản phân đoạn bằng NFT, tiếng Việt, mobile first. Cảm giác cần đạt: sáng, cao cấp, thoáng và thông tin rõ ràng.
@@ -118,3 +120,51 @@ Mục tiêu tương phản chữ thường 4.5:1, chữ lớn 3:1; kiểm tra th
 - Link NFT từ home/detail đi vào route đã có. Copy NFT dùng ngôn ngữ sản phẩm, không phủ nhãn demo/mẫu; xác nhận ghi rõ không phát sinh thanh toán. Mọi quyền tài sản/Blockchain vẫn chưa được xác lập trong trải nghiệm.
 - `/trai-nghiem` đặt lại phần đã triển khai; footer có lối vào. Quyết định 1B thay hành vi CTA 1A được mô tả ở các mục lịch sử phía trên.
 - Ảnh và kết quả kiểm tra 360/390/430/768/1440px ở `qa/2026-09-30-1b`. Chưa nghiệm thu toàn bộ 1B; WebKit viewport còn giới hạn được ghi trong STATUS.
+
+## 12. Nâng cấp nhận diện và tiểu tiết tương tác — P01 (03/10/2026)
+
+Triển khai theo hợp đồng [BRIEF A–B](ui-upgrade/BRIEF.md), chuẩn bị nền nhận diện tĩnh cao cấp trước khi thêm GSAP.
+
+### 12.1. Logo Xland SVG Độc bản
+- **Phương án lựa chọn:** Phương án A (*Horizon & Land Parcels*) — Khung viền hình thoi bo góc phân định 4 thửa đất (parcels) tiếp giáp, kết nối bởi đường chân trời ngang và tâm điểm hình thoi vàng champagne.
+- **Wordmark:** Font chữ tiêu đề serif, kerning chặt chẽ, baseline cân xứng; chữ `X` đậm vững chãi (`font-weight: 700`), `LAND` thanh thoát (`font-weight: 500` - `600`).
+- **Phiên bản:**
+  - `default`: Dùng trên nền sáng (header, canvas), nét Deep Teal `--color-primary` kết hợp tâm điểm `--color-accent` (`#B89962`).
+  - `inverse`: Dùng trên nền tối Ink `--color-ink` (`#102D3B`) ở footer, nét trắng sắc sảo kết hợp tâm điểm `--color-on-dark-accent` (`#D8C49D`).
+- **Favicon:** Tích hợp `src/app/icon.svg` chuẩn Next.js App Router (32×32) mang biểu tượng thửa đất Xland.
+- **Accessible Name:** Thẻ link bọc ngoài có `aria-label="Xland — Trang chủ"`, bên trong logo có `aria-hidden="true"`, không đọc lặp.
+
+### 12.2. Bảng Tokens Thực thi Chính thức
+
+| Nhóm Token | Tên Token | Giá trị CSS | Mục đích & Độ tương phản |
+| --- | --- | --- | --- |
+| **Brand Primary** | `--color-primary` | `#164B60` | Deep Teal — CTA, liên kết chính, biểu tượng logo. Tương phản trên trắng: 7.35:1 (AAA) |
+| **Brand Hover** | `--color-primary-hover` | `#103B4D` | Trạng thái hover chuột của button chính. Tương phản trên trắng: 9.87:1 (AAA) |
+| **Brand Pressed** | `--color-primary-pressed` | `#0B2C3B` | Trạng thái active/nhấn của button |
+| **Brand Accent** | `--color-accent` | `#B89962` | Vàng champagne ấm — điểm nhấn logo, tag nổi bật |
+| **On-Dark Accent** | `--color-on-dark-accent` | `#D8C49D` | Vàng sáng cho nền tối — tương phản trên Ink: 7.82:1 (AAA) |
+| **Ink Surface** | `--color-ink` | `#102D3B` | Nền tối cao cấp của Footer và các khối night-mode |
+| **Canvas** | `--color-canvas` | `#FFFFFF` | Nền trang chính |
+| **Surface Warm** | `--color-surface` | `#F5F3EE` | Nền trắng ấm cho các section xen kẽ |
+| **Surface Elevated** | `--color-surface-elevated` | `#EFECE6` | Nền nổi khối, search panel |
+| **Text Primary** | `--color-text` | `#243842` | Chữ chính — tương phản trên trắng: 10.2:1 (AAA), trên surface: 9.4:1 (AAA) |
+| **Text Muted** | `--color-muted` | `#5A6B73` | Chữ phụ, nhãn — tương phản trên trắng: 4.88:1 (AA), trên surface: 4.51:1 (AA) |
+| **Border Neutral** | `--color-border` | `#D7DEDF` | Viền phân cách thanh mảnh |
+| **Border Subtle** | `--color-border-subtle` | `#E8EDEE` | Đường chia tách thứ cấp |
+| **Radius Control** | `--radius-control` | `8px` | Bo góc chuẩn cho input, select, button, icon button |
+| **Radius Card** | `--radius-card` | `12px` | Bo góc card hồ sơ, container nổi |
+| **Radius Media** | `--radius-media` | `8px` | Bo góc ảnh, video |
+
+### 12.3. Hiệu chỉnh Tương phản Thực tế
+- **Navigation Button:** `.navigation > .button` được quy định màu chữ độc lập `#FFFFFF` để không bị ghi đè bởi selector `.navigation > a` (đạt AAA 7.35:1).
+- **Advisor Avatar Text:** Điều chỉnh màu chữ `.avatar-1` từ `#8C7343` thành `#745722` trên nền `#F3EFE6` để nâng tỉ lệ tương phản từ 3.93:1 lên 5.70:1, vượt chuẩn WCAG 2 AA (4.5:1).
+
+### 12.4. Hệ Icon & Button Controls
+- **Icon (`src/components/icon.tsx`):** Chuẩn hóa viewBox `0 0 24 24`, nét `1.75`, round join/cap. Hỗ trợ đủ các icon hiện hành và bổ sung `bookmark` (hỗ trợ filled), `calendar`, `user`, `shield`, `share`, `filter`, `sparkle`.
+- **Button Primitives:**
+  - Chiều cao tối thiểu: `min-height: 48px` (button), `min-width: 44px` (icon button).
+  - Hover chuột: Màu nền đổi mượt, mũi tên icon dịch chuyển nhẹ `3px` (`translateX(3px)`).
+  - Keyboard Focus: Đường viền `:focus-visible` kép `2px solid var(--color-primary)` với `offset 2px`, không làm méo layout.
+  - Pending: Giữ nguyên kích thước bề ngang, con trỏ `wait`, opacity `0.85`.
+  - Disabled: Độ mờ `0.55`, `pointer-events: none`, triệt tiêu toàn bộ glow/animation/shadow.
+- **Proof Sheet:** Tuyến đường kiểm định nội bộ `/qa-identity-proof` hiển thị toàn bộ logo, icon 15 món, bảng màu & độ tương phản đo đạc, button states và chuỗi dấu tiếng Việt.

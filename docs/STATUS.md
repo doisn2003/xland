@@ -1,6 +1,53 @@
 # Trạng thái Xland
 
-Cập nhật: 30/09/2026, bắt đầu vòng phát triển tiếp theo của mốc 1B.
+Cập nhật: 03/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 đóng baseline và hoàn thành **P01 — Nhận diện thương hiệu và tiểu tiết tương tác**.
+
+## Nghiệm thu Giai đoạn P01 — 03/10/2026
+
+- Đã hoàn thành duy nhất phase **P01 (Nhận diện và tiểu tiết tương tác)** theo [UI-UPGRADE](UI-UPGRADE.md), [BRIEF A–B](ui-upgrade/BRIEF.md) và [P01-identity](ui-upgrade/phases/P01-identity.md).
+- **Hạng mục hoàn thành:**
+  1. **Logo SVG độc bản (`src/components/logo.tsx`):** Chọn Phương án A (*Horizon & Land Parcels*) kết nối 4 thửa đất qua đường chân trời và hạt vàng champagne. Căn chỉnh wordmark serif cân baseline. Hỗ trợ 2 biến thể `default` (trên nền sáng) và `inverse` (trên nền Ink `#102D3B` ở footer). Tích hợp `src/app/icon.svg` chuẩn App Router (32×32). Thẻ link có accessible name `aria-label="Xland — Trang chủ"`, SVG có `aria-hidden="true"`.
+  2. **Hệ thống Token Semantic (`src/app/globals.css`):** Áp dụng Deep Teal `#164B60`, Ink `#102D3B`, Warm Gold `#B89962`, On-dark Gold `#D8C49D`, Surfaces trắng ấm `#F5F3EE` và `#EFECE6`. Bo góc chuẩn: control 8px, card 12px, media 8px.
+  3. **Chuẩn hóa Icon (`src/components/icon.tsx`):** Toàn bộ icon quy về viewBox `0 0 24 24`, nét `1.75`, round join/cap. Giữ 8 icon hiện có và bổ sung `bookmark` (hỗ trợ filled), `calendar`, `user`, `shield`, `share`, `filter`, `sparkle`. `SaveButton` dùng icon bookmark, bảo toàn 100% `aria-label`, `aria-pressed` và nhãn `"Lưu lô đất"` / `"Đã lưu"`.
+  4. **Nâng cấp Button Primitives:** Button chính cao ≥ 48px, icon button ≥ 44px; đủ biến thể primary, secondary, inverse, pending (giữ layout width, pointer-events none), disabled (opacity 0.55, không glow/animation), focus-visible kép (outline 2px offset 2px), hover chuyển màu và trượt nhẹ icon arrow 3px.
+  5. **Proof Sheet Nội bộ (`src/app/qa-identity-proof/page.tsx`):** Trang đối chiếu 2 phương án logo, 15 icons trên sáng/tối, button states, bảng đo tương phản và thử nghiệm chuỗi dấu tiếng Việt.
+- **Đo đạc Độ tương phản & Hiệu chỉnh Thực tế:**
+  + Text `#243842` trên White: 10.2:1 (AAA), trên Surface: 9.4:1 (AAA).
+  + Muted `#5A6B73` trên White: 4.88:1 (AA), trên Surface: 4.51:1 (AA).
+  + Primary White trên `#164B60`: 7.35:1 (AAA).
+  + White trên Ink `#102D3B`: 13.5:1 (AAA); On-dark Gold trên Ink: 7.82:1 (AAA).
+  + Hiệu chỉnh selector `.navigation > .button` có màu chữ độc lập `#FFFFFF` tránh bị ghi đè màu text (đạt 7.35:1).
+  + Hiệu chỉnh màu chữ `.avatar-1` từ `#8C7343` sang `#745722` để nâng tương phản từ 3.93:1 lên 5.70:1, vượt chuẩn WCAG 2 AA (4.5:1).
+- **Bộ ảnh Nghiệm thu P01 (`docs/qa/ui-upgrade/P01/`):**
+  + Đã chụp 17 ảnh có kiểm soát viewport (360, 390, 430, 768, 1440px) và lưu metadata đầy đủ tại `docs/qa/ui-upgrade/P01/metadata.json` cùng báo cáo [QA P01](qa/ui-upgrade/P01/README.md).
+  + Không có lỗi tràn ngang trên Chromium (scrollWidth = clientWidth); imageFailures = 0.
+- **Kết quả Kiểm tra Tự động:**
+  + `pnpm lint`: ĐẠT (0 warnings, 0 errors).
+  + `pnpm typecheck`: ĐẠT (0 errors).
+  + `pnpm test`: ĐẠT 42/42 unit tests (100%).
+  + `pnpm build`: ĐẠT (Next.js 16 Turbopack build 24 routes tĩnh/động thành công).
+  + Playwright E2E Accessibility & Journey (Chromium desktop & mobile): **22/22 ĐẠT (100%)**.
+- Bước tiếp theo: [P02 — Media và chân dung](ui-upgrade/phases/P02-media.md).
+
+## Baseline nâng cấp giao diện P00 — 03/10/2026
+
+- Đã hoàn thành duy nhất phase **P00 (Đóng baseline)** theo [UI-UPGRADE](UI-UPGRADE.md) và [P00-baseline](ui-upgrade/phases/P00-baseline.md).
+- Nền mã khảo sát: commit `0bf496cda428676db1cc70f0cd9d88bfa0c600d8` trên nhánh `main`. Không sửa đổi UI, CSS token, component, fixture, dependency hoặc test assertion.
+- Đã chạy kiểm tra nền thực tế:
+  + `pnpm lint`: Đạt (0 warnings, 0 errors).
+  + `pnpm typecheck`: Đạt (0 errors).
+  + `pnpm test`: Đạt toàn bộ **42/42 unit tests** (`nft.test.ts`, `journey.test.ts`, `home.test.ts`).
+  + `pnpm build`: Đạt (22 routes SSG/dynamic thành công trên Next.js 16 Turbopack).
+  + `pnpm test:e2e`: **74/81 đạt** (Chromium desktop 27/27 đạt, Chromium mobile 27/27 đạt, WebKit mobile 20/27 đạt; 7 lỗi WebKit viewport/overflow do môi trường Windows).
+- Đã chạy probe WebKit chẩn đoán: xác nhận lỗi 325/390 và giả tràn 65px xuất hiện trên cả HTML tối giản không có CSS Xland. Blocker môi trường được giữ nguyên, không sửa CSS để che sai số.
+- Đã capture bộ ảnh baseline 50 ảnh kèm metadata chi tiết (route, requested/actual metrics, state, commit, imageFailures) tại `docs/qa/ui-upgrade/P00/`:
+  + Home tại 5 viewports (360/390/430/768/1440) toàn trang và 5 crop (hero, Xland, NFT, advisors, card).
+  + Chi tiết đô thị (`/lo-dat/goc-pho-long-bien`) và chi tiết NFT (`/nft/mien-xanh-ven-song`) tại 390 và 1440px.
+  + Toàn bộ 8 màn chức năng 1B (catalog, saved, visit form, review, visits list, nft catalog, portfolio, reset) tại 390 và 1440px.
+  + Không có ảnh nào bị lỗi tải (imageFailures = 0); không có tràn ngang trên Chromium.
+- Đã định vị chi tiết danh sách điểm cần sửa có ưu tiên (Logo SVG, Icon viewBox 24, Button variants/states, Avatar chân dung persona, Section Xland có ảnh lớn và link thật, Section NFT nền tối và sơ đồ 3 bước).
+- Đã cập nhật [HANDOFF](ui-upgrade/HANDOFF.md) chỉ định 6 file cần đọc cho P01. Bằng chứng đầy đủ tại [QA P00](qa/ui-upgrade/P00/README.md).
+- Bước triển khai tiếp theo: [P01 — Nhận diện thương hiệu](ui-upgrade/phases/P01-identity.md).
 
 ## Vị trí trong lộ trình
 
@@ -25,7 +72,7 @@ Cập nhật: 30/09/2026, bắt đầu vòng phát triển tiếp theo của m�
 - Hồ sơ tạm dừng bị chặn cả CTA lẫn truy cập URL form trực tiếp. Model từ chối `sold`; catalog hiện chưa có fixture `sold` để kiểm end-to-end riêng.
 - Chống trùng mã lệnh và yêu cầu đang xử lý trên cùng lô. Đổi lịch lưu đề nghị mới và giữ lịch gốc; hủy chuyển `cancel_requested`, không giả xác nhận điều phối.
 - NFT dùng ngôn ngữ sản phẩm, vẫn ghi rõ yêu cầu không phát sinh thanh toán. Không dựng mint, receipt hoặc explorer. Reset toàn bộ và reset riêng NFT đều có hướng dẫn trong DEMO.
-- Giữ font/token, package/pnpm-lock, PDF và ảnh nguồn. Không thêm dependency, secret hoặc backend; chưa commit.
+- Giữ font/token, package/pnpm-lock, PDF và ảnh nguồn. Không thêm dependency, secret hoặc backend; vòng code này sau đó đã commit/push trong `0bf496c`.
 
 ## Kiểm tra thực tế ngày 30/09
 

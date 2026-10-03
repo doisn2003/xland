@@ -3,7 +3,7 @@
 - Đọc `PREPARE.md` và `docs/STATUS.md` trước khi làm; giữ thay đổi đang có của chủ dự án.
 - Phạm vi hiện tại: scaffold rồi demo frontend; chưa triển khai backend/admin, ví thật hoặc smart contract.
 - Next.js/TypeScript/Tailwind trên Vercel; Node.js/Railway, Supabase và ERC-1155 ở giai đoạn backend. UI gọi rõ NFT.
-- Bám mẫu LUXEESTATE, mobile first, tiếng Việt. Kết quả kiểm tra và phạm vi đã hoàn thành nằm trong STATUS; không suy ra toàn bộ 1B đã xong từ mốc 1A.
+- Mobile first, tiếng Việt. LUXEESTATE là tham chiếu lịch sử 1A; yêu cầu nâng cấp mới theo Sunshine Group được ghi trong `docs/UI-UPGRADE.md`, đọc đúng prompt phase và `docs/ui-upgrade/BRIEF.md` khi triển khai. Kết quả kiểm tra và phạm vi đã hoàn thành nằm trong STATUS; không suy ra toàn bộ 1B đã xong từ mốc 1A hoặc từ vòng nâng cấp UI.
 - Khi làm UI mốc 1A, đọc `docs/DESIGN.md`: home/card/detail trước, cùng fixture; ghi quyết định font/media sau khi kiểm tra. Token CSS thực thi và tài liệu phải khớp.
 - Link/nút phải hoạt động hoặc disabled có lý do; không dùng `href="#"`/`alert()` thay luồng hoàn chỉnh. Không dựng thành tích hoặc dữ liệu tài sản thật từ mẫu.
 - Kiểm tra UI tại 360/390/430/768/1440px, bàn phím, dấu Việt và reduced motion; lưu ảnh đối chiếu trước khi báo đạt thị giác. WebKit giả lập không phải iPhone thật.

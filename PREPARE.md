@@ -1,7 +1,7 @@
 # XLAND - KẾ HOẠCH PHÁT TRIỂN VÀ QUY ƯỚC THỰC THI
 
-> Cập nhật: 30/09/2026 · Trạng thái: đang triển khai mốc 1B; đã có NFT, danh sách lọc URL, lưu lô đất, yêu cầu xem thực địa và reset. Chưa hoàn tất toàn bộ 1B; xem QA và giới hạn trong docs/STATUS.md.
-> Đích gần nhất: website mobile first đẹp theo mẫu LUXEESTATE, có dữ liệu/media mẫu và các hành trình hoạt động để trình nhà đầu tư.
+> Cập nhật: 01/10/2026 · Trạng thái: đang triển khai mốc 1B; đã có NFT, danh sách lọc URL, lưu lô đất, yêu cầu xem thực địa và reset. Chưa hoàn tất toàn bộ 1B; xem QA và giới hạn trong docs/STATUS.md.
+> Đích gần nhất: website mobile first có chất lượng thẩm mỹ tham chiếu Sunshine Group theo yêu cầu mới; LUXEESTATE là nền lịch sử 1A. Bộ nghiên cứu và 10 prompt nâng cấp nằm trong [docs/UI-UPGRADE.md](docs/UI-UPGRADE.md); hiện mới viết tài liệu, chưa triển khai các phase UI.
 > Stack đã chốt: Next.js + TypeScript trên Vercel; backend Node.js trên Railway; PostgreSQL/Auth/Storage trên Supabase; smart contract Solidity theo ERC-1155 ở giai đoạn backend.
 > Người triển khai kỹ thuật: Codex. Chủ dự án quyết định kinh doanh, ngân sách, đối tác và thời điểm chuyển sang vận hành thật.
 
