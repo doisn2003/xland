@@ -1,8 +1,7 @@
 import {defineConfig,devices} from "@playwright/test";
 import {existsSync} from "node:fs";
-import {resolve,dirname} from "node:path";
-import {fileURLToPath} from "node:url";
-const root=dirname(fileURLToPath(import.meta.url));
+import {resolve} from "node:path";
+const root=__dirname;
 const serverRoot=process.env.XLAND_SERVER_ROOT?resolve(process.env.XLAND_SERVER_ROOT):["../../xland-server","../xland-server","../xland-server/xland-server"].map(p=>resolve(root,p)).find(p=>existsSync(resolve(p,"tests/admin/run-local.mjs")));
 if(!serverRoot||!existsSync(resolve(serverRoot,"tests/admin/run-local.mjs")))throw new Error("Không tìm thấy backend QA. Đặt XLAND_SERVER_ROOT thành đường dẫn tuyệt đối tới xland-server.");
 export default defineConfig({

@@ -1,5 +1,28 @@
 # Trạng thái Xland
 
+## Giảm thời gian tải Admin — 22/10/2026
+
+- Đo live trước sửa: mở lại form lô đất mất 23,34 giây; API schema khoảng
+  8,25 giây, hồ sơ 5,07 giây. Backend US Central kết nối Supabase Mumbai;
+  độ trễ bị cộng dồn bởi truy vấn và request chạy nối tiếp.
+- Backend `e6f89b5` đã triển khai: gom đọc metadata 15 bảng thành một truy vấn,
+  gộp kiểm role vào xác thực hiện hành, gom thiết lập context transaction và giữ
+  pool connection lâu hơn. API schema còn 2,61–2,62 giây, hồ sơ 2,50–2,62 giây
+  trong hai lượt đo trên cùng origin/region.
+- Admin bắt đầu schema, dữ liệu trang và địa giới đồng thời; giữ `no-store`,
+  cancellation, kiểm phiên/quyền và version chống ghi đè. Không cache hồ sơ
+  nghiệp vụ hoặc quyền truy cập. Sửa đường dẫn config Playwright Admin để runner
+  CommonJS hiện hành có thể khởi động.
+- Backend: lint/typecheck/build, 29 unit, 138 Admin, 36 integration và 2 contract
+  đạt; probe quyền bằng runtime login thực đạt, context role/actor được reset.
+- Website: lint/typecheck, **54 unit**, production build và **Admin browser E2E**
+  đạt (CRUD trên PostgreSQL QA riêng, reload, quyền, responsive, axe, logout).
+  `pnpm check` chạy đủ: **113/114 E2E đạt**. Ca WebKit accessibility của route user
+  `/lo-dat/mien-xanh-ven-song` báo tương phản nút lưu; chạy lại riêng vẫn thất bại.
+  CSS/route user không thay đổi, không skip hoặc nới assertion.
+- Cần đo lại thời gian mở form sau khi Vercel phục vụ loader mới. Region và gói
+  Northflank hiện có giữ nguyên; độ trễ kết nối xuyên vùng vẫn còn.
+
 ## Hosting Northflank và Vercel — 22/10/2026
 
 - Admin đã phát hành tại **https://xland-alpha.vercel.app/admin**. Vercel production

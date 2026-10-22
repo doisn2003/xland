@@ -2,13 +2,12 @@
 import Link from "next/link";
 import {useEffect,useState,type FormEvent} from "react";
 import {useRouter,useSearchParams} from "next/navigation";
-import {api,AdminError,errorText,type Catalog,type Row} from "./api";
+import {api,AdminError,errorText,type Row} from "./api";
+import {loadWorkspace,type Loaded} from "./load-workspace";
 import {formatted,label} from "./labels";
 import {Editor} from "./editor";
 
 const groups=[{title:"ĐIỀU HÀNH",items:[['overview','Tổng quan'],['bookings','Lịch xem thực địa'],['slots','Khung giờ'],['support','Yêu cầu hỗ trợ']]},{title:"NỘI DUNG",items:[['properties','Lô đất'],['videos','Video feeds'],['consultants','Tư vấn viên'],['media','Ảnh & media'],['legal','Hồ sơ pháp lý'],['documents','Tài liệu'],['amenities','Tiện ích khu vực']]},{title:"CỘNG ĐỒNG",items:[['events','Sự kiện'],['registrations','Đăng ký sự kiện'],['clubs','Câu lạc bộ']]},{title:"HỆ THỐNG",items:[['users','Người dùng'],['audit','Nhật ký quản trị']]}];
-interface ListData {items:Row[];total:number;page:number;limit:number}
-interface Loaded {catalog:Catalog;locations:Row[];list?:ListData;record?:Row|null;overview?:{counts:Record<string,number>;recent:Row[]}}
 export function AdminWorkspace({segments,displayName}:{segments:string[];displayName:string}){
   const entity=segments[0]??"overview",id=segments[1];const params=useSearchParams(),router=useRouter();
   const [menu,setMenu]=useState(false),[loaded,setLoaded]=useState<Loaded|null>(null),[error,setError]=useState(""),[retry,setRetry]=useState(0),[logoutBusy,setLogoutBusy]=useState(false);
@@ -16,18 +15,11 @@ export function AdminWorkspace({segments,displayName}:{segments:string[];display
   useEffect(()=>{
     const controller=new AbortController();
     async function load(){
-      const catalog=await api<Catalog>("schema","GET",undefined,controller.signal);
-      if(entity!=="overview"&&!catalog[entity])throw new Error("Module không tồn tại");
-      if(segments.length>2)throw new Error("Đường dẫn không tồn tại");
-      const search=new URLSearchParams(query);search.delete("saved");
-      const data:Loaded={catalog,locations:[]};
-      if(entity==="overview")data.overview=await api("overview","GET",undefined,controller.signal);
-      else if(id){data.record=id==="new"?null:await api<Row>(`${entity}/${id}`,"GET",undefined,controller.signal);if(id==="new"&&!catalog[entity]!.create)throw new Error("Module không hỗ trợ tạo mới");if(entity==="properties")data.locations=await api<Row[]>("locations","GET",undefined,controller.signal);}
-      else data.list=await api<ListData>(`${entity}?${search}`,"GET",undefined,controller.signal);
+      const data=await loadWorkspace(segments,query,controller.signal);
       if(!controller.signal.aborted){setLoaded(data);setError("");}
     }
     void load().catch(e=>{if(!controller.signal.aborted){if(e instanceof AdminError&&e.status===401)router.replace("/admin/login");else setError(errorText(e));}});return ()=>controller.abort();
-  },[entity,id,query,retry,segments.length,router]);
+  },[query,retry,segments,router]);
   async function logout(){setLogoutBusy(true);try{await api("session","DELETE");router.replace("/admin/login");router.refresh();}catch(e){setError(errorText(e));setLogoutBusy(false);}}
   function go(search:URLSearchParams){router.push(`/admin/${entity}?${search}`);}
   function search(event:FormEvent<HTMLFormElement>){event.preventDefault();const form=new FormData(event.currentTarget),s=new URLSearchParams();for(const k of ['q','filter','value'])if(form.get(k))s.set(k,String(form.get(k)));go(s);}
