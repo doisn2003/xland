@@ -1,5 +1,34 @@
 # Trạng thái Xland
 
+## Hosting Northflank và Vercel — 22/10/2026
+
+- Admin đã phát hành tại **https://xland-alpha.vercel.app/admin**. Vercel production
+  deployment `BV1TYPoc5rHYvCLp4ivWSHBGFmAN` build thành công từ `71c3bc6`.
+- Backend: **https://p01--xland--y56gnzgzjsqm.code.run**; Docker build từ `bab8d1a`,
+  24 biến runtime đã cấu hình. Dùng tiếp Supabase và migrations/buckets hiện có.
+  Runtime login được bổ sung SET role `xland_admin` cần cho workspace quản trị.
+- Vercel dùng `XLAND_ADMIN_API_URL` trỏ tới `/api/v1/admin` ở Northflank và
+  `XLAND_ADMIN_WEB_ORIGIN=https://xland-alpha.vercel.app`; không có secret DB/Storage
+  trong web client. `.env.local` của website trên máy cũng đã chuyển sang API mới.
+- Kiểm tra live: 18 request backend đạt; đăng nhập/dashboard/danh sách lô đất trên
+  Vercel đạt. Guest 401, Origin sai 403, cookie HttpOnly/Secure/SameSite Strict đạt.
+- Upload qua Vercel → Northflank → Supabase: PNG, MP4 và PNG private đã finalize,
+  kiểm byte/visibility thành công; dọn 6 object thuộc probe, không tạo/sửa hồ sơ
+  nghiệp vụ. Dấu vết upload/audit của kiểm tra được giữ lại.
+- Website: lint/typecheck, 50 unit và production build đạt. `pnpm check` lần đầu
+  112/114 E2E đạt, 2 timeout WebKit; chạy lại đúng 2 ca với 1 worker: 2/2 đạt.
+  Không ghi `pnpm check` là đạt trong một lượt duy nhất.
+- Mobile đã có cấu hình chia sẻ **Xland Northflank**, chạy release trên Pixel 9 Pro
+  trong Android Studio; App Links host Northflank đã `verified`. 13 kiểm tra cấu
+  hình/chia sẻ đạt. Hướng dẫn: `xland-mobile/docs/NORTHFLANK.md`.
+- Readiness và liveness probes Northflank đã cấu hình. Kiểm tra công khai cho 14
+  hồ sơ tác giả và video của từng tác giả đạt; metadata/image/assetlinks chia sẻ
+  dùng đúng host mới. Mobile `flutter analyze` đạt, feed/chi tiết/chia sẻ đã tải
+  trên emulator. Chưa kiểm tra điện thoại vật lý trong lần chuyển hosting này.
+
+Railway vẫn được giữ để chuyển lại khi có thể build/deploy. Việc chuyển hosting
+không bật SMS OTP hoặc thanh toán thật. Website user giữ phạm vi hiện có.
+
 ## Sửa lỗi sau audit độc lập — 22/10/2026
 
 Đã nhận và sửa QA-01–QA-05; đồng thời xử lý giờ xác nhận lệch slot, sort_order âm,

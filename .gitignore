@@ -16,6 +16,7 @@ out/
 next-env.d.ts
 
 # Misc
+.local/
 .DS_Store
 Thumbs.db
 *.pem
