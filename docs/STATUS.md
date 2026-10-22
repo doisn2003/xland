@@ -1,5 +1,22 @@
 # Trạng thái Xland
 
+## Sửa lỗi sau audit độc lập — 22/10/2026
+
+Đã nhận và sửa QA-01–QA-05; đồng thời xử lý giờ xác nhận lệch slot, sort_order âm,
+storage key không canonical, JSON unknown keys và khả năng tái lập bộ test trên
+checkout riêng. Chi tiết nhận lỗi, thay đổi và giới hạn: [phản hồi audit](qa/admin-fixes/RESPONSE.md).
+
+- Backend: typecheck/lint/build, 29 unit, **138 kiểm tra Admin**, 36 integration,
+  2 contract đạt. Mobile source không thay đổi; oracle đã đối chiếu snapshot với
+  checkout Dart thật.
+- Website: lint/typecheck/build, **50 unit đạt**. Không chạy lại browser/E2E trong
+  lượt này theo phạm vi bỏ qua đã thống nhất; không coi các lỗi WebKit cũ đã được sửa.
+- Upload mới: private staging → finalize kiểm bytes/type/size → final object mới;
+  **7 probe Supabase thật đạt**, đã dọn toàn bộ object của probe.
+- DB: migrations 0013–0014 và staging bucket đã áp dụng; backup/restore
+  42 bảng / 716 dòng khớp digest, dữ liệu nghiệp vụ đối chiếu không đổi.
+- Preview cũ không xác nhận bản sửa đang được phục vụ. Chưa nghiệm thu hosting.
+
 ## Admin fullstack — 22/10/2026
 
 Đã triển khai Admin tại `/admin` theo phạm vi mới của chủ dự án. Kế hoạch, phân tích schema/API và hướng dẫn vận hành ở [ADMIN](ADMIN.md). Website user giữ phạm vi demo cũ.

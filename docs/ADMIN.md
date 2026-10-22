@@ -52,10 +52,11 @@ Next.js gọi server qua `XLAND_ADMIN_API_URL`. Trình duyệt chỉ gọi `/adm
 | GET /locations | Danh mục tỉnh/huyện và phiên bản địa giới hiện có |
 | GET /lookups/:entity?q=&id= | Tìm quan hệ, tối đa 50 kết quả, giữ hồ sơ đang chọn |
 | GET /:entity?q=&page=1&limit=25&filter=&value= | Danh sách; tối đa 50/trang; bộ lọc thuộc allowlist của module |
-| GET /:entity/:id | Toàn bộ hồ sơ, `_version`; video có media, tư vấn viên có contact, booking có history/payments |
+| GET /:entity/:id | Toàn bộ hồ sơ, `_version`; video có media và `media._version`, tư vấn viên có contact, booking có history/payments |
 | POST /:entity | Các cột snake_case có thể nhập; video có thêm object `media`; tư vấn viên có `contact` |
-| PATCH /:entity/:id | Các cột được phép + `_version` đang hiển thị; 409 nếu hồ sơ đã đổi |
-| POST /uploads | `{mimeType,size,privateDocument}` → URL upload ký, storageKey, publicUrl nếu công khai |
+| PATCH /:entity/:id | Các cột được phép + `_version` đang hiển thị; sửa media lồng cần cả `media._version`; 409 nếu một trong các hồ sơ đã đổi |
+| POST /uploads | `{mimeType,size,privateDocument}` → `{uploadId,signedUrl}` để PUT vào staging private |
+| POST /uploads/finalize | `{uploadId}` → `{storageKey,publicUrl}` sau khi xác minh nội dung; publicUrl là null với tài liệu private |
 
 Không có hard delete. Lô đất có thể tạm dừng, video có thể ẩn, khung giờ có thể đóng. Các danh sách người dùng, đăng ký sự kiện và nhật ký là chỉ đọc. Hỗ trợ/lịch hẹn chỉ sửa các trường điều phối, không sửa yêu cầu gốc hoặc snapshot tài chính.
 
@@ -63,10 +64,10 @@ Không có hard delete. Lô đất có thể tạm dừng, video có thể ẩn,
 
 - Kiểm tra tự động metadata của cả 15 module khớp toàn bộ cột `information_schema.columns`.
 - ID, created_at/updated_at, giá/m² và ngày/giờ sinh tự động là trường hệ thống. Lượt xem, người theo dõi, số video và rating là chỉ đọc.
-- Giá tiền/decimal truyền dưới dạng chuỗi, giữ chính xác cả giá trị lớn hơn `Number.MAX_SAFE_INTEGER`.
+- Tất cả numeric/bigint bắt buộc truyền dưới dạng chuỗi decimal; JSON number bị từ chối để tránh mất độ chính xác trước validation.
 - Chọn mã tỉnh/huyện tự điền tên và phiên bản; backend xác minh cùng cây địa giới. Tọa độ chính xác là dữ liệu riêng của Admin.
 - Điểm nổi bật dùng `{title,description}`; không chuyển thành mảng chuỗi làm hỏng mapper mobile. Agenda/speakers/benefits/media giữ nguyên cấu trúc DTO mà Dart đọc.
-- Giao diện ngày giờ dùng UTC+7; API ghi ISO có offset và PostgreSQL lưu timestamptz.
+- Giao diện ngày giờ dùng UTC+7, giữ giây/mili giây; PATCH bỏ timestamp không chỉnh. API ghi ISO có offset và PostgreSQL lưu timestamptz.
 - Video và media được tạo trong một transaction; nếu bất kỳ phần nào không hợp lệ, cả hai đều rollback.
 - Lưu form thất bại giữ nội dung đang nhập và hiển thị lỗi; phát hiện bản ghi sửa đồng thời bằng `_version` từ PostgreSQL xmin.
 
@@ -75,15 +76,26 @@ Không có hard delete. Lô đất có thể tạm dừng, video có thể ẩn,
 - awaiting_deposit → cancelled/rejected/expired; pending_confirmation → confirmed/rejected/cancelled; confirmed → completed/no_show/cancelled.
 - cancel_requested → cancelled; reschedule_requested → cancelled/rejected. Admin chưa triển khai chuyển sang khung giờ khác hoặc hoàn tiền.
 - Cập nhật trạng thái phải có lý do, được ghi vào history cùng transaction; kết thúc/hủy giải phóng reservation.
+- Không đổi giờ xác nhận sang giờ khác lịch đã đặt, kể cả khi giữ nguyên trạng thái.
 - Xác nhận/hoàn tất bắt buộc có cọc được xác minh theo trigger hiện có. Không tạo receipt giả hoặc mở thanh toán thật.
 - Không giảm sức chứa dưới số khách/lịch đã nhận; không đổi thời gian/lô của khung giờ đang được giữ chỗ.
 
 ## 4. Storage và session
 
+Sau audit: xem [bản sửa và kiểm chứng](qa/admin-fixes/RESPONSE.md). Upload hiện dùng
+hai bước: `POST /uploads` trả `uploadId/signedUrl` vào bucket private
+`xland-admin-staging`; sau PUT, gọi `POST /uploads/finalize` với `uploadId`.
+Backend xác minh bytes/MIME/size/signature, xuất sang key mới trong bucket cuối
+và trả `storageKey/publicUrl`. Chỉ điền form khi finalize thành công. Các object
+Admin mới chưa được xác minh không được gắn vào hồ sơ. Phải triển khai website
+và backend cùng phiên bản API upload mới.
+
 - `xland-admin-media`: public, JPEG/PNG/WebP/MP4/WebM, tối đa 50 MiB/file.
 - `xland-admin-documents`: private, PDF/JPEG/PNG, tối đa 20 MiB/file.
+- `xland-admin-staging`: private, chỉ dùng tạm để kiểm tra upload; tối đa 50 MiB.
 - Bucket `public-media` cũ không thay đổi. File mới nằm trong đường dẫn UUID dưới user ID; không ghi đè object.
 - Trình duyệt upload thẳng Supabase, có tiến độ; không gửi video lớn qua Next.js/Vercel function.
+- Finalize truyền bytes qua backend để kiểm tra rồi xuất tệp; không giải mã toàn bộ video hoặc quét malware. File cũ không đổi không bị tự tái xác minh.
 - Tài liệu gốc tải vào bucket private; ảnh preview phải được người quản trị che thông tin trước khi upload công khai.
 - Cơ chế download tài liệu dành cho mobile vẫn giữ dependency gate hiện có; Admin cung cấp quản lý metadata/upload, không tự thay đổi chính sách cấp quyền download.
 - Cookie phiên Admin: HttpOnly, SameSite=Strict, Secure trên HTTPS, path `/admin`; token không lưu localStorage, không trả lại cho JavaScript.
@@ -118,13 +130,25 @@ Mở **http://127.0.0.1:3200/admin**. Node mặc định trên máy là 20; cầ
 ### Khi đưa lên hosting
 
 1. Build/deploy `xland-server` cùng các biến DB/CURSOR_SECRET đã có và `SUPABASE_URL`, `SUPABASE_SECRET_KEY` (hoặc service-role key) ở môi trường server.
-2. Migration 0012 đã có trên Supabase đích; môi trường khác cần backup, migrate và provision Admin bằng script có target guard. `admin:setup` hiện được viết cho đúng Supabase của dự án này.
+2. Migrations 0012–0014 và bucket staging private đã có trên Supabase đích; môi trường khác cần backup, migrate, cấu hình Storage và provision Admin bằng script có target guard. `admin:setup` hiện được viết cho đúng Supabase của dự án này.
 3. Deploy Next.js và đặt `XLAND_ADMIN_API_URL=https://<backend>/api/v1/admin`; đặt `XLAND_ADMIN_WEB_ORIGIN=https://<website>` nếu qua reverse proxy. Không đặt key DB/Storage trên web client.
 4. Kiểm tra health, login, upload, role 403 và một lượt lưu hồ sơ trước khi sử dụng.
 
-Đã triển khai mã nguồn, áp dụng DB/Storage và chạy preview local. Việc push mã nguồn lên `main` không xác nhận bản Admin đã được phát hành thành công trên Railway/Vercel; hosting cần kiểm tra cấu hình và kết quả deployment riêng.
+Đã triển khai mã nguồn và áp dụng DB/Storage. Preview local trước audit không xác nhận bản sửa hiện tại; cần khởi động lại dịch vụ để dùng code mới. Việc push mã nguồn lên `main` không xác nhận bản Admin đã được phát hành thành công trên Railway/Vercel; hosting cần kiểm tra cấu hình và kết quả deployment riêng.
 
 ## 6. Kiểm thử
+
+Backend đã kèm fixture và snapshot contract Dart có checksum; xem
+`xland-server/tests/fixtures/README.md`. Để kiểm với mobile checkout thật, đặt
+`XLAND_MOBILE_ROOT` thành đường dẫn tuyệt đối. Nếu layout thư mục khác máy phát
+triển, đặt `XLAND_SERVER_ROOT` trước khi chạy E2E Admin, ví dụ trên máy tester:
+
+```powershell
+$env:XLAND_SERVER_ROOT='D:\Xproject\xland-server\xland-server'
+```
+
+Không tái sử dụng API QA đang chạy ở cổng 3006; dừng đúng process QA của bạn trước
+khi chạy E2E để tránh kiểm nhầm code. Preview local chỉ truy cập từ chính máy đó.
 
 ```powershell
 # xland-server
@@ -141,7 +165,7 @@ pnpm check
 pnpm test:admin
 ```
 
-`test:admin` website tự dựng PostgreSQL/API riêng ở cổng 3006, Next ở 3101. Chỉ ghi dữ liệu QA vào database `xland_test_admin_*`, không ghi hồ sơ giả vào Supabase dùng chung. Ảnh QA nằm trong `docs/qa/admin/`. Runner của bộ kiểm thử cũ đã được cập nhật để nhận các bảng additive 0009–0012; oracle chỉ cho phép bỏ `description` ở AgendaItem/Speaker đúng như mapper Dart hiện hành.
+`test:admin` website tự dựng PostgreSQL/API riêng ở cổng 3006, Next ở 3101. Chỉ ghi dữ liệu QA vào database `xland_test_admin_*`, không ghi hồ sơ giả vào Supabase dùng chung. Ảnh QA trước audit nằm trong `docs/qa/admin/`; lượt sửa này không chạy lại browser/E2E. Runner của bộ kiểm thử cũ đã được cập nhật để nhận bảng additive của migrations 0009–0014; oracle chỉ cho phép bỏ `description` ở AgendaItem/Speaker đúng như mapper Dart hiện hành.
 
 Kết quả chạy cuối và các giới hạn còn lại được ghi ở `docs/STATUS.md`.
 

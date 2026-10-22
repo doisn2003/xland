@@ -8,12 +8,12 @@ export function ReferenceInput({field,value,onChange}:{field:Field;value:string;
   useEffect(()=>{const controller=new AbortController();const timer=setTimeout(()=>{api<{id:string;label:string}[]>(`lookups/${field.reference}?q=${encodeURIComponent(query)}${value?`&id=${value}`:""}`,"GET",undefined,controller.signal).then(data=>{setItems(data);setError("");}).catch(e=>{if(!controller.signal.aborted)setError(errorText(e));});},200);return ()=>{clearTimeout(timer);controller.abort();};},[field.reference,query,value]);
   return <div className="admin-reference"><input aria-label={`Tìm ${label(field.name).toLowerCase()}`} placeholder="Tìm theo tên hoặc ID…" value={query} onChange={e=>setQuery(e.target.value)}/><select id={field.name} value={value} required={field.required} onChange={e=>onChange(e.target.value)}><option value="">Chọn {label(field.name).toLowerCase()}</option>{value&&!items.some(i=>i.id===value)&&<option value={value}>{value}</option>}{items.map(i=><option key={i.id} value={i.id}>{i.label} · {i.id.slice(0,8)}</option>)}</select>{error&&<small role="alert">{error}</small>}<small>Tối đa 50 kết quả; nhập tên để tìm thêm.</small></div>;
 }
-interface UploadResult {signedUrl:string;storageKey:string;publicUrl:string|null}
+interface UploadResult {storageKey:string;publicUrl:string|null}
 export function Uploader({privateDocument=false,onUploaded,accept="image/jpeg,image/png,image/webp,video/mp4,video/webm",onBusy}:{privateDocument?:boolean;onUploaded:(data:UploadResult,file:File)=>void;accept?:string;onBusy?:(busy:boolean)=>void}){
-  const [progress,setProgress]=useState<number|null>(null),[error,setError]=useState("");
-  async function upload(file:File){setProgress(0);setError("");onBusy?.(true);
+  const [progress,setProgress]=useState<number|null>(null),[error,setError]=useState(""),[working,setWorking]=useState(false);
+  async function upload(file:File){setProgress(0);setError("");setWorking(true);onBusy?.(true);
     try{
-      const result=await api<UploadResult>("uploads","POST",{mimeType:file.type,size:file.size,privateDocument});
+      const result=await api<{signedUrl:string;uploadId:string}>("uploads","POST",{mimeType:file.type,size:file.size,privateDocument});
       await new Promise<void>((resolve,reject)=>{
         const xhr=new XMLHttpRequest();xhr.open("PUT",result.signedUrl);xhr.timeout=300000;
         xhr.setRequestHeader("Content-Type",file.type);xhr.setRequestHeader("x-upsert","false");
@@ -21,30 +21,11 @@ export function Uploader({privateDocument=false,onUploaded,accept="image/jpeg,im
         xhr.onload=()=>xhr.status>=200&&xhr.status<300?resolve():reject(new Error("Supabase từ chối tệp. Kiểm tra loại và dung lượng rồi thử lại."));
         xhr.onerror=()=>reject(new Error("Mất kết nối khi tải tệp. Vui lòng thử lại."));xhr.ontimeout=()=>reject(new Error("Hết thời gian tải tệp."));xhr.send(file);
       });
-      onUploaded(result,file);setProgress(100);
-    }catch(e){setError(errorText(e));setProgress(null);}finally{onBusy?.(false);}
+      const verified=await api<UploadResult>("uploads/finalize","POST",{uploadId:result.uploadId});
+      onUploaded(verified,file);setProgress(100);
+    }catch(e){setError(errorText(e));setProgress(null);}finally{setWorking(false);onBusy?.(false);}
   }
-  return <div className="admin-upload"><input type="file" aria-label="Tải tệp lên Supabase" accept={accept} disabled={progress!==null&&progress<100} onChange={e=>{const file=e.target.files?.[0];if(file)void upload(file);e.target.value="";}}/>{progress!==null&&<small role="status">{progress===100?"Đã tải lên Supabase":"Đang tải lên"} · {progress}%</small>}{error&&<small className="admin-error" role="alert">{error}</small>}</div>;
-}
-export function initial(fields:Field[],data:Row={}):Row{
-  return Object.fromEntries(fields.map(f=>{
-    let value=data[f.name]??f.defaultValue;
-    if(value==null)value=f.type==="boolean"?false:"";
-    if(f.name==="is_illustrative"&&data[f.name]===undefined)value=false;
-    if(f.type==="timestamp with time zone"&&value)value=new Date(Date.parse(String(value))+7*3600000).toISOString().slice(0,16);
-    if(f.type==="date"&&value)value=String(value).slice(0,10);
-    if(f.type==="jsonb")value=JSON.stringify(value||[],null,2);
-    return [f.name,value];
-  }));
-}
-export function serialize(fields:Field[],draft:Row):Row{
-  return Object.fromEntries(fields.filter(f=>!f.readonly).map(f=>{
-    let value=draft[f.name];
-    if(value===""||value===undefined)value=null;
-    if(f.type==="timestamp with time zone"&&value)value=new Date(String(value)+":00+07:00").toISOString();
-    if(f.type==="jsonb"){try{value=JSON.parse(String(value??"[]"));}catch{throw new Error(`${label(f.name)}: JSON chưa hợp lệ`);}}
-    return [f.name,value];
-  }));
+  return <div className="admin-upload"><input type="file" aria-label="Tải tệp lên Supabase" accept={accept} disabled={working} onChange={e=>{const file=e.target.files?.[0];if(file)void upload(file);e.target.value="";}}/>{progress!==null&&<small role="status">{progress===100?(working?"Đang xác minh nội dung tệp":"Đã tải lên Supabase và xác minh"):"Đang tải lên"} · {progress}%</small>}{error&&<small className="admin-error" role="alert">{error}</small>}</div>;
 }
 export function FormField({field,draft,setDraft,locations=[],uploadBusy}:{field:Field;draft:Row;setDraft:(fn:(v:Row)=>Row)=>void;locations?:Row[];uploadBusy?:(b:boolean)=>void}){
   const value=draft[field.name];const change=(v:unknown)=>setDraft(prev=>({...prev,[field.name]:v}));
@@ -58,7 +39,7 @@ export function FormField({field,draft,setDraft,locations=[],uploadBusy}:{field:
     f.options?<select id={f.name} value={text} required={f.required} onChange={e=>change(e.target.value)}><option value="">Chọn {label(f.name).toLowerCase()}</option>{f.options.map(o=><option key={o} value={o}>{values[o]??o}</option>)}</select>:
     ["highlights","benefits","agenda","speakers","media","tags","activities"].includes(f.name)?<StructuredList name={f.name} value={text} onChange={change} onBusy={uploadBusy}/>:
     f.type==="jsonb"||["caption","message","description","note","summary"].includes(f.name)?<textarea id={f.name} value={text} rows={f.type==="jsonb"?5:3} required={f.required} onChange={e=>change(e.target.value)} maxLength={20000}/>:
-    <input id={f.name} value={text} type={f.type==="timestamp with time zone"?"datetime-local":f.type==="date"?"date":f.name.endsWith("_url")?"url":"text"} inputMode={["numeric","bigint","integer"].includes(f.type)?"decimal":undefined} required={f.required} readOnly={["province","district","catalog_version"].includes(f.name)} onChange={e=>change(e.target.value)} maxLength={10000}/>}
+    <input id={f.name} value={text} type={f.type==="timestamp with time zone"?"datetime-local":f.type==="date"?"date":f.name.endsWith("_url")?"url":"text"} step={f.type==="timestamp with time zone"?"0.001":undefined} inputMode={["numeric","bigint","integer"].includes(f.type)?"decimal":undefined} required={f.required} readOnly={["province","district","catalog_version"].includes(f.name)} onChange={e=>change(e.target.value)} maxLength={10000}/>}
     {hints[f.name]&&<small>{hints[f.name]}</small>}{f.type==="timestamp with time zone"&&<small>Giờ Việt Nam (UTC+7).</small>}
     {upload&&<Uploader privateDocument={f.name==="storage_key"&&"access_level" in draft} accept={f.name==="storage_key"&&"access_level" in draft?"application/pdf,image/jpeg,image/png":f.name.includes("thumbnail")||f.name.includes("avatar")||f.name.includes("cover")||f.name.includes("preview")?"image/jpeg,image/png,image/webp":draft.kind==="video"?"video/mp4,video/webm":undefined} onBusy={uploadBusy} onUploaded={(data,file)=>setDraft(prev=>{
       const next={...prev,[f.name]:f.name==="storage_key"?data.storageKey:data.publicUrl};

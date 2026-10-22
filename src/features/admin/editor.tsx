@@ -3,7 +3,8 @@ import Link from "next/link";
 import {useState,type FormEvent} from "react";
 import {useRouter} from "next/navigation";
 import {api,AdminError,errorText,type Catalog,type Row} from "./api";
-import {FormField,initial,serialize} from "./controls";
+import {FormField} from "./controls";
+import {initial,serialize} from "./form-values";
 import {formatted,label} from "./labels";
 
 export function Editor({entity,catalog,record,locations,property}:{entity:string;catalog:Catalog;record:Row|null;locations:Row[];property?:string}){
@@ -18,9 +19,10 @@ export function Editor({entity,catalog,record,locations,property}:{entity:string
   function uploadBusy(b:boolean){setUploads(n=>Math.max(0,n+(b?1:-1)));}
   async function submit(event:FormEvent){event.preventDefault();setBusy(true);setError("");
     try{
-      const data=serialize(config.fields,draft);
+      const data=serialize(config.fields,draft,record??undefined);
       if(entity==="videos"){
-        delete data.media_id;data.media=serialize(mediaFields,media);
+        delete data.media_id;
+        data.media={...serialize(mediaFields,media,record?.media as Row|undefined),...(record?{_version:(record.media as Row)._version}:{})};
         if(!media.public_url||!media.storage_key)throw new Error("Vui lòng tải video lên và điền mô tả media.");
       }
       if(entity==="consultants")data.contact={phone:contact.phone||null,email_contact:contact.email_contact||null};
@@ -38,7 +40,7 @@ export function Editor({entity,catalog,record,locations,property}:{entity:string
       <div className="admin-form-grid">{active.map(f=><FormField key={f.name} field={f} draft={draft} setDraft={setDraft} locations={locations} uploadBusy={uploadBusy}/>)}</div></>}
       {entity==="videos"&&<section className="admin-form-section"><h2>Tệp video & ảnh bìa</h2><p>Chọn video của lô đất đang đăng. Upload xong, điền mô tả và thời lượng trước khi lưu.</p><div className="admin-form-grid">{mediaFields.filter(f=>!f.readonly).map(f=><FormField key={f.name} field={f} draft={{...media,kind:"video"}} setDraft={setMedia} uploadBusy={uploadBusy}/>)}</div>{!!media.public_url&&<video className="admin-video" src={String(media.public_url)} controls preload="metadata" aria-label="Xem trước video"/>}</section>}
       {entity==="consultants"&&<section className="admin-form-section"><h2>Thông tin liên hệ</h2><div className="admin-form-grid"><label>Điện thoại<input type="tel" value={String(contact.phone??"")} onChange={e=>setContact({...contact,phone:e.target.value})}/></label><label>Email<input type="email" value={String(contact.email_contact??"")} onChange={e=>setContact({...contact,email_contact:e.target.value})}/></label></div></section>}
-      {entity==="bookings"&&<section className="admin-form-section"><label htmlFor="reason">Lý do cập nhật trạng thái{draft.status!==record?.status&&<span className="admin-required"> *</span>}</label><textarea id="reason" value={reason} required={draft.status!==record?.status} onChange={e=>setReason(e.target.value)} rows={3} maxLength={2000}/></section>}
+      {entity==="bookings"&&<section className="admin-form-section"><label htmlFor="reason">Lý do cập nhật lịch hẹn{draft.status!==record?.status&&<span className="admin-required"> *</span>}</label><textarea id="reason" value={reason} required={draft.status!==record?.status} onChange={e=>setReason(e.target.value)} rows={3} maxLength={2000}/></section>}
       {record&&<details className="admin-system" open={readonly}><summary>{readonly?"Toàn bộ thông tin":"Thông tin hệ thống & trường chỉ đọc"}</summary><dl>{config.fields.filter(f=>f.readonly).map(f=><div key={f.name}><dt>{label(f.name)}</dt><dd>{formatted(record[f.name],f.name)}</dd></div>)}</dl></details>}
       {entity==="bookings"&&record&&<section className="admin-form-section"><h2>Lịch sử & tiền cọc</h2><div className="admin-history">{((record.history as Row[])??[]).map(h=><p key={String(h.id)}><strong>{formatted(h.to_status)}</strong> · {formatted(h.occurred_at,"occurred_at")}<br/>{String(h.public_note??h.internal_note??"")}</p>)}</div>{((record.payments as Row[])??[]).map(p=><p key={String(p.id)}>Thanh toán: {formatted(p.status)} · {formatted(p.mode)} · {formatted(p.amount_vnd,"price")}</p>)}</section>}
       {error&&<p role="alert" className="admin-error">{error}</p>}

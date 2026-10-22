@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-22T12:28:17.320Z",
+  "checks": [
+    {
+      "case": "valid-png",
+      "result": "passed"
+    },
+    {
+      "case": "valid-mp4",
+      "result": "passed"
+    },
+    {
+      "case": "private-png",
+      "result": "passed"
+    },
+    {
+      "case": "text-disguised-as-png",
+      "result": "passed"
+    },
+    {
+      "case": "empty-after-positive-size",
+      "result": "passed"
+    },
+    {
+      "case": "actual-size-mismatch",
+      "result": "passed"
+    },
+    {
+      "case": "mime-mismatch",
+      "result": "passed"
+    }
+  ],
+  "cleanupVerified": true,
+  "businessRowsWritten": 0
+}
