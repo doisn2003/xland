@@ -20,8 +20,10 @@
   `pnpm check` chạy đủ: **113/114 E2E đạt**. Ca WebKit accessibility của route user
   `/lo-dat/mien-xanh-ven-song` báo tương phản nút lưu; chạy lại riêng vẫn thất bại.
   CSS/route user không thay đổi, không skip hoặc nới assertion.
-- Cần đo lại thời gian mở form sau khi Vercel phục vụ loader mới. Region và gói
-  Northflank hiện có giữ nguyên; độ trễ kết nối xuyên vùng vẫn còn.
+- Vercel deployment `GhMUyML8JZNGiCquv64WzhSRuAu2` từ `4515fab` đã Ready.
+  Cùng form production đo lại hai lượt: **8,50 giây và 6,02 giây**, so với
+  23,34 giây trước sửa. Đây là số đo quan sát, không phải cam kết tải tối đa.
+  Region và gói Northflank hiện có giữ nguyên; độ trễ kết nối xuyên vùng vẫn còn.
 
 ## Hosting Northflank và Vercel — 22/10/2026
 
