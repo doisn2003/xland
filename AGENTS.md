@@ -1,7 +1,7 @@
 # Xland: quy tắc thực thi
 
 - Đọc `PREPARE.md` và `docs/STATUS.md` trước khi làm; giữ thay đổi đang có của chủ dự án.
-- Phạm vi hiện tại: scaffold rồi demo frontend; chưa triển khai backend/admin, ví thật hoặc smart contract.
+- Phạm vi mới 22/10/2026: triển khai fullstack Admin tại `/admin`, kết nối `xland-server`, PostgreSQL và Supabase Storage theo yêu cầu chủ dự án. Giữ tương thích mobile; website user không thuộc phiên này. Quy tắc demo cũ bên dưới chỉ áp dụng các route user đang có; ví thật và smart contract vẫn ngoài phạm vi.
 - Next.js/TypeScript/Tailwind trên Vercel; Node.js/Railway, Supabase và ERC-1155 ở giai đoạn backend. UI gọi rõ NFT.
 - Mobile first, tiếng Việt. LUXEESTATE là tham chiếu lịch sử 1A; yêu cầu nâng cấp mới theo Sunshine Group được ghi trong `docs/UI-UPGRADE.md`, đọc đúng prompt phase và `docs/ui-upgrade/BRIEF.md` khi triển khai. Kết quả kiểm tra và phạm vi đã hoàn thành nằm trong STATUS; không suy ra toàn bộ 1B đã xong từ mốc 1A hoặc từ vòng nâng cấp UI.
 - Khi làm UI mốc 1A, đọc `docs/DESIGN.md`: home/card/detail trước, cùng fixture; ghi quyết định font/media sau khi kiểm tra. Token CSS thực thi và tài liệu phải khớp.

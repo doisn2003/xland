@@ -24,6 +24,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:admin": "playwright test --config=playwright.admin.config.ts",
     "test:e2e:install": "playwright install chromium webkit",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build && pnpm test:e2e"
   },

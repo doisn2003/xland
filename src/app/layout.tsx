@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { SiteChrome } from "@/components/site-chrome";
 import "./globals.css";
 const heading = localFont({ src: "./fonts/noto-serif.woff2", variable: "--font-heading", display: "swap", weight: "500 600" });
 const body = localFont({ src: [
@@ -15,5 +14,5 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="vi" className={`${heading.variable} ${body.variable}`}><body><a href="#main" className="skip-link" tabIndex={0}>Đến nội dung chính</a><SiteHeader />{children}<SiteFooter /></body></html>;
+  return <html lang="vi" className={`${heading.variable} ${body.variable}`}><body><a href="#main" className="skip-link" tabIndex={0}>Đến nội dung chính</a><SiteChrome>{children}</SiteChrome></body></html>;
 }

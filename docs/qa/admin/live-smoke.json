@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-22T07:35:10.671Z",
+  "browserLogin": "passed",
+  "realSupabaseBrowserUpload": "passed",
+  "storageKeyAutofill": "passed",
+  "bytesReadback": "passed",
+  "browserLogout": "passed",
+  "businessRowsCreated": 0
+}

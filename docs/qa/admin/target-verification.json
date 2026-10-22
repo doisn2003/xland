@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-22T07:29:28.296Z",
+  "targetFingerprint": "03d6c297d77a1029",
+  "backupRestore": {
+    "verified": true,
+    "dataDigestsMatch": true,
+    "database": "xland_test_restore_admin_7a07b9fac0",
+    "tables": 41,
+    "restoredRows": 691,
+    "passes": 4
+  },
+  "existingBusinessRowsUnchanged": {
+    "properties": 20,
+    "property_media": 118,
+    "videos": 96,
+    "consultants": 8,
+    "site_visit_bookings": 9,
+    "booking_status_history": 10,
+    "events": 5,
+    "clubs": 1
+  },
+  "concurrentChangesObserved": {
+    "support_requests": {
+      "before": 6,
+      "after": 7,
+      "added": 1,
+      "removed": 0,
+      "changed": []
+    }
+  }
+}

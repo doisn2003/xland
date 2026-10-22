@@ -1,5 +1,7 @@
 # Xland
 
+**Cập nhật 22/10/2026:** đã bổ sung website Admin fullstack tại `/admin`, kết nối `xland-server`, PostgreSQL và Supabase Storage. Tài khoản khởi tạo `admin / 123456`. Kế hoạch, API, quy tắc dữ liệu, cách chạy và triển khai ở [ADMIN](docs/ADMIN.md). Website user phía dưới vẫn giữ trạng thái demo cũ.
+
 Website đất nền và bất động sản NFT, mobile first, tiếng Việt. Đang triển khai **mốc 1B** trên nền home/card/detail 1A: danh sách lọc và sắp xếp theo URL, lưu lô đất, đề nghị xem thực địa/đổi/hủy, mua NFT và danh mục NFT, reset trải nghiệm. Dùng chung 10 bất động sản fixture; chưa có backend, ví hoặc giao dịch thật. Video, chuyên gia, người đăng và đăng bán còn lại. Kết quả QA hiện tại ở [STATUS](docs/STATUS.md).
 
 ## Chạy local

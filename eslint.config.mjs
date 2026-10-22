@@ -12,6 +12,7 @@ export default defineConfig([
     "coverage/**",
     "playwright-report/**",
     "test-results/**",
+    "admin-test-results/**",
     "blob-report/**",
     "next-env.d.ts",
   ]),

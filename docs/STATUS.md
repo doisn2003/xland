@@ -1,5 +1,40 @@
 # Trạng thái Xland
 
+## Admin fullstack — 22/10/2026
+
+Đã triển khai Admin tại `/admin` theo phạm vi mới của chủ dự án. Kế hoạch, phân tích schema/API và hướng dẫn vận hành ở [ADMIN](ADMIN.md). Website user giữ phạm vi demo cũ.
+
+- Dashboard và sidebar 15 module: lô đất, video feeds, tư vấn viên, lịch xem thực địa, khung giờ, hỗ trợ, media, pháp lý, tài liệu, tiện ích, sự kiện/đăng ký, câu lạc bộ, người dùng và nhật ký.
+- Form lấy metadata từ PostgreSQL, đối chiếu toàn bộ cột. Trường hệ thống/số liệu tự sinh chỉ đọc; danh sách lồng có form thêm/xóa từng mục đúng cấu trúc mobile.
+- Role Admin thật, cookie HttpOnly, kiểm tra quyền backend, rate limit, Origin, transaction và chống ghi đè bản sửa cũ bằng `_version`.
+- Migration `0012_admin_workspace.sql` đã áp dụng lên Supabase hiện có; tài khoản **admin / 123456** đã tạo. Đã cấu hình bucket media công khai và tài liệu riêng tư.
+- Preview: **http://127.0.0.1:3200/admin**; API: **http://127.0.0.1:3005/api/v1/admin**. Không sửa mã xland-mobile hoặc thay deployment Railway/Vercel.
+
+### Kiểm chứng
+
+| Hạng mục | Kết quả |
+| --- | --- |
+| Backend lint/typecheck/build | Đạt |
+| Backend unit | 26/26 đạt |
+| PostgreSQL integration hiện hữu | 36/36 đạt |
+| Contract HTTP/mobile | 2/2 đạt; oracle nhận hai trường description tùy chọn đúng như mapper Dart hiện hành |
+| Admin trên PostgreSQL riêng | **83 kiểm tra đạt**: phân quyền, schema, tiền lớn, ngày, CRUD, rollback, version conflict, booking/deposit, DTO mobile và audit |
+| Web lint/typecheck/unit/build | Đạt; 46/46 unit |
+| `pnpm check` / hồi quy user | Đã chạy đủ. Lượt cuối: 110/114 E2E đạt; 3 timeout WebKit và 1 assertion reset. Chạy lại đúng 4 ca bằng `--last-failed --workers=1`: **4/4 đạt**, không sửa/skip test user. Không ghi `pnpm check` là đạt trong một lượt duy nhất. |
+| `pnpm test:admin` | Đạt: login/cookie/CSRF, tạo/sửa tư vấn viên, tạo lô đất, reload, form/list, responsive, reduced motion, axe, logout và route guard |
+| Upload thật từ trình duyệt | Đạt qua Next → API → Supabase; ảnh đúng byte, MP4 đọc được metadata/thời lượng 4 giây, tự điền URL/key, đăng xuất. Đã dọn file probe; không tạo hồ sơ QA trên DB dùng chung |
+| Riêng tư Storage | Public media đọc được (200); private document bị từ chối qua URL public (400); đã xóa các file probe |
+| Backup/đối chiếu | Restore **41 bảng / 691 dòng** vào PostgreSQL riêng, digest khớp. Lô đất/media/video/tư vấn viên/lịch hẹn/history/sự kiện/CLB không đổi. Có 1 support request mới xuất hiện khi làm việc; không request cũ nào bị sửa/xóa, đã giữ nguyên. |
+| Giao diện | Đã chụp/xem tại 360/390/430/768/1440 px; không tràn ngang. WebKit là giả lập, không phải iPhone thật. |
+
+Bằng chứng không chứa secret: [QA Admin](qa/admin/README.md), [83 kiểm tra backend](qa/admin/backend-checks.json), [upload ảnh thật](qa/admin/live-smoke.json), [upload MP4 thật](qa/admin/video-smoke.json), [backup/đối chiếu](qa/admin/target-verification.json).
+
+Giới hạn: chưa có đổi slot/hoàn tiền, quản lý cấp role, catalog địa giới mới, transcode hoặc tự dọn upload chưa gắn hồ sơ. Download tài liệu mobile giữ dependency gate cũ; hủy lịch không tự hoàn tiền. Phiên này chạy local kết nối Supabase của dự án, chưa phát hành hosting.
+
+---
+
+## Lịch sử website user
+
 Cập nhật: 04/10/2026. Mốc 1B đang triển khai; đã hoàn thành P00 (baseline), P01 (nhận diện thương hiệu), P02 (media/chân dung), P03 (Header/Hero/Footer), P04 (Chương giới thiệu Xland), P05 (Chương bất động sản NFT), P06 (Người đồng hành & Nhất quán 1B), P07 (Nền GSAP an toàn) và **P08 — Biên đạo GSAP cho home Xland (4 motion scenes)**.
 
 ## Nghiệm thu Giai đoạn P08 — 04/10/2026
