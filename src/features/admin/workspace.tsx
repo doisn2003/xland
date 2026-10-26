@@ -2,39 +2,91 @@
 import Link from "next/link";
 import {useEffect,useState,type FormEvent} from "react";
 import {useRouter,useSearchParams} from "next/navigation";
+import useSWR from "swr";
 import {api,AdminError,errorText,type Row} from "./api";
 import {loadWorkspace,type Loaded} from "./load-workspace";
 import {formatted,label} from "./labels";
 import {Editor} from "./editor";
+import {PropertyStudio} from "./property/studio";
+import {PropertyList} from "./property/property-list";
 
-const groups=[{title:"ĐIỀU HÀNH",items:[['overview','Tổng quan'],['bookings','Lịch xem thực địa'],['slots','Khung giờ'],['support','Yêu cầu hỗ trợ']]},{title:"NỘI DUNG",items:[['properties','Lô đất'],['videos','Video feeds'],['consultants','Tư vấn viên'],['media','Ảnh & media'],['legal','Hồ sơ pháp lý'],['documents','Tài liệu'],['amenities','Tiện ích khu vực']]},{title:"CỘNG ĐỒNG",items:[['events','Sự kiện'],['registrations','Đăng ký sự kiện'],['clubs','Câu lạc bộ']]},{title:"HỆ THỐNG",items:[['users','Người dùng'],['audit','Nhật ký quản trị']]}];
-export function AdminWorkspace({segments,displayName}:{segments:string[];displayName:string}){
+const groups=[
+  {title:"ĐIỀU HÀNH",items:[['overview','Tổng quan'],['bookings','Lịch xem thực địa'],['slots','Khung giờ'],['support','Yêu cầu hỗ trợ']]},
+  {title:"NỘI DUNG",items:[['properties','Lô đất'],['videos','Video feeds'],['consultants','Tư vấn viên']]},
+  {title:"CỘNG ĐỒNG",items:[['events','Sự kiện'],['registrations','Đăng ký sự kiện'],['clubs','Câu lạc bộ']]},
+  {title:"HỆ THỐNG",items:[['users','Người dùng'],['audit','Nhật ký quản trị']]}
+];
+export function AdminWorkspace({segments,displayName:initialDisplayName}:{segments:string[];displayName?:string}){
   const entity=segments[0]??"overview",id=segments[1];const params=useSearchParams(),router=useRouter();
-  const [menu,setMenu]=useState(false),[loaded,setLoaded]=useState<Loaded|null>(null),[error,setError]=useState(""),[retry,setRetry]=useState(0),[logoutBusy,setLogoutBusy]=useState(false);
+  const [menu,setMenu]=useState(false),[loaded,setLoaded]=useState<Loaded|null>(null),[isPending,setIsPending]=useState(false),[error,setError]=useState(""),[retry,setRetry]=useState(0),[logoutBusy,setLogoutBusy]=useState(false);
   const query=params.toString();
+
+  const {data:sessionData}=useSWR('admin-session',()=>api<{profile:{displayName:string}}>('session'),{revalidateOnFocus:false,dedupingInterval:60000});
+  const displayName=sessionData?.profile?.displayName??initialDisplayName??"Quản trị viên";
+
+  const cachedCatalog=loaded?.catalog;
+  const cachedLocations=loaded?.locations;
+
+  // Seamlessly redirect legacy deep-links for sub-resources into PropertyStudio tabs
+  useEffect(() => {
+    const subEntityToTab: Record<string, string> = {
+      media: "media",
+      legal: "legal",
+      documents: "documents",
+      amenities: "amenities",
+    };
+    if (subEntityToTab[entity] && params.get("filter") === "property_id" && params.get("value")) {
+      const propId = params.get("value");
+      const targetTab = subEntityToTab[entity];
+      router.replace(`/admin/properties/${propId}?tab=${targetTab}`);
+    }
+  }, [entity, params, router]);
+
   useEffect(()=>{
     const controller=new AbortController();
     async function load(){
-      const data=await loadWorkspace(segments,query,controller.signal);
-      if(!controller.signal.aborted){setLoaded(data);setError("");}
+      setIsPending(true);
+      try{
+        const data=await loadWorkspace(segments,query,controller.signal,{
+          catalog:cachedCatalog,
+          locations:cachedLocations,
+        });
+        if(!controller.signal.aborted){setLoaded(data);setError("");}
+      }catch(e){
+        if(!controller.signal.aborted){
+          if(e instanceof AdminError&&e.status===401){
+            router.replace("/admin/login");
+          }else setError(errorText(e));
+        }
+      }finally{
+        if(!controller.signal.aborted)setIsPending(false);
+      }
     }
-    void load().catch(e=>{if(!controller.signal.aborted){if(e instanceof AdminError&&e.status===401)router.replace("/admin/login");else setError(errorText(e));}});return ()=>controller.abort();
-  },[query,retry,segments,router]);
-  async function logout(){setLogoutBusy(true);try{await api("session","DELETE");router.replace("/admin/login");router.refresh();}catch(e){setError(errorText(e));setLogoutBusy(false);}}
+    void load();
+    return ()=>controller.abort();
+  },[query,retry,segments,router,cachedCatalog,cachedLocations]);
+  async function logout(){
+    setLogoutBusy(true);
+    try{
+      await api("session","DELETE");
+      router.replace("/admin/login");
+      router.refresh();
+    }catch(e){setError(errorText(e));setLogoutBusy(false);}
+  }
   function go(search:URLSearchParams){router.push(`/admin/${entity}?${search}`);}
   function search(event:FormEvent<HTMLFormElement>){event.preventDefault();const form=new FormData(event.currentTarget),s=new URLSearchParams();for(const k of ['q','filter','value'])if(form.get(k))s.set(k,String(form.get(k)));go(s);}
   const config=loaded?.catalog[entity];
   return <div className="admin-shell">
     <aside className={`admin-sidebar ${menu?"is-open":""}`} onKeyDown={e=>{if(!menu)return;if(e.key==="Escape"){setMenu(false);document.querySelector<HTMLButtonElement>(".admin-menu-button")?.focus();}if(e.key==="Tab"){const links=e.currentTarget.querySelectorAll<HTMLAnchorElement>("a[href]");const first=links[0],last=links[links.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}}}><Link className="admin-wordmark" href="/admin">XLAND<span>ADMIN</span></Link><p className="admin-sidebar-caption">Quản trị hệ thống</p><nav aria-label="Module quản trị">{groups.map(g=><div className="admin-nav-group" key={g.title}><h2>{g.title}</h2>{g.items.map(([key,name])=><Link onClick={()=>setMenu(false)} key={key} aria-current={entity===key?"page":undefined} href={key==="overview"?"/admin":`/admin/${key}`}><span className="admin-nav-dot"/>{name}</Link>)}</div>)}</nav><div className="admin-sidebar-foot"><span className="admin-avatar">AD</span><div><strong>{displayName}</strong><span>Quản trị viên</span></div></div></aside>
     {menu&&<button className="admin-backdrop" aria-label="Đóng điều hướng" onClick={()=>setMenu(false)}/>}
-    <div className="admin-body"><header className="admin-topbar"><div><button className="admin-menu-button" onClick={()=>{setMenu(!menu);if(!menu)requestAnimationFrame(()=>document.querySelector<HTMLAnchorElement>(".admin-sidebar a")?.focus());}} aria-expanded={menu} aria-label="Mở điều hướng">☰</button><span>Xland <span className="admin-separator">/</span> {entity==="overview"?"Tổng quan":config?.title??"Quản trị"}</span></div><button className="admin-button secondary small" onClick={logout} disabled={logoutBusy}>Đăng xuất</button></header>
+    <div className="admin-body"><header className="admin-topbar"><div><button className="admin-menu-button" onClick={()=>{setMenu(!menu);if(!menu)requestAnimationFrame(()=>document.querySelector<HTMLAnchorElement>(".admin-sidebar a")?.focus());}} aria-expanded={menu} aria-label="Mở điều hướng">☰</button><span>Xland <span className="admin-separator">/</span> {entity==="overview"?"Tổng quan":config?.title??"Quản trị"}{isPending&&<span className="admin-refreshing">Đang tải…</span>}</span></div><button className="admin-button secondary small" onClick={logout} disabled={logoutBusy}>Đăng xuất</button></header>
     <main id="main" className="admin-content" tabIndex={-1}>
       {error?<div className="admin-panel"><p className="admin-error" role="alert">{error}</p><button className="admin-button" onClick={()=>setRetry(n=>n+1)}>Thử lại</button><Link href="/admin">Về tổng quan</Link></div>:!loaded?<div className="admin-panel" role="status">Đang tải dữ liệu Xland…</div>:<>
       {params.has("saved")&&<p className="admin-success" role="status">Đã lưu hồ sơ thành công.</p>}
       {loaded.overview&&<><div className="admin-page-heading"><div><span className="admin-eyebrow">KHÔNG GIAN QUẢN TRỊ</span><h1>Tổng quan hệ thống</h1><p>Nội dung, khách hàng và lịch hẹn ở cùng một nơi.</p></div><Link href="/admin/properties/new" className="admin-button">+ Thêm lô đất</Link></div><div className="admin-stats">{Object.entries(loaded.overview.counts).map(([key,n])=><Link href={`/admin/${key}`} className="admin-stat" key={key}><span>{loaded.catalog[key]!.title}</span><strong>{n.toLocaleString("vi-VN")}</strong><small>{key==="bookings"?"Cần theo dõi":key==="support"?"Chờ xử lý":"Xem danh sách"} ↗</small></Link>)}</div><section className="admin-panel"><h2>Thao tác nhanh</h2><div className="admin-quick">{[['videos','Đăng video lên feeds','Chọn lô đất, tải video và duyệt nội dung.'],['consultants','Thêm tư vấn viên','Hoàn thiện hồ sơ và thông tin liên hệ.'],['slots','Mở lịch xem thực địa','Thiết lập khung giờ và sức chứa.']].map(([key,title,sub])=><Link key={key} href={`/admin/${key}/new`}><strong>{title} ↗</strong><span>{sub}</span></Link>)}</div></section><section className="admin-panel"><div className="admin-section-title"><h2>Hoạt động gần đây</h2><Link className="admin-text-link" href="/admin/audit">Xem nhật ký →</Link></div>{loaded.overview.recent.length?<ul className="admin-activity">{loaded.overview.recent.map(r=><li key={String(r.id)}><span><strong>{formatted(r.action)}</strong> · {loaded.catalog[String(r.entity)]?.title??String(r.entity)}</span><time>{formatted(r.created_at,"created_at")}</time></li>)}</ul>:<p>Chưa có thao tác quản trị được ghi nhận.</p>}</section></>}
-      {id&&config&&<Editor key={entity+id+String(loaded.record?._version??"")} entity={entity} catalog={loaded.catalog} record={loaded.record??null} locations={loaded.locations} property={params.get("filter")==="property_id"?params.get("value")??undefined:undefined}/>}
+      {id&&config&&(entity==="properties"&&id!=="new"?<PropertyStudio key={id} propertyId={id} catalog={loaded.catalog} locations={loaded.locations}/>:<Editor key={entity+id+String(loaded.record?._version??"")} entity={entity} catalog={loaded.catalog} record={loaded.record??null} locations={loaded.locations} property={params.get("filter")==="property_id"?params.get("value")??undefined:undefined}/>)}
       {loaded.list&&config&&<><div className="admin-page-heading"><div><span className="admin-eyebrow">QUẢN LÝ XLAND</span><h1>{config.title}</h1><p>{loaded.list.total.toLocaleString("vi-VN")} hồ sơ{config.edit?.length===0?" · Chỉ đọc":""}</p></div>{config.create&&<Link className="admin-button" href={`/admin/${entity}/new${params.get("filter")==="property_id"?`?filter=property_id&value=${params.get("value")}`:""}`}>+ Thêm mới</Link>}</div><section className="admin-panel admin-list"><form className="admin-filters" onSubmit={search}><label>Tìm kiếm<input name="q" defaultValue={params.get("q")??""} placeholder="Nhập tên, mã hoặc nội dung…" maxLength={150}/></label>{!!config.filter?.length&&<><label>Lọc theo<select name="filter" defaultValue={params.get("filter")??""}><option value="">Không lọc</option>{config.filter.map(f=><option key={f} value={f}>{label(f)}</option>)}</select></label><label>Giá trị lọc<input name="value" defaultValue={params.get("value")??""} list="admin-filter-values" placeholder="Chọn trạng thái hoặc nhập ID"/><datalist id="admin-filter-values">{config.fields.flatMap(f=>f.options??[]).filter((v,i,a)=>a.indexOf(v)===i).map(v=><option key={v} value={v}>{formatted(v)}</option>)}</datalist></label></>}<button className="admin-button secondary">Áp dụng</button><Link className="admin-text-link" href={`/admin/${entity}`}>Xóa lọc</Link></form>
-      <div className="admin-table-wrap"><table><caption className="admin-sr-only">Danh sách {config.title.toLowerCase()}</caption><thead><tr>{config.columns.map(col=><th key={col}>{label(col)}</th>)}<th>Chi tiết</th></tr></thead><tbody>{loaded.list.items.map(row=><tr key={String(row.id)}>{config.columns.map(col=><td key={col}>{['status','approval_status','access_level'].includes(col)?<span className={`admin-badge ${String(row[col])}`}>{formatted(row[col],col)}</span>:formatted((row._labels as Row)?.[col]??row[col],col)}</td>)}<td><Link className="admin-text-link" href={`/admin/${entity}/${row.id}`}>{config.edit?.length===0?"Xem":"Mở"} →</Link></td></tr>)}</tbody></table></div>
+      {entity==="properties"?<PropertyList items={loaded.list.items}/>:<div className="admin-table-wrap"><table><caption className="admin-sr-only">Danh sách {config.title.toLowerCase()}</caption><thead><tr>{config.columns.map(col=><th key={col}>{label(col)}</th>)}<th>Chi tiết</th></tr></thead><tbody>{loaded.list.items.map(row=><tr key={String(row.id)}>{config.columns.map(col=><td key={col}>{['status','approval_status','access_level'].includes(col)?<span className={`admin-badge ${String(row[col])}`}>{formatted(row[col],col)}</span>:formatted((row._labels as Row)?.[col]??row[col],col)}</td>)}<td><Link className="admin-text-link" href={`/admin/${entity}/${row.id}`}>{config.edit?.length===0?"Xem":"Mở"} →</Link></td></tr>)}</tbody></table></div>}
       {!loaded.list.items.length&&<div className="admin-empty"><h2>Chưa có hồ sơ phù hợp</h2><p>Thử thay đổi bộ lọc{config.create?" hoặc tạo hồ sơ mới":""}.</p></div>}
       <div className="admin-pagination"><span>Trang {loaded.list.page} / {Math.max(1,Math.ceil(loaded.list.total/loaded.list.limit))}</span><div><button className="admin-button secondary small" disabled={loaded.list.page<=1} onClick={()=>{const s=new URLSearchParams(params);s.set("page",String(loaded.list!.page-1));go(s);}}>Trước</button><button className="admin-button secondary small" disabled={loaded.list.page*loaded.list.limit>=loaded.list.total} onClick={()=>{const s=new URLSearchParams(params);s.set("page",String(loaded.list!.page+1));go(s);}}>Sau</button></div></div></section></>}
       </>}

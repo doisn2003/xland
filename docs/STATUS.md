@@ -1,5 +1,43 @@
 # Trạng thái Xland
 
+## Trở lại Railway production — 26/10/2026
+
+- Backend đã trở lại `https://xland-server-production.up.railway.app`; Railway
+  deployment `7d751d18-bb7a-4fb8-9051-8d7c2722f781` **SUCCESS**, source runtime
+  từ server `8f288dc`. Giữ Singapore, 1 replica, giới hạn 1 vCPU/1 GB và Supabase
+  hiện có. Không migration/reset hoặc sửa dữ liệu nghiệp vụ trong lần chuyển.
+- Vercel production `B8DQ75LMrvVLFPENBDHpKZuA17Du` **Ready**, build 56 giây từ
+  source web `6edb97d`. `XLAND_ADMIN_API_URL` production và `.env.local` đã trỏ
+  `/api/v1/admin` trên Railway; giữ `XLAND_ADMIN_WEB_ORIGIN` hiện có.
+- Website live: đăng nhập, dashboard và đọc danh sách hoạt động; guest 401,
+  Origin sai 403, cookie HttpOnly/Secure/SameSite Strict đạt. PNG, MP4 công khai
+  và PNG riêng tư upload/finalize qua Vercel → Railway → Supabase đạt, byte và
+  visibility đúng; đã dọn 6 object probe. HTTP logs của chính deployment Railway
+  xác nhận ba request finalize 200. Giữ audit/upload metadata của phép kiểm tra.
+- Backend: lint/typecheck/build và 29 unit đạt; 18 request health/API/Admin,
+  14 hồ sơ tác giả và video, sharing metadata/images/assetlinks đạt.
+- Mobile **0.2.4+6** đã chuyển API, sharing và Android App Links cùng lúc.
+  Analyze không lỗi, 13 test cấu hình/chia sẻ đạt; APK ARM64/x86_64 ký bằng
+  certificate cũ, không có file riêng. Đã cài lên Pixel 9 Pro, tải feed, chia sẻ
+  URL Railway và mở chi tiết bằng HTTPS App Link; domain `verified`.
+- `pnpm check`: lint/typecheck, **54 unit**, production build đạt;
+  **110/114 E2E** đạt trong lượt đầy đủ. Bốn ca WebKit chạy lại với một worker:
+  3 đạt, 1 timeout khi chạy axe; ca cuối chạy riêng sau build mobile đã **đạt**.
+  Không thay code/test/assertion hoặc tăng timeout. Không ghi full gate đạt
+  trong một lượt. Lỗi tương phản của lượt 22/10 không tái hiện ở lượt chạy riêng
+  hiện tại; đây không phải thay đổi UI để sửa lỗi đó.
+- Website user giữ cách dùng dữ liệu hiện có; lần này chỉ đổi hosting và kết
+  nối API hiện hữu. SMS OTP/thanh toán thật vẫn tắt. Northflank được giữ làm
+  rollback và phục vụ APK cũ; APK đã cài cần cập nhật để nhận endpoint mới.
+- Railway dashboard vẫn báo hóa đơn quá hạn dù deploy thành công. Không thao
+  tác thanh toán hoặc nâng gói. Chủ tài khoản cần xử lý để tránh gián đoạn.
+
+Hướng dẫn server: `../../../xland-server/docs/RAILWAY.md`; mobile:
+`../../../xland-mobile/docs/RAILWAY.md`. Bằng chứng và APK nằm tại
+`../../../brain/reports/railway-20261026/` và
+`../../../releases/android/railway-20261026/`. Chưa kiểm thiết bị vật lý hoặc
+build iOS trong lượt này. Các mục Northflank bên dưới là lịch sử.
+
 ## Giảm thời gian tải Admin — 22/10/2026
 
 - Đo live trước sửa: mở lại form lô đất mất 23,34 giây; API schema khoảng
