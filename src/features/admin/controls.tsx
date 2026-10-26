@@ -29,7 +29,7 @@ export function Uploader({privateDocument=false,onUploaded,accept="image/jpeg,im
 }
 export function FormField({field,draft,setDraft,locations=[],uploadBusy}:{field:Field;draft:Row;setDraft:(fn:(v:Row)=>Row)=>void;locations?:Row[];uploadBusy?:(b:boolean)=>void}){
   const value=draft[field.name];const change=(v:unknown)=>setDraft(prev=>({...prev,[field.name]:v}));
-  const text=String(value??"");const f=field;
+  const text=typeof value==="object"&&value!==null?JSON.stringify(value):String(value??"");const f=field;
   const locationField=f.name==="province_code"||f.name==="district_code";
   const upload=f.name.endsWith("_url")||(f.name==="storage_key"&&"access_level" in draft);
   return <div className={`admin-field ${f.type==="jsonb"||["caption","message","description","note","highlights"].includes(f.name)?"wide":""}`}><label htmlFor={f.name}>{label(f.name)}{f.required&&f.type!=="boolean"&&<span className="admin-required"> *</span>}</label>
@@ -37,7 +37,7 @@ export function FormField({field,draft,setDraft,locations=[],uploadBusy}:{field:
     f.reference?<ReferenceInput field={f} value={text} onChange={change}/>:
     locationField?<select id={f.name} value={text} required={f.required} onChange={e=>{const selected=locations.find(l=>l.code===e.target.value&&(f.name==="province_code"?l.kind==="province":l.kind==="district"&&l.catalog_version===draft.catalog_version));setDraft(prev=>f.name==="province_code"?{...prev,province_code:e.target.value,province:selected?.name??"",catalog_version:selected?.catalog_version??"",district_code:"",district:""}:{...prev,district_code:e.target.value,district:selected?.name??""});}}><option value="">Chọn {label(f.name).toLowerCase()}</option>{locations.filter(l=>f.name==="province_code"?l.kind==="province":l.kind==="district"&&l.parent_code===draft.province_code&&l.catalog_version===draft.catalog_version).map(l=><option key={String(l.code)+String(l.catalog_version)} value={String(l.code)}>{String(l.name)} · {String(l.code)}</option>)}</select>:
     f.options?<select id={f.name} value={text} required={f.required} onChange={e=>change(e.target.value)}><option value="">Chọn {label(f.name).toLowerCase()}</option>{f.options.map(o=><option key={o} value={o}>{values[o]??o}</option>)}</select>:
-    ["highlights","benefits","agenda","speakers","media","tags","activities"].includes(f.name)?<StructuredList name={f.name} value={text} onChange={change} onBusy={uploadBusy}/>:
+    ["highlights","benefits","agenda","speakers","media","tags","activities"].includes(f.name)?<StructuredList name={f.name} value={value} onChange={change} onBusy={uploadBusy}/>:
     f.type==="jsonb"||["caption","message","description","note","summary"].includes(f.name)?<textarea id={f.name} value={text} rows={f.type==="jsonb"?5:3} required={f.required} onChange={e=>change(e.target.value)} maxLength={20000}/>:
     <input id={f.name} value={text} type={f.type==="timestamp with time zone"?"datetime-local":f.type==="date"?"date":f.name.endsWith("_url")?"url":"text"} step={f.type==="timestamp with time zone"?"0.001":undefined} inputMode={["numeric","bigint","integer"].includes(f.type)?"decimal":undefined} required={f.required} readOnly={["province","district","catalog_version"].includes(f.name)} onChange={e=>change(e.target.value)} maxLength={10000}/>}
     {hints[f.name]&&<small>{hints[f.name]}</small>}{f.type==="timestamp with time zone"&&<small>Giờ Việt Nam (UTC+7).</small>}
@@ -52,9 +52,23 @@ export function FormField({field,draft,setDraft,locations=[],uploadBusy}:{field:
   </div>;
 }
 
-function StructuredList({name,value,onChange,onBusy}:{name:string;value:string;onChange:(v:string)=>void;onBusy?:((b:boolean)=>void)}){
-  const rows=JSON.parse(value||"[]") as Row[];
-  if(["tags","activities"].includes(name))return <textarea id={name} value={(JSON.parse(value||"[]") as string[]).join("\n")} onChange={e=>onChange(JSON.stringify(e.target.value.split("\n")))} rows={4} placeholder="Mỗi dòng là một mục"/>;
+function StructuredList({name,value,onChange,onBusy}:{name:string;value:unknown;onChange:(v:string)=>void;onBusy?:((b:boolean)=>void)}){
+  let rows: Row[] = [];
+  if (Array.isArray(value)) {
+    rows = value as Row[];
+  } else if (typeof value === "string") {
+    try {
+      const parsed = JSON.parse(value || "[]");
+      if (Array.isArray(parsed)) rows = parsed as Row[];
+      else if (parsed && typeof parsed === "object") rows = [parsed as Row];
+    } catch {
+      rows = [];
+    }
+  }
+  if(["tags","activities"].includes(name)){
+    const lines = rows.map(r => typeof r === "string" ? r : (typeof r === "object" && r !== null ? ((r as Row).title ?? (r as Row).name ?? JSON.stringify(r)) : String(r ?? "")));
+    return <textarea id={name} value={lines.join("\n")} onChange={e=>onChange(JSON.stringify(e.target.value.split("\n")))} rows={4} placeholder="Mỗi dòng là một mục"/>;
+  }
   const defs:Record<string,string[]>={highlights:["title","description"],benefits:["title","description"],agenda:["startsAt","title","description"],speakers:["name","role","description","avatarUrl"],media:["kind","url","thumbnailUrl","durationSeconds","altText","isIllustrative"]};
   const names:Record<string,string>={startsAt:"Thời gian (UTC+7)",avatarUrl:"Ảnh đại diện",url:"Ảnh / video",thumbnailUrl:"Ảnh bìa",durationSeconds:"Thời lượng (giây)",altText:"Mô tả",isIllustrative:"Nội dung minh họa"};
   function update(index:number,key:string,v:unknown){onChange(JSON.stringify(rows.map((r,i)=>i===index?{...r,[key]:v}:r)));}

@@ -2,6 +2,7 @@
 import {useState, type FormEvent} from "react";
 import {api, errorText, type Catalog, type Row} from "../api";
 import {FormField} from "../controls";
+import {initial, serialize} from "../form-values";
 import type {PropertyAggregate} from "./types";
 
 interface BasicTabProps {
@@ -12,14 +13,14 @@ interface BasicTabProps {
 }
 
 export function BasicTab({property, catalog, locations, onUpdated}: BasicTabProps) {
-  const [draft, setDraft] = useState<Row>({...property});
+  const entityConfig = catalog["properties"];
+  const fields = entityConfig?.fields ?? [];
+
+  const [draft, setDraft] = useState<Row>(() => initial(fields, property));
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [uploadBusy, setUploadBusy] = useState(false);
-
-  const entityConfig = catalog["properties"];
-  const fields = entityConfig?.fields ?? [];
 
   async function handleSave(e: FormEvent) {
     e.preventDefault();
@@ -28,17 +29,19 @@ export function BasicTab({property, catalog, locations, onUpdated}: BasicTabProp
     setSuccess(false);
 
     try {
+      const serialized = serialize(fields, draft, property);
       // Exclude nested arrays and readonly fields from root property update
       const rootPayload: Row = {_version: draft._version};
-      for (const f of fields) {
-        if (!f.readonly && f.name in draft && !["media", "legal_items", "documents", "amenities", "slots", "bookings"].includes(f.name)) {
-          rootPayload[f.name] = draft[f.name];
+      for (const [k, v] of Object.entries(serialized)) {
+        if (!["media", "legal_items", "documents", "amenities", "slots", "bookings"].includes(k)) {
+          rootPayload[k] = v;
         }
       }
 
       const updated = await api<PropertyAggregate>(`properties/${property.id}`, "PATCH", rootPayload);
-      setDraft(prev => ({...prev, ...updated, _version: updated._version}));
-      onUpdated({...property, ...updated, _version: updated._version});
+      const nextAggregate = {...property, ...updated, _version: updated._version};
+      setDraft(initial(fields, nextAggregate));
+      onUpdated(nextAggregate);
       setSuccess(true);
       setTimeout(() => setSuccess(false), 4000);
     } catch (err) {

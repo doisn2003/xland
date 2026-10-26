@@ -217,6 +217,7 @@ export function PropertyStudio({
       <div className="admin-studio-content">
         {tab === "basic" && (
           <BasicTab
+            key={`${aggregate.id}-${aggregate._version}`}
             property={aggregate}
             catalog={catalog}
             locations={locations}
