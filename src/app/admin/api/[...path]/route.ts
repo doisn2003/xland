@@ -25,6 +25,17 @@ async function proxy(request:NextRequest,context:{params:Promise<{path:string[]}
     const response=await fetch(adminBase()+"/"+path.join("/")+request.nextUrl.search,{
       method:request.method,headers:{"Content-Type":"application/json",...(!login&&token?{Authorization:`Bearer ${token}`}:{})},body,cache:"no-store",redirect:"error",signal:AbortSignal.timeout(45000),
     });
+    const contentType=response.headers.get("content-type")??"";
+    if(contentType.includes("text/csv")){
+      const csvText=await response.text();
+      const headers=new Headers({
+        "Content-Type":contentType,
+        "Cache-Control":"no-store",
+      });
+      const disposition=response.headers.get("content-disposition");
+      if(disposition)headers.set("Content-Disposition",disposition);
+      return new NextResponse(csvText,{status:response.status,headers});
+    }
     const data=await response.json();
     const secure=request.nextUrl.protocol==="https:";
     if(login&&response.ok){

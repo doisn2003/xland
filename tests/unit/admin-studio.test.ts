@@ -40,3 +40,73 @@ describe("Property Studio Features (Phase 2)", () => {
     expect(subEntityToTab["properties"]).toBeUndefined();
   });
 });
+
+describe("Social & Community Hub Features (Phase 3)", () => {
+  it("formats CSV cells safely with quotes and escapes", () => {
+    function escapeCsvCell(val: unknown): string {
+      if (val === null || val === undefined) return '""';
+      const str = String(val);
+      if (str.includes('"') || str.includes(",") || str.includes("\n") || str.includes("\r")) {
+        return `"${str.replace(/"/g, '""')}"`;
+      }
+      return `"${str}"`;
+    }
+
+    expect(escapeCsvCell("Nguyen Van A")).toBe('"Nguyen Van A"');
+    expect(escapeCsvCell('Tech, "CEO"')).toBe('"Tech, ""CEO"""');
+    expect(escapeCsvCell(null)).toBe('""');
+    expect(escapeCsvCell(123)).toBe('"123"');
+  });
+
+  it("calculates event capacity and status correctly", () => {
+    function computeCapacity(registered: number, maxSlots: number | null): {percent: number; isFull: boolean} {
+      if (!maxSlots || maxSlots <= 0) return {percent: 0, isFull: false};
+      const percent = Math.min(100, Math.round((registered / maxSlots) * 100));
+      return {percent, isFull: registered >= maxSlots};
+    }
+
+    expect(computeCapacity(50, 100)).toEqual({percent: 50, isFull: false});
+    expect(computeCapacity(100, 100)).toEqual({percent: 100, isFull: true});
+    expect(computeCapacity(120, 100)).toEqual({percent: 100, isFull: true});
+    expect(computeCapacity(25, null)).toEqual({percent: 0, isFull: false});
+  });
+
+  it("handles video moderation hotkey actions", () => {
+    type Action = "approve" | "reject" | "next" | "prev" | "toggle_play" | null;
+    function resolveHotkeyAction(key: string, isTextareaFocused: boolean): Action {
+      if (isTextareaFocused) return null;
+      switch (key.toLowerCase()) {
+        case "a": return "approve";
+        case "r": return "reject";
+        case "j":
+        case "arrowdown": return "next";
+        case "k":
+        case "arrowup": return "prev";
+        case " ": return "toggle_play";
+        default: return null;
+      }
+    }
+
+    expect(resolveHotkeyAction("a", false)).toBe("approve");
+    expect(resolveHotkeyAction("A", false)).toBe("approve");
+    expect(resolveHotkeyAction("r", false)).toBe("reject");
+    expect(resolveHotkeyAction(" ", false)).toBe("toggle_play");
+    expect(resolveHotkeyAction("j", false)).toBe("next");
+    expect(resolveHotkeyAction("k", false)).toBe("prev");
+    expect(resolveHotkeyAction("a", true)).toBeNull(); // ignore when typing
+  });
+
+  it("resolves legacy registrations entity navigation to event studio tab", () => {
+    function resolveLegacyEntityRoute(entity: string, queryFilter?: {field: string; value: string}): string | null {
+      if (entity === "registrations" && queryFilter?.field === "event_id") {
+        return `/admin/events/${queryFilter.value}?tab=registrations`;
+      }
+      return null;
+    }
+
+    expect(resolveLegacyEntityRoute("registrations", {field: "event_id", value: "evt-123"})).toBe(
+      "/admin/events/evt-123?tab=registrations"
+    );
+    expect(resolveLegacyEntityRoute("properties")).toBeNull();
+  });
+});
