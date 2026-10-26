@@ -11,6 +11,7 @@ interface SortableMediaItemProps {
   onUpdateAlt: (id: string, alt: string) => void;
   onDelete: (id: string) => void;
   disabled?: boolean;
+  canDelete?: boolean;
 }
 
 export function SortableMediaItem({
@@ -20,6 +21,7 @@ export function SortableMediaItem({
   onUpdateAlt,
   onDelete,
   disabled = false,
+  canDelete = true,
 }: SortableMediaItemProps) {
   const {
     attributes,
@@ -129,19 +131,21 @@ export function SortableMediaItem({
               Đặt làm ảnh bìa
             </button>
           )}
-          <button
-            type="button"
-            className="admin-button secondary small admin-delete-btn"
-            onClick={() => {
-              if (window.confirm("Bạn có chắc chắn muốn xóa tệp này?")) {
-                onDelete(item.id);
-              }
-            }}
-            disabled={disabled}
-            title="Xóa tệp"
-          >
-            Xóa
-          </button>
+          {canDelete && (
+            <button
+              type="button"
+              className="admin-button secondary small admin-delete-btn"
+              onClick={() => {
+                if (window.confirm("Bạn có chắc chắn muốn xóa tệp này?")) {
+                  onDelete(item.id);
+                }
+              }}
+              disabled={disabled}
+              title="Xóa tệp"
+            >
+              Xóa
+            </button>
+          )}
         </div>
       </div>
     </div>

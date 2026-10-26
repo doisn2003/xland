@@ -7,9 +7,10 @@ import type {PropertyAggregate, PropertyAmenityItem} from "./types";
 interface AmenitiesTabProps {
   property: PropertyAggregate;
   onUpdated: (updated: PropertyAggregate) => void;
+  canDelete?: boolean;
 }
 
-export function AmenitiesTab({property, onUpdated}: AmenitiesTabProps) {
+export function AmenitiesTab({property, onUpdated, canDelete = true}: AmenitiesTabProps) {
   const [amenities, setAmenities] = useState<PropertyAmenityItem[]>(
     [...(property.amenities ?? [])].sort((a, b) => a.sort_order - b.sort_order)
   );
@@ -172,7 +173,7 @@ export function AmenitiesTab({property, onUpdated}: AmenitiesTabProps) {
                   <th>Tên địa điểm</th>
                   <th>Phân loại</th>
                   <th>Khoảng cách</th>
-                  <th>Thao tác</th>
+                  {canDelete && <th>Thao tác</th>}
                 </tr>
               </thead>
               <tbody>
@@ -191,16 +192,18 @@ export function AmenitiesTab({property, onUpdated}: AmenitiesTabProps) {
                       </span>
                     </td>
                     <td>{a.distance_text}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className="admin-text-btn admin-delete-text"
-                        onClick={() => void handleDelete(a.id)}
-                        disabled={busy}
-                      >
-                        Xóa
-                      </button>
-                    </td>
+                    {canDelete && (
+                      <td>
+                        <button
+                          type="button"
+                          className="admin-text-btn admin-delete-text"
+                          onClick={() => void handleDelete(a.id)}
+                          disabled={busy}
+                        >
+                          Xóa
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

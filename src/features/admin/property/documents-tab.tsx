@@ -6,6 +6,7 @@ import type {PropertyAggregate, PropertyDocumentItem} from "./types";
 interface DocumentsTabProps {
   property: PropertyAggregate;
   onUpdated: (updated: PropertyAggregate) => void;
+  canDelete?: boolean;
 }
 
 function formatBytes(bytesStr: string) {
@@ -17,7 +18,7 @@ function formatBytes(bytesStr: string) {
   return `${(bytes / Math.pow(k, i)).toFixed(1)} ${sizes[i]}`;
 }
 
-export function DocumentsTab({property, onUpdated}: DocumentsTabProps) {
+export function DocumentsTab({property, onUpdated, canDelete = true}: DocumentsTabProps) {
   const [items, setItems] = useState<PropertyDocumentItem[]>(
     [...(property.documents ?? [])].sort(
       (a, b) => new Date(b.uploaded_date).getTime() - new Date(a.uploaded_date).getTime()
@@ -284,14 +285,16 @@ export function DocumentsTab({property, onUpdated}: DocumentsTabProps) {
                           Xem ↗
                         </a>
                       )}
-                      <button
-                        type="button"
-                        className="admin-text-btn admin-delete-text"
-                        onClick={() => void handleDelete(doc.id)}
-                        disabled={busy}
-                      >
-                        Xóa
-                      </button>
+                      {canDelete && (
+                        <button
+                          type="button"
+                          className="admin-text-btn admin-delete-text"
+                          onClick={() => void handleDelete(doc.id)}
+                          disabled={busy}
+                        >
+                          Xóa
+                        </button>
+                      )}
                     </div>
                   </td>
                 </tr>

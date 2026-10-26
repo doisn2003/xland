@@ -6,9 +6,10 @@ import type {PropertyAggregate, PropertyLegalItem} from "./types";
 interface LegalTabProps {
   property: PropertyAggregate;
   onUpdated: (updated: PropertyAggregate) => void;
+  canDelete?: boolean;
 }
 
-export function LegalTab({property, onUpdated}: LegalTabProps) {
+export function LegalTab({property, onUpdated, canDelete = true}: LegalTabProps) {
   const [items, setItems] = useState<PropertyLegalItem[]>(
     [...(property.legal_items ?? [])].sort((a, b) => a.sort_order - b.sort_order)
   );
@@ -197,7 +198,7 @@ export function LegalTab({property, onUpdated}: LegalTabProps) {
                 <th>Chi tiết</th>
                 <th>Ngày thẩm định</th>
                 <th>Trạng thái</th>
-                <th>Thao tác</th>
+                {canDelete && <th>Thao tác</th>}
               </tr>
             </thead>
             <tbody>
@@ -219,16 +220,18 @@ export function LegalTab({property, onUpdated}: LegalTabProps) {
                       {item.status === "verified" ? "✓ Đã xác minh" : "Chờ xác minh"}
                     </button>
                   </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="admin-text-btn admin-delete-text"
-                      onClick={() => void handleDelete(item.id)}
-                      disabled={busy}
-                    >
-                      Xóa
-                    </button>
-                  </td>
+                  {canDelete && (
+                    <td>
+                      <button
+                        type="button"
+                        className="admin-text-btn admin-delete-text"
+                        onClick={() => void handleDelete(item.id)}
+                        disabled={busy}
+                      >
+                        Xóa
+                      </button>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

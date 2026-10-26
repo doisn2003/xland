@@ -22,6 +22,7 @@ import type {PropertyAggregate, PropertyMediaItem} from "./types";
 interface MediaTabProps {
   property: PropertyAggregate;
   onUpdated: (updated: PropertyAggregate) => void;
+  canDelete?: boolean;
 }
 
 interface UploadTask {
@@ -32,7 +33,7 @@ interface UploadTask {
   error?: string;
 }
 
-export function MediaTab({property, onUpdated}: MediaTabProps) {
+export function MediaTab({property, onUpdated, canDelete = true}: MediaTabProps) {
   const [items, setItems] = useState<PropertyMediaItem[]>(
     [...(property.media ?? [])].sort((a, b) => a.sort_order - b.sort_order)
   );
@@ -385,6 +386,7 @@ export function MediaTab({property, onUpdated}: MediaTabProps) {
                   onUpdateAlt={handleUpdateAlt}
                   onDelete={handleDelete}
                   disabled={busy}
+                  canDelete={canDelete}
                 />
               ))}
             </div>

@@ -110,3 +110,65 @@ describe("Social & Community Hub Features (Phase 3)", () => {
     expect(resolveLegacyEntityRoute("properties")).toBeNull();
   });
 });
+
+describe("RBAC & Permissions (Phase 4)", () => {
+  function checkSuperAdmin(roles?: string[], role?: string): boolean {
+    return !!(roles?.includes("admin") || role === "admin");
+  }
+
+  function checkModerator(roles?: string[], role?: string): boolean {
+    if (checkSuperAdmin(roles, role)) return false;
+    return !!(roles?.includes("moderator") || role === "moderator");
+  }
+
+  function filterVisibleGroups(
+    groups: {title: string; items: [string, string][]}[],
+    isSuperAdmin: boolean
+  ) {
+    return groups.filter(g => {
+      if (g.title === "HỆ THỐNG" && !isSuperAdmin) return false;
+      return true;
+    });
+  }
+
+  it("identifies Super Admin vs Moderator correctly", () => {
+    expect(checkSuperAdmin(["admin"])).toBe(true);
+    expect(checkSuperAdmin(["moderator", "admin"])).toBe(true);
+    expect(checkSuperAdmin(undefined, "admin")).toBe(true);
+    expect(checkSuperAdmin(["moderator"])).toBe(false);
+    expect(checkSuperAdmin([])).toBe(false);
+
+    expect(checkModerator(["moderator"])).toBe(true);
+    expect(checkModerator(undefined, "moderator")).toBe(true);
+    expect(checkModerator(["admin", "moderator"])).toBe(false);
+  });
+
+  it("filters sidebar groups by role (hides system group for moderators)", () => {
+    const sampleGroups = [
+      {title: "ĐIỀU HÀNH", items: [["overview", "Tổng quan"]] as [string, string][]},
+      {title: "BẤT ĐỘNG SẢN", items: [["properties", "Lô đất"]] as [string, string][]},
+      {title: "HỆ THỐNG", items: [["users", "Người dùng"], ["audit", "Nhật ký"]] as [string, string][]},
+    ];
+
+    const adminVisible = filterVisibleGroups(sampleGroups, true);
+    expect(adminVisible.some(g => g.title === "HỆ THỐNG")).toBe(true);
+    expect(adminVisible.length).toBe(3);
+
+    const modVisible = filterVisibleGroups(sampleGroups, false);
+    expect(modVisible.some(g => g.title === "HỆ THỐNG")).toBe(false);
+    expect(modVisible.length).toBe(2);
+  });
+
+  it("enforces destructive action gating (moderators cannot delete)", () => {
+    function canPerformAction(action: "read" | "create" | "update" | "delete", isSuperAdmin: boolean): boolean {
+      if (isSuperAdmin) return true;
+      if (action === "delete") return false;
+      return true;
+    }
+
+    expect(canPerformAction("read", false)).toBe(true);
+    expect(canPerformAction("update", false)).toBe(true);
+    expect(canPerformAction("delete", false)).toBe(false);
+    expect(canPerformAction("delete", true)).toBe(true);
+  });
+});

@@ -15,6 +15,7 @@ interface PropertyStudioProps {
   catalog: Catalog;
   locations: Row[];
   initialTab?: StudioTab;
+  canDelete?: boolean;
 }
 
 export function PropertyStudio({
@@ -22,6 +23,7 @@ export function PropertyStudio({
   catalog,
   locations,
   initialTab = "basic",
+  canDelete = true,
 }: PropertyStudioProps) {
   const [tab, setTab] = useState<StudioTab>(() => {
     if (typeof window !== "undefined") {
@@ -224,24 +226,28 @@ export function PropertyStudio({
         {tab === "media" && (
           <MediaTab
             property={aggregate}
+            canDelete={canDelete}
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
         {tab === "legal" && (
           <LegalTab
             property={aggregate}
+            canDelete={canDelete}
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
         {tab === "documents" && (
           <DocumentsTab
             property={aggregate}
+            canDelete={canDelete}
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
         {tab === "amenities" && (
           <AmenitiesTab
             property={aggregate}
+            canDelete={canDelete}
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
