@@ -7,6 +7,7 @@ import {api,AdminError,errorText,type Row} from "./api";
 import {loadWorkspace,type Loaded} from "./load-workspace";
 import {formatted,label} from "./labels";
 import {Editor} from "./editor";
+import {ConfirmModal} from "./confirm-modal";
 import {PropertyStudio} from "./property/studio";
 import {PropertyList} from "./property/property-list";
 import {VideoModerationWorkspace} from "./social/video-moderation";
@@ -22,11 +23,28 @@ const groups=[
 export function AdminWorkspace({segments,displayName:initialDisplayName}:{segments:string[];displayName?:string}){
   const entity=segments[0]??"overview",id=segments[1];const params=useSearchParams(),router=useRouter();
   const [menu,setMenu]=useState(false),[loaded,setLoaded]=useState<Loaded|null>(null),[isPending,setIsPending]=useState(false),[error,setError]=useState(""),[retry,setRetry]=useState(0),[logoutBusy,setLogoutBusy]=useState(false);
+  const [deleteTarget,setDeleteTarget]=useState<{entity:string;id:string;title:string}|null>(null);
+  const [deleting,setDeleting]=useState(false);
   const query=params.toString();
 
   const {data:sessionData}=useSWR('admin-session',()=>api<{profile:{displayName:string};role:string;roles?:string[]}>('session'),{revalidateOnFocus:false,dedupingInterval:60000});
   const displayName=sessionData?.profile?.displayName??initialDisplayName??"Quản trị viên";
   const isSuperAdmin=sessionData?.roles?.includes('admin')??(sessionData?.role==='admin');
+
+  async function handleDeleteGeneric(){
+    if(!deleteTarget)return;
+    setDeleting(true);setError("");
+    try{
+      await api(`${deleteTarget.entity}/${deleteTarget.id}`,"DELETE");
+      setDeleteTarget(null);
+      setRetry(n=>n+1);
+    }catch(err){
+      setError(errorText(err));
+      setDeleteTarget(null);
+    }finally{
+      setDeleting(false);
+    }
+  }
 
   const cachedCatalog=loaded?.catalog;
   const cachedLocations=loaded?.locations;
@@ -100,19 +118,28 @@ export function AdminWorkspace({segments,displayName:initialDisplayName}:{segmen
     <div className="admin-body"><header className="admin-topbar"><div><button className="admin-menu-button" onClick={()=>{setMenu(!menu);if(!menu)requestAnimationFrame(()=>document.querySelector<HTMLAnchorElement>(".admin-sidebar a")?.focus());}} aria-expanded={menu} aria-label="Mở điều hướng">☰</button><span>Xland <span className="admin-separator">/</span> {entity==="overview"?"Tổng quan":config?.title??"Quản trị"}{isPending&&<span className="admin-refreshing">Đang tải…</span>}</span></div><button className="admin-button secondary small" onClick={logout} disabled={logoutBusy}>Đăng xuất</button></header>
     <main id="main" className="admin-content" tabIndex={-1}>
       {error?<div className="admin-panel"><p className="admin-error" role="alert">{error}</p><button className="admin-button" onClick={()=>setRetry(n=>n+1)}>Thử lại</button><Link href="/admin">Về tổng quan</Link></div>:!loaded?<div className="admin-panel" role="status">Đang tải dữ liệu Xland…</div>:<>
-      {params.has("saved")&&<p className="admin-success" role="status">Đã lưu hồ sơ thành công.</p>}
+      {(params.has("saved")||params.has("deleted"))&&<p className="admin-success" role="status">{params.has("deleted")?"Đã xóa hồ sơ thành công.":"Đã lưu hồ sơ thành công."}</p>}
       {loaded.overview&&<><div className="admin-page-heading"><div><span className="admin-eyebrow">KHÔNG GIAN QUẢN TRỊ</span><h1>Tổng quan hệ thống</h1><p>Nội dung, khách hàng và lịch hẹn ở cùng một nơi.</p></div><Link href="/admin/properties/new" className="admin-button">+ Thêm lô đất</Link></div><div className="admin-stats">{Object.entries(loaded.overview.counts).map(([key,n])=><Link href={`/admin/${key}`} className="admin-stat" key={key}><span>{loaded.catalog[key]!.title}</span><strong>{n.toLocaleString("vi-VN")}</strong><small>{key==="bookings"?"Cần theo dõi":key==="support"?"Chờ xử lý":"Xem danh sách"} ↗</small></Link>)}</div><section className="admin-panel"><h2>Thao tác nhanh</h2><div className="admin-quick">{[['videos','Đăng video lên feeds','Chọn lô đất, tải video và duyệt nội dung.'],['consultants','Thêm tư vấn viên','Hoàn thiện hồ sơ và thông tin liên hệ.'],['slots','Mở lịch xem thực địa','Thiết lập khung giờ và sức chứa.']].map(([key,title,sub])=><Link key={key} href={`/admin/${key}/new`}><strong>{title} ↗</strong><span>{sub}</span></Link>)}</div></section><section className="admin-panel"><div className="admin-section-title"><h2>Hoạt động gần đây</h2>{isSuperAdmin&&<Link className="admin-text-link" href="/admin/audit">Xem nhật ký →</Link>}</div>{loaded.overview.recent.length?<ul className="admin-activity">{loaded.overview.recent.map(r=><li key={String(r.id)}><span><strong>{formatted(r.action)}</strong> · {loaded.catalog[String(r.entity)]?.title??String(r.entity)}</span><time>{formatted(r.created_at,"created_at")}</time></li>)}</ul>:<p>Chưa có thao tác quản trị được ghi nhận.</p>}</section></>}
       {id&&config&&(
         entity==="properties"&&id!=="new"?<PropertyStudio key={id} propertyId={id} catalog={loaded.catalog} locations={loaded.locations} canDelete={isSuperAdmin}/>:
-        entity==="events"&&id!=="new"?<EventStudio key={id} eventId={id} catalog={loaded.catalog}/>:
+        entity==="events"&&id!=="new"?<EventStudio key={id} eventId={id} catalog={loaded.catalog} canDelete={isSuperAdmin}/>:
         <Editor key={entity+id+String(loaded.record?._version??"")} entity={entity} catalog={loaded.catalog} record={loaded.record??null} locations={loaded.locations} isSuperAdmin={isSuperAdmin} property={params.get("filter")==="property_id"?params.get("value")??undefined:undefined}/>
       )}
       {!id&&entity==="videos"&&<VideoModerationWorkspace/>}
       {!id&&entity!=="videos"&&loaded.list&&config&&<><div className="admin-page-heading"><div><span className="admin-eyebrow">QUẢN LÝ XLAND</span><h1>{config.title}</h1><p>{loaded.list.total.toLocaleString("vi-VN")} hồ sơ{config.edit?.length===0?" · Chỉ đọc":""}</p></div>{config.create&&<Link className="admin-button" href={`/admin/${entity}/new${params.get("filter")==="property_id"?`?filter=property_id&value=${params.get("value")}`:""}`}>+ Thêm mới</Link>}</div><section className="admin-panel admin-list"><form className="admin-filters" onSubmit={search}><label>Tìm kiếm<input name="q" defaultValue={params.get("q")??""} placeholder="Nhập tên, mã hoặc nội dung…" maxLength={150}/></label>{!!config.filter?.length&&<><label>Lọc theo<select name="filter" defaultValue={params.get("filter")??""}><option value="">Không lọc</option>{config.filter.map(f=><option key={f} value={f}>{label(f)}</option>)}</select></label><label>Giá trị lọc<input name="value" defaultValue={params.get("value")??""} list="admin-filter-values" placeholder="Chọn trạng thái hoặc nhập ID"/><datalist id="admin-filter-values">{config.fields.flatMap(f=>f.options??[]).filter((v,i,a)=>a.indexOf(v)===i).map(v=><option key={v} value={v}>{formatted(v)}</option>)}</datalist></label></>}<button className="admin-button secondary">Áp dụng</button><Link className="admin-text-link" href={`/admin/${entity}`}>Xóa lọc</Link></form>
-      {entity==="properties"?<PropertyList items={loaded.list.items}/>:<div className="admin-table-wrap"><table><caption className="admin-sr-only">Danh sách {config.title.toLowerCase()}</caption><thead><tr>{config.columns.map(col=><th key={col}>{label(col)}</th>)}<th>Chi tiết</th></tr></thead><tbody>{loaded.list.items.map(row=><tr key={String(row.id)}>{config.columns.map(col=><td key={col}>{['status','approval_status','access_level'].includes(col)?<span className={`admin-badge ${String(row[col])}`}>{formatted(row[col],col)}</span>:formatted((row._labels as Row)?.[col]??row[col],col)}</td>)}<td><Link className="admin-text-link" href={`/admin/${entity}/${row.id}`}>{config.edit?.length===0?"Xem":"Mở"} →</Link></td></tr>)}</tbody></table></div>}
+      {entity==="properties"?<PropertyList items={loaded.list.items} canDelete={isSuperAdmin}/>:<div className="admin-table-wrap"><table><caption className="admin-sr-only">Danh sách {config.title.toLowerCase()}</caption><thead><tr>{config.columns.map(col=><th key={col}>{label(col)}</th>)}<th>Chi tiết</th></tr></thead><tbody>{loaded.list.items.map(row=><tr key={String(row.id)}>{config.columns.map(col=><td key={col}>{['status','approval_status','access_level'].includes(col)?<span className={`admin-badge ${String(row[col])}`}>{formatted(row[col],col)}</span>:formatted((row._labels as Row)?.[col]??row[col],col)}</td>)}<td><div style={{display:"flex",gap:"10px",alignItems:"center"}}><Link className="admin-text-link" href={`/admin/${entity}/${row.id}`}>{config.edit?.length===0?"Xem":"Mở"} →</Link>{isSuperAdmin&&["consultants","clubs","events","videos","slots","support","media","legal","documents","amenities"].includes(entity)&&<button type="button" className="admin-text-btn admin-delete-text" style={{color:"#dc2626",background:"none",border:"none",cursor:"pointer",fontSize:"13px",fontWeight:500,padding:0}} onClick={()=>setDeleteTarget({entity,id:String(row.id),title:String(row.title??row.name??row.caption??row.label??row.contact_name??row.id)})}>Xóa</button>}</div></td></tr>)}</tbody></table></div>}
       {!loaded.list.items.length&&<div className="admin-empty"><h2>Chưa có hồ sơ phù hợp</h2><p>Thử thay đổi bộ lọc{config.create?" hoặc tạo hồ sơ mới":""}.</p></div>}
       <div className="admin-pagination"><span>Trang {loaded.list.page} / {Math.max(1,Math.ceil(loaded.list.total/loaded.list.limit))}</span><div><button className="admin-button secondary small" disabled={loaded.list.page<=1} onClick={()=>{const s=new URLSearchParams(params);s.set("page",String(loaded.list!.page-1));go(s);}}>Trước</button><button className="admin-button secondary small" disabled={loaded.list.page*loaded.list.limit>=loaded.list.total} onClick={()=>{const s=new URLSearchParams(params);s.set("page",String(loaded.list!.page+1));go(s);}}>Sau</button></div></div></section></>}
       </>}
     </main><footer className="admin-footer">Xland Admin · Thời gian Việt Nam (UTC+7)</footer></div>
+    <ConfirmModal
+      isOpen={!!deleteTarget}
+      title={`Xác nhận xóa ${loaded?.catalog[deleteTarget?.entity ?? ""]?.title.toLowerCase() ?? "hồ sơ"}`}
+      message={deleteTarget ? `Bạn có chắc chắn muốn xóa "${deleteTarget.title}"? Thao tác này sẽ xóa vĩnh viễn và không thể hoàn tác.` : ""}
+      confirmLabel="Xác nhận xóa"
+      isLoading={deleting}
+      onConfirm={handleDeleteGeneric}
+      onCancel={()=>setDeleteTarget(null)}
+    />
   </div>;
 }

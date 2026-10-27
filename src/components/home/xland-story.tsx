@@ -24,7 +24,7 @@ const STORY_STEPS: StoryStep[] = [
   {
     number: "03",
     title: "Kết nối bước tiếp theo",
-    description: "Gặp gỡ chuyên viên phụ trách khu vực, đặt lịch khảo sát thực địa hoặc tìm hiểu phương án phân đoạn bằng NFT.",
+    description: "Tìm chuyên viên phụ trách khu vực, xem lịch khảo sát thực địa hoặc gửi yêu cầu hỗ trợ để tiếp tục tìm hiểu.",
   },
 ];
 

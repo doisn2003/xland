@@ -27,8 +27,10 @@ export function SiteFooter() {
             <span className="footer-nav-title">Tác vụ & Dịch vụ</span>
             <Link href="/da-luu">Lô đất đã lưu</Link>
             <Link href="/lich-hen">Lịch xem thực địa</Link>
-            <Link href="/danh-muc-nft">Danh mục NFT</Link>
-            <Link href="/trai-nghiem">Cài đặt trải nghiệm</Link>
+            <Link href="/video">Khám phá video</Link>
+            <Link href="/su-kien">Sự kiện</Link>
+            <Link href="/cau-lac-bo">Câu lạc bộ</Link>
+            <Link href="/tai-khoan/cai-dat">Cài đặt tài khoản</Link>
           </div>
         </nav>
 

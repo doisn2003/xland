@@ -51,14 +51,15 @@ export function SiteHeader() {
           <Link href="/da-luu" onClick={close}>
             Đã lưu
           </Link>
-          <Link href="/nft" onClick={close}>
-            Bất động sản NFT
+          <Link href="/video" onClick={close}>
+            Video
           </Link>
           <Link href="/lich-hen" onClick={close}>
             Lịch hẹn
           </Link>
-          <Link className="button header-cta" href="/lo-dat" onClick={close}>
-            Tìm lô đất phù hợp <Icon name="arrow" />
+          <Link href="/su-kien" onClick={close}>Cộng đồng</Link>
+          <Link className="button header-cta" href="/tai-khoan" onClick={close}>
+            Tài khoản <Icon name="arrow" />
           </Link>
         </nav>
       </div>

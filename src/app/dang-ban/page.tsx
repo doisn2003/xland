@@ -1,0 +1,1 @@
+import {UserShell} from '@/features/user/ui'; export default function Page(){return <UserShell title="Giới thiệu bất động sản"><div className="user-panel"><h2>Tính năng sắp ra mắt</h2><p>Xland chưa mở tiếp nhận hồ sơ đăng bán trực tiếp từ tài khoản người dùng.</p></div></UserShell>;}

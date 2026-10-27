@@ -1,9 +1,12 @@
 "use client";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import {useState, useEffect, useCallback} from "react";
 import useSWR from "swr";
 import {api, errorText, type Catalog, type Row} from "../api";
+import {ConfirmModal} from "../confirm-modal";
 import type {PropertyAggregate, StudioTab} from "./types";
+import {ChildrenTab} from "./children-tab";
 import {BasicTab} from "./basic-tab";
 import {MediaTab} from "./media-tab";
 import {LegalTab} from "./legal-tab";
@@ -22,18 +25,21 @@ export function PropertyStudio({
   propertyId,
   catalog,
   locations,
-  initialTab = "basic",
+  initialTab = "children",
   canDelete = true,
 }: PropertyStudioProps) {
+  const router = useRouter();
   const [tab, setTab] = useState<StudioTab>(() => {
     if (typeof window !== "undefined") {
       const p = new URLSearchParams(window.location.search).get("tab") as StudioTab;
-      if (p && ["basic", "media", "legal", "documents", "amenities"].includes(p)) return p;
+      if (p && ["basic", "media", "legal", "documents", "amenities", "children"].includes(p)) return p;
     }
     return initialTab;
   });
   const [actionError, setActionError] = useState("");
   const [statusBusy, setStatusBusy] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const {
     data: aggregate,
@@ -58,7 +64,7 @@ export function PropertyStudio({
   useEffect(() => {
     function onPopState() {
       const p = new URLSearchParams(window.location.search).get("tab") as StudioTab;
-      if (p && ["basic", "media", "legal", "documents", "amenities"].includes(p)) {
+      if (p && ["basic", "media", "legal", "documents", "amenities", "children"].includes(p)) {
         setTab(p);
       }
     }
@@ -85,6 +91,20 @@ export function PropertyStudio({
     }
   }
 
+  async function handleDeleteProperty() {
+    setDeleting(true);
+    setActionError("");
+    try {
+      await api(`properties/${propertyId}`, "DELETE");
+      router.push("/admin/properties?deleted=1");
+    } catch (err) {
+      setActionError(errorText(err));
+      setShowDeleteModal(false);
+    } finally {
+      setDeleting(false);
+    }
+  }
+
   if (isLoading && !aggregate) {
     return <div className="admin-panel" role="status">Đang tải toàn bộ dữ liệu Property Studio…</div>;
   }
@@ -102,6 +122,7 @@ export function PropertyStudio({
     );
   }
 
+  const activeTab = tab === "children" && !aggregate.has_subplots ? "basic" : tab;
   const mediaCount = aggregate.media?.length ?? 0;
   const legalCount = aggregate.legal_items?.length ?? 0;
   const docCount = aggregate.documents?.length ?? 0;
@@ -118,7 +139,7 @@ export function PropertyStudio({
           <div className="admin-studio-quick-actions">
             {aggregate.approval_status === "approved" && aggregate.status === "listed" && (
               <a
-                href={`/properties/${aggregate.id}`}
+                href={`/lo-dat/${aggregate.id}`}
                 target="_blank"
                 rel="noreferrer"
                 className="admin-button secondary small"
@@ -140,6 +161,16 @@ export function PropertyStudio({
                 ? "Tạm dừng hiển thị"
                 : "Mở bán (Listed)"}
             </button>
+            {canDelete && (
+              <button
+                type="button"
+                className="admin-button secondary small admin-delete-btn"
+                onClick={() => setShowDeleteModal(true)}
+                disabled={statusBusy || deleting}
+              >
+                Xóa lô đất
+              </button>
+            )}
           </div>
         </div>
 
@@ -169,18 +200,31 @@ export function PropertyStudio({
 
         {actionError && <p className="admin-error" role="alert">{actionError}</p>}
 
+        {aggregate.parent && <Link className="admin-text-link" href={`/admin/properties/${aggregate.parent.id}?tab=children`}>↑ {aggregate.parent.code} · {aggregate.parent.title}</Link>}
+        <div className="admin-subdivision-toggle">
+          <div><strong>Nhiều lô đất con</strong><p>Bật để mở studio phân lô và quản lý riêng từng lô.</p></div>
+          <button type="button" role="switch" aria-label="Nhiều lô đất con" aria-checked={!!aggregate.has_subplots} className="admin-toggle-switch" disabled={statusBusy || (!!aggregate.has_subplots && (aggregate.subdivision?.total??0)>0)} onClick={async()=>{
+            setStatusBusy(true);setActionError("");
+            try {
+              await api(`properties/${aggregate.id}`, "PATCH", {_version:aggregate._version,has_subplots:!aggregate.has_subplots});
+              await mutate();handleSelectTab(aggregate.has_subplots?"basic":"children");
+            } catch(e) {setActionError(errorText(e));} finally {setStatusBusy(false);}
+          }}><span>{aggregate.has_subplots?"Bật":"Tắt"}</span></button>
+        </div>
+        {!!aggregate.has_subplots && (aggregate.subdivision?.total??0)>0 && <p className="admin-studio-sub">Chuyển các lô con sang hồ sơ khác trước khi tắt chế độ nhiều lô.</p>}
         {/* Tab Navigation (0ms instant tab change) */}
         <nav className="admin-studio-tabs" aria-label="Các phần quản lý lô đất">
+          {aggregate.has_subplots && <button type="button" className={`admin-studio-tab ${activeTab === "children" ? "is-active" : ""}`} onClick={()=>handleSelectTab("children")}>Các lô đất con <span className="admin-tab-count">{aggregate.subdivision?.total??0}</span></button>}
           <button
             type="button"
-            className={`admin-studio-tab ${tab === "basic" ? "is-active" : ""}`}
+            className={`admin-studio-tab ${activeTab === "basic" ? "is-active" : ""}`}
             onClick={() => handleSelectTab("basic")}
           >
             📋 Thông tin cơ bản
           </button>
           <button
             type="button"
-            className={`admin-studio-tab ${tab === "media" ? "is-active" : ""}`}
+            className={`admin-studio-tab ${activeTab === "media" ? "is-active" : ""}`}
             onClick={() => handleSelectTab("media")}
           >
             🖼 Thư viện ảnh & video
@@ -188,7 +232,7 @@ export function PropertyStudio({
           </button>
           <button
             type="button"
-            className={`admin-studio-tab ${tab === "legal" ? "is-active" : ""}`}
+            className={`admin-studio-tab ${activeTab === "legal" ? "is-active" : ""}`}
             onClick={() => handleSelectTab("legal")}
           >
             ⚖ Hồ sơ pháp lý
@@ -196,7 +240,7 @@ export function PropertyStudio({
           </button>
           <button
             type="button"
-            className={`admin-studio-tab ${tab === "documents" ? "is-active" : ""}`}
+            className={`admin-studio-tab ${activeTab === "documents" ? "is-active" : ""}`}
             onClick={() => handleSelectTab("documents")}
           >
             📁 Tài liệu kỹ thuật
@@ -204,7 +248,7 @@ export function PropertyStudio({
           </button>
           <button
             type="button"
-            className={`admin-studio-tab ${tab === "amenities" ? "is-active" : ""}`}
+            className={`admin-studio-tab ${activeTab === "amenities" ? "is-active" : ""}`}
             onClick={() => handleSelectTab("amenities")}
           >
             📍 Tiện ích & Lịch hẹn
@@ -215,7 +259,8 @@ export function PropertyStudio({
 
       {/* Tab Panels */}
       <div className="admin-studio-content">
-        {tab === "basic" && (
+        {activeTab === "children" && <ChildrenTab key={aggregate.id} property={aggregate} onUpdated={updated=>void mutate(updated,false)}/>}
+        {activeTab === "basic" && (
           <BasicTab
             key={`${aggregate.id}-${aggregate._version}`}
             property={aggregate}
@@ -224,28 +269,28 @@ export function PropertyStudio({
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
-        {tab === "media" && (
+        {activeTab === "media" && (
           <MediaTab
             property={aggregate}
             canDelete={canDelete}
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
-        {tab === "legal" && (
+        {activeTab === "legal" && (
           <LegalTab
             property={aggregate}
             canDelete={canDelete}
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
-        {tab === "documents" && (
+        {activeTab === "documents" && (
           <DocumentsTab
             property={aggregate}
             canDelete={canDelete}
             onUpdated={updated => void mutate(updated, false)}
           />
         )}
-        {tab === "amenities" && (
+        {activeTab === "amenities" && (
           <AmenitiesTab
             property={aggregate}
             canDelete={canDelete}
@@ -253,6 +298,16 @@ export function PropertyStudio({
           />
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        title="Xác nhận xóa lô đất"
+        message={`Bạn có chắc chắn muốn xóa lô đất "${aggregate.code} - ${aggregate.title}"? Thao tác này sẽ xóa vĩnh viễn toàn bộ dữ liệu kèm theo (ảnh, pháp lý, tài liệu, tiện ích...) và không thể hoàn tác.`}
+        confirmLabel="Xác nhận xóa vĩnh viễn"
+        isLoading={deleting}
+        onConfirm={handleDeleteProperty}
+        onCancel={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 }

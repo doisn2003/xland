@@ -4,6 +4,7 @@ import {useState,type FormEvent} from "react";
 import {useRouter} from "next/navigation";
 import {api,AdminError,errorText,type Catalog,type Row} from "./api";
 import {FormField} from "./controls";
+import {ConfirmModal} from "./confirm-modal";
 import {initial,serialize} from "./form-values";
 import {formatted,label} from "./labels";
 
@@ -14,6 +15,9 @@ export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{
   const [media,setMedia]=useState(()=>initial(mediaFields,(record?.media as Row)??{sort_order:"0",is_illustrative:false}));
   const [contact,setContact]=useState<Row>((record?.contact as Row)??{phone:"",email_contact:""});
   const [reason,setReason]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false),[uploads,setUploads]=useState(0);
+  const [showDeleteModal, setShowDeleteModal]=useState(false);
+  const [deleting, setDeleting]=useState(false);
+  const canDelete=isSuperAdmin&&["properties","consultants","clubs","events","videos","slots","support","media","legal","documents","amenities"].includes(entity);
   const [userRoles, setUserRoles]=useState<string[]>(()=>{
     if (entity==="users"&&record?.roles&&Array.isArray(record.roles)){
       return (record.roles as {role:string}[]).map(r=>r.role);
@@ -26,6 +30,18 @@ export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{
   const readonly=config.edit?.length===0;
   const active=config.fields.filter(f=>!f.readonly&&!(entity==="videos"&&f.name==="media_id"));
   function uploadBusy(b:boolean){setUploads(n=>Math.max(0,n+(b?1:-1)));}
+  async function handleDelete(){
+    setDeleting(true);setError("");
+    try{
+      await api(`${entity}/${record!.id}`,"DELETE");
+      router.push(`/admin/${entity}?deleted=1`);
+    }catch(err){
+      setError(errorText(err));
+      setShowDeleteModal(false);
+    }finally{
+      setDeleting(false);
+    }
+  }
   async function submit(event:FormEvent){event.preventDefault();setBusy(true);setError("");
     try{
       const data=serialize(config.fields,draft,record??undefined);
@@ -106,7 +122,37 @@ export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{
       )}
       {entity==="bookings"&&record&&<section className="admin-form-section"><h2>Lịch sử & tiền cọc</h2><div className="admin-history">{((record.history as Row[])??[]).map(h=><p key={String(h.id)}><strong>{formatted(h.to_status)}</strong> · {formatted(h.occurred_at,"occurred_at")}<br/>{String(h.public_note??h.internal_note??"")}</p>)}</div>{((record.payments as Row[])??[]).map(p=><p key={String(p.id)}>Thanh toán: {formatted(p.status)} · {formatted(p.mode)} · {formatted(p.amount_vnd,"price")}</p>)}</section>}
       {error&&<p role="alert" className="admin-error">{error}</p>}
-      {!readonly&&<div className="admin-form-actions"><Link href={`/admin/${entity}`} className="admin-button secondary">Quay lại danh sách</Link><button className="admin-button" disabled={busy||uploads>0}>{uploads>0?"Đang tải tệp…":busy?"Đang lưu…":"Lưu hồ sơ"}</button></div>}
+      {!readonly&&(
+        <div className="admin-form-actions">
+          <div style={{display:"flex",gap:"10px",alignItems:"center"}}>
+            <Link href={`/admin/${entity}`} className="admin-button secondary">Quay lại danh sách</Link>
+            {record&&canDelete&&(
+              <button
+                type="button"
+                className="admin-button secondary admin-delete-btn"
+                onClick={()=>setShowDeleteModal(true)}
+                disabled={busy||deleting}
+              >
+                Xóa hồ sơ
+              </button>
+            )}
+          </div>
+          <button className="admin-button" disabled={busy||uploads>0||deleting}>
+            {uploads>0?"Đang tải tệp…":busy?"Đang lưu…":"Lưu hồ sơ"}
+          </button>
+        </div>
+      )}
     </form>
+    {record&&canDelete&&(
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        title={`Xác nhận xóa ${config.title.toLowerCase()}`}
+        message={`Bạn có chắc chắn muốn xóa hồ sơ ${config.title.toLowerCase()} này? Thao tác này sẽ xóa vĩnh viễn và không thể hoàn tác.`}
+        confirmLabel="Xác nhận xóa"
+        isLoading={deleting}
+        onConfirm={handleDelete}
+        onCancel={()=>setShowDeleteModal(false)}
+      />
+    )}
   </>;
 }

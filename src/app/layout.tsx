@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { SiteChrome } from "@/components/site-chrome";
 import "./globals.css";
+import "@/features/user/user.css";
 const heading = localFont({ src: "./fonts/noto-serif.woff2", variable: "--font-heading", display: "swap", weight: "500 600" });
 const body = localFont({ src: [
   { path: "./fonts/be-vietnam-400.woff2", weight: "400", style: "normal" },
@@ -9,8 +10,8 @@ const body = localFont({ src: [
   { path: "./fonts/be-vietnam-600.woff2", weight: "600", style: "normal" },
 ], variable: "--font-body", display: "swap" });
 export const metadata: Metadata = {
-  title: "Xland | Bất động sản & NFT",
-  description: "Khám phá bất động sản và trải nghiệm đầu tư NFT cùng Xland.",
+  title: "Xland | Khám phá miền đất, kết nối giá trị",
+  description: "Khám phá lô đất, video, cộng đồng và kết nối cùng Xland.",
   robots: { index: false, follow: false },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

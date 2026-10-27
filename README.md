@@ -1,8 +1,8 @@
 # Xland
 
-**Cập nhật 22/10/2026:** đã bổ sung website Admin fullstack tại `/admin`, kết nối `xland-server`, PostgreSQL và Supabase Storage. Tài khoản khởi tạo `admin / 123456`. Kế hoạch, API, quy tắc dữ liệu, cách chạy và triển khai ở [ADMIN](docs/ADMIN.md). Website user phía dưới vẫn giữ trạng thái demo cũ.
+**Cập nhật 26/10/2026:** website user dùng API thật của `xland-server`, cùng tài khoản và dữ liệu với Flutter. Xem [hướng dẫn tích hợp](docs/USER-BACKEND-INTEGRATION.md) và [kết quả kiểm tra](docs/STATUS.md). Admin tại `/admin` giữ API và phiên riêng; tài liệu ở [ADMIN](docs/ADMIN.md).
 
-Website đất nền và bất động sản NFT, mobile first, tiếng Việt. Đang triển khai **mốc 1B** trên nền home/card/detail 1A: danh sách lọc và sắp xếp theo URL, lưu lô đất, đề nghị xem thực địa/đổi/hủy, mua NFT và danh mục NFT, reset trải nghiệm. Dùng chung 10 bất động sản fixture; chưa có backend, ví hoặc giao dịch thật. Video, chuyên gia, người đăng và đăng bán còn lại. Kết quả QA hiện tại ở [STATUS](docs/STATUS.md).
+Website mobile first, tiếng Việt: danh mục/chi tiết UUID, tài khoản, nội dung đã lưu, video/bình luận/theo dõi, người đăng/chuyên gia, hỗ trợ, lịch xem, cộng đồng và tài chính. Mock data, store demo, reset và giao dịch NFT giả đã được gỡ khỏi mã ứng dụng. Booking và đăng ký sự kiện có feature flag; thanh toán, đổi/hủy, tải tài liệu, NFT và đăng bán giữ trạng thái chưa khả dụng theo backend.
 
 ## Chạy local
 
@@ -13,7 +13,7 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Mở http://localhost:3000. Chưa cần `.env` hoặc tài khoản dịch vụ. Dùng pnpm, không dùng `npm install`/yarn để tránh lockfile khác và kiểm tra runtime khác nhau.
+Trước khi chạy, tạo `.env.local` theo `.env.example`, đặt `XLAND_API_BASE_URL` tới `/api/v1` của backend và `XLAND_WEB_ORIGIN=http://localhost:3000`. Không chép secret DB/Storage sang website. Mở http://localhost:3000. Dùng pnpm, không dùng `npm install`/yarn trong repo website.
 
 Trên máy Windows hiện tại, Node mặc định còn là 20.x. Sau khi dependency đã được cài, mở PowerShell tại repo và ưu tiên Node đã khóa của dự án trong phiên terminal trước khi chạy các lệnh trên:
 
@@ -31,7 +31,7 @@ pnpm test:e2e:install
 pnpm check
 ```
 
-`check` chạy lần lượt lint → typecheck → unit test → production build → E2E. E2E tự mở server production tại `127.0.0.1:3100`, rồi đóng khi xong; cần cổng này trống. Chromium và WebKit được cài một lần bằng script trên (Linux CI có thể cần `pnpm exec playwright install --with-deps chromium webkit`).
+`check` chạy lint → typecheck → unit → production build → E2E. E2E cần repo `../../xland-server` đã `npm ci`; tự tạo PostgreSQL QA độc lập, API ở `127.0.0.1:3311`, website production ở `127.0.0.1:3100`, PostgreSQL ở `55448`. Các cổng cần trống. Không đọc `DATABASE_URL` hay ghi vào database dùng chung. Chromium và WebKit cài một lần bằng script trên (Linux CI có thể cần `pnpm exec playwright install --with-deps chromium webkit`).
 
 | Lệnh | Công dụng |
 | --- | --- |
@@ -42,7 +42,7 @@ pnpm check
 | `pnpm test:e2e` | Test production đã build, Chromium desktop/mobile và WebKit mobile |
 | `pnpm check` | Toàn bộ các bước kiểm tra |
 
-Bộ kiểm tra gồm unit test nghiệp vụ và E2E trên Chromium desktop/mobile, WebKit giả lập iPhone 13. Bao phủ danh mục/URL/history, lưu/reload/nhiều tab, lịch xem/đổi/hủy, NFT/tồn/chống trùng, reset, storage bị chặn, keyboard và accessibility. Không bỏ qua lỗi viewport WebKit: `pnpm check` hiện chưa đạt đầy đủ; xem phép đối chiếu HTML tối giản và số liệu tại STATUS. WebKit giả lập không thay kiểm tra máy thật.
+Bộ kiểm tra user gọi API và PostgreSQL thật, kiểm đồng bộ bằng cùng tài khoản web/bearer mobile, hai user cách ly, logout nhiều tab, CSRF, idempotency, tài chính/hỗ trợ/lịch xem/video/cộng đồng, responsive 360/390/430/768/1440, keyboard và accessibility. Các kiểm thử store demo cũ đã được thay bằng luồng backend. WebKit giả lập không thay kiểm tra iPhone thật; giới hạn engine Windows được ghi trong tài liệu tích hợp.
 
 ## Phiên bản đã khóa
 
@@ -67,8 +67,8 @@ React, TypeScript và ESLint giữ nhánh của template Next.js đã chọn. ES
 
 ## Cấu trúc và triển khai
 
-- `src/app`: App Router, home, chi tiết động theo slug, 404, CSS tokens và font local Noto Serif/Be Vietnam Pro.
-- `src/components`, `src/data`: component tương tác và fixture dùng chung.
+- `src/app`: App Router, chi tiết động theo UUID, BFF cùng origin, 404/error, CSS và font local Noto Serif/Be Vietnam Pro.
+- `src/features/user`: DTO đồng bộ mobile, wire validation, client/server transport và các domain user; `src/components`: UI dùng chung.
 - `tests/unit`, `tests/e2e`: Vitest và Playwright.
 - `assets`: giữ nguyên PDF/ảnh nguồn; phối cảnh mới có PNG và prompt riêng. `public/images` chứa WebP được tuyển chọn.
 - [PREPARE.md](PREPARE.md): phạm vi, tiêu chí và lộ trình.
@@ -77,8 +77,8 @@ React, TypeScript và ESLint giữ nhánh của template Next.js đã chọn. ES
 
 ## Tiếp tục phát triển
 
-Đọc STATUS → PREPARE → DESIGN. Bằng chứng 1A ở `docs/qa/2026-09-25-1a/README.md`, vòng mở rộng danh mục ở `docs/qa/2026-09-25-catalog/README.md`; mốc 1B đang triển khai theo STATUS. Có thêm `scripts/capture-1b.mjs` và `scripts/probe-webkit.mjs` để lưu ảnh/hồ sơ chẩn đoán vòng 1B (mặc định server 3200; có thể đổi bằng `XLAND_URL`). Chạy production (`pnpm build`, `pnpm start`) rồi `pnpm exec node scripts/capture-ui.mjs` để chụp lại home/detail/card; `pnpm exec node scripts/measure-hero.mjs` để đo tương phản chữ trên hero. Đặt `XLAND_CAPTURE_DIR` để lưu ảnh vào thư mục QA mới và `XLAND_DETAIL_SLUG` để chọn hồ sơ chi tiết cần chụp. Không cập nhật ảnh nghiệm thu mà chưa xem lại.
+Đọc STATUS → USER-BACKEND-INTEGRATION → kế hoạch tích hợp. Tài liệu và scripts chụp UI 1A/1B còn được giữ để đối chiếu lịch sử; đường dẫn slug/store demo trong chúng không áp dụng cho bản API. Ảnh QA hiện tại được tạo bởi `tests/e2e/backend-user.spec.ts`; xem ảnh trước khi cập nhật biên bản nghiệm thu.
 
-Frontend hướng tới Vercel với Node 24.x, install `pnpm install --frozen-lockfile`, build `pnpm build`, preset Next.js. Chưa tạo deployment. Trang demo có metadata `noindex`; đây không phải cơ chế xác thực/bảo mật.
+Frontend Vercel với Node 24.x, install `pnpm install --frozen-lockfile`, build `pnpm build`, preset Next.js. Chưa triển khai bản tích hợp user trong lượt này. Giữ metadata `noindex` đến khi nội dung/policy đủ điều kiện phát hành; đây không phải cơ chế xác thực.
 
-Backend Node.js/Railway, Supabase và NFT ERC-1155 thuộc giai đoạn sau. Ứng dụng chưa nối backend, ví, smart contract hay xử lý tiền thật.
+Backend Express/PostgreSQL/Railway là nguồn dữ liệu. Website không có ví, smart contract hoặc xử lý thu tiền thật.

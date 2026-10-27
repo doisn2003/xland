@@ -1,14 +1,8 @@
-import { PropertyExplorer } from "@/components/property-explorer";
-import { parseCatalogQuery } from "@/features/properties/query";
-
-export const metadata = { title: "Khám phá lô đất | Xland" };
-
-export default async function CatalogPage({ searchParams }: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const query = parseCatalogQuery(await searchParams);
-  return <main id="main" className="catalog-page">
-    <header className="container journey-heading"><p className="eyebrow">MỘT NƠI CHỐN, MỘT KHỞI ĐẦU</p><h1>Khám phá lô đất</h1><p>Tìm theo khu vực, ngân sách và không gian bạn yêu thích.</p></header>
-    <PropertyExplorer initialQuery={query} catalog />
-  </main>;
+import { Catalog } from '@/features/user/catalog';
+import { UserShell } from '@/features/user/ui';
+import { propertyKeys } from '@/features/user/routes';
+export default async function Page({ searchParams }: { searchParams: Promise<Record<string,string|string[]|undefined>> }) {
+ const raw = await searchParams, q = new URLSearchParams();
+ for (const key of [...propertyKeys,'cursor']) { const v=raw[key]; if(Array.isArray(v)) return <UserShell title="Bộ lọc không hợp lệ"><p>Mỗi bộ lọc chỉ được xuất hiện một lần.</p></UserShell>; if(v) q.set(key,v); }
+ return <UserShell title="Khám phá lô đất"><Catalog key={q.toString()} query={q.toString()} /></UserShell>;
 }

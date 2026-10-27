@@ -1,23 +1,43 @@
 "use client";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 import {useState, type FormEvent} from "react";
 import useSWR from "swr";
 import {api, errorText, type Catalog, type Row} from "../api";
 import {FormField} from "../controls";
+import {ConfirmModal} from "../confirm-modal";
 import type {EventAggregate} from "./types";
 
 interface EventStudioProps {
   eventId: string;
   catalog: Catalog;
+  canDelete?: boolean;
 }
 
-export function EventStudio({eventId, catalog}: EventStudioProps) {
+export function EventStudio({eventId, catalog, canDelete = true}: EventStudioProps) {
+  const router = useRouter();
   const [tab, setTab] = useState<"registrations" | "details">("registrations");
   const [draft, setDraft] = useState<Row | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [downloadingCsv, setDownloadingCsv] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
+  async function handleDeleteEvent() {
+    setDeleting(true);
+    setError("");
+    try {
+      await api(`events/${eventId}`, "DELETE");
+      router.push("/admin/events?deleted=1");
+    } catch (err) {
+      setError(errorText(err));
+      setShowDeleteModal(false);
+    } finally {
+      setDeleting(false);
+    }
+  }
 
   const {
     data: event,
@@ -138,6 +158,16 @@ export function EventStudio({eventId, catalog}: EventStudioProps) {
             >
               {downloadingCsv ? "Đang xuất CSV…" : "Xuất danh sách khách (CSV) ⤓"}
             </button>
+            {canDelete && (
+              <button
+                type="button"
+                className="admin-button secondary small admin-delete-btn"
+                onClick={() => setShowDeleteModal(true)}
+                disabled={deleting}
+              >
+                Xóa sự kiện
+              </button>
+            )}
           </div>
         </div>
 
@@ -313,6 +343,16 @@ export function EventStudio({eventId, catalog}: EventStudioProps) {
           </form>
         )}
       </div>
+
+      <ConfirmModal
+        isOpen={showDeleteModal}
+        title="Xác nhận xóa sự kiện"
+        message={`Bạn có chắc chắn muốn xóa sự kiện "${event.title}"? Thao tác này sẽ xóa vĩnh viễn sự kiện và toàn bộ dữ liệu liên quan.`}
+        confirmLabel="Xác nhận xóa"
+        isLoading={deleting}
+        onConfirm={handleDeleteEvent}
+        onCancel={() => setShowDeleteModal(false)}
+      />
     </div>
   );
 }

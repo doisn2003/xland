@@ -10,7 +10,7 @@ export function Hero() {
         <HeroSettle>
           <PropertyImage
             src="/images/hero.webp"
-            alt="Cảnh quan ven biển nhìn từ trên cao tại Cam Ranh, Việt Nam"
+            alt="Không gian đô thị và cảnh quan trên trang chủ Xland"
             sizes="100vw"
             preload
             className="hero-photo"
@@ -43,9 +43,9 @@ export function Hero() {
         </div>
 
         <div className="hero-bottom" data-hero-bottom>
-          <span className="hero-pillars">ĐẤT NỀN · KHÔNG GIAN SỐNG · NFT</span>
+          <span className="hero-pillars">ĐẤT NỀN · KHÔNG GIAN SỐNG · CỘNG ĐỒNG</span>
           <span className="hero-location">
-            <Icon name="pin" /> Cam Ranh, Việt Nam
+            <Icon name="pin" /> Khám phá miền đất Việt
           </span>
         </div>
       </div>

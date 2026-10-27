@@ -1,5 +1,63 @@
 # Trạng thái Xland
 
+## Một hồ sơ — nhiều lô đất — 27/10/2026
+
+- Đã triển khai liên thông PostgreSQL, API admin/user, website admin/user và Flutter. Lô con dùng cùng entity/hồ sơ/editor; hỗ trợ lồng nhau nhiều cấp, giá và diện tích riêng, mặt tiền, lô góc, nội dung kế thừa tại thời điểm tạo.
+- Migration `0020_property_subplots.sql`: quan hệ cha–con, index, chống vòng lặp, kiểm tổng diện tích và khóa transaction chống phân bổ đồng thời. RLS ẩn lô nếu bản thân hoặc tổ tiên chưa duyệt. Không migrate hay seed database dùng chung.
+- Studio bật bằng toggle **Nhiều lô đất con**, có thống kê diện tích phân bổ/còn lại, số lượng/trạng thái, tạo/tìm/phân trang các lô. Mở từng lô dùng studio đầy đủ; trường Lô đất cha cho phép đổi quan hệ có kiểm tra.
+- Web/Flutter: badge, Tổng quan có lưới 2×2 bốn lô mỗi trang, mở lô con/lô cháu, quay về cha, trạng thái tải/lỗi/thử lại/rỗng. Website có bốn tab chi tiết. Sửa badge Flutter để chữ dài xuống dòng; giá trên card web hẹp không bị cắt.
+- Kế thừa sao chép thông tin, media, tài liệu và tiện ích; không ghi đè khi sửa cha sau đó. Lô mới chờ duyệt/tạm dừng; checklist pháp lý cần đối chiếu lại. Không sao chép giao dịch, lịch hẹn hoặc quyền tài liệu cá nhân.
+- Kiểm tra server: typecheck/lint/build, **31 unit**, **2 contract**, **239 HTTP checks** trong admin runner đạt; bổ sung kiểm kế thừa với media/tài liệu/checklist không rỗng, RLS nhiều cấp, saved child, cursor, overflow và race.
+- Website: **`pnpm check` đạt trong lượt cuối**, gồm lint, typecheck, **45 unit**, production build và **21/21 E2E** trên Chromium desktop/mobile và WebKit mobile. E2E studio phân lô riêng đạt với hồ sơ có media/tài liệu/checklist; đã xem ảnh ở 360/390/430/768/1440px. Chạy bằng pnpm 11.25.0, không bổ sung dependency.
+- Flutter: **53/53 test trong 6 file** và **`flutter analyze --no-pub`** đạt; có 5 kích thước 360/390/430/768/1440px và text scale 1.5. Chưa chạy thiết bị thật hoặc phát hành APK/iOS.
+- Kiểm tra rộng chưa hoàn toàn xanh: integration server dừng ở `foundation.test.ts:101` vì bài cũ yêu cầu token hết hạn trả 401, trong khi thay đổi phiên đăng nhập hiện có trả 200. Các file integration còn lại đã chạy riêng và đạt. Admin E2E cũ `admin.spec.ts` timeout tại input tên tư vấn viên, trước luồng lô đất; E2E studio phân lô riêng đạt. Không sửa chính sách phiên hoặc bỏ test để che các lỗi này.
+- Bản code chưa deploy Railway/Vercel, chưa áp dụng migration production. [Thiết kế/API/rollout](../../../xland-server/docs/PROPERTY_SUBPLOTS.md); [ảnh và bằng chứng QA](qa/2026-10-27-subplots/README.md).
+
+## Tích hợp backend website user — 26/10/2026
+
+- Mã website user đã chuyển sang API thật `/api/v1` của xland-server, cùng UUID,
+  tài khoản và hợp đồng dữ liệu với Flutter. Không còn import mock data, store
+  favorite/booking/NFT local hoặc route reset/QA trong ứng dụng.
+- Đã nối catalog/filter/cursor, chi tiết SSR/metadata/legal/media/map lazy,
+  login/profile/settings, saved, video/comment/follow/author/consultant, hỗ trợ,
+  lịch xem/history/payment read, sự kiện/CLB và kế hoạch tài chính. BFF dùng
+  cookie HttpOnly, HTTPS host-prefix/Secure, CSRF Origin, no-store, allowlist và
+  idempotency; đồng bộ logout nhiều tab và kiểm cách ly hai user.
+- Đối chiếu 18 migration từ source hiện hành trên PostgreSQL 17.10 QA: 43 bảng,
+  tất cả FORCE RLS, migration/seed replay ổn định. Không migrate/seed database
+  dùng chung. Đã sửa event đóng từ startsAt và bảo toàn cancelled ở backend.
+- **`pnpm check` đạt đầy đủ trong một lượt cuối**: lint không warning, typecheck,
+  **42 unit**, production build, **18/18 E2E** (6 hành trình rộng × Chromium desktop,
+  Chromium Pixel 7 và WebKit iPhone 13). Các test demo cũ được thay bằng luồng
+  Express/PostgreSQL thật; không bỏ browser, tắt lint/type hoặc dùng suite rỗng.
+- Server: lint/typecheck/build, **29 unit, 36 integration, 2 contract** đạt.
+  Contract runner kiểm 59 success paths và 4 policy/dependency gates, không gọi
+  các gate là API thành công. Đã tăng thời gian đóng PostgreSQL QA Windows để
+  checkpoint kết thúc trước khi runner timeout.
+- Flutter: **36 ca trong 8 file hồi quy** đạt. Chỉ sửa ngày hết hạn cố định đã qua
+  trong fake account test; giữ logic production và các thay đổi có sẵn của chủ
+  dự án. Kiểm đồng bộ web–mobile dùng cùng account qua bearer API và mapper Dart;
+  chưa nghiệm thu thao tác trên thiết bị Flutter/iPhone thật trong lượt này.
+- Railway read-only probe: **16/16 API public**, 21 lô đất, author profile/videos
+  khớp decoder. Preview production build local đọc Railway tải được ảnh public;
+  không login/mutation/maps provider trên live.
+- Đã xem ảnh home/catalog/detail ở 360/390/430/768/1440, sửa gutter hero mobile,
+  kiểm keyboard/reduced-motion và Axe login/catalog. [Ảnh và biên bản QA](qa/2026-10-26-user-backend/README.md).
+  WebKit Windows có lỗi SameSite ở engine đã tái hiện độc lập; test kiểm header
+  Lax và server chặn form chéo origin thực. Không coi giả lập là Safari vật lý.
+- `.env.local` user đã trỏ Railway. **Chưa triển khai bản code user này**.
+  Google web chưa có OAuth client/origin; SMS theo capability backend. Booking
+  và đăng ký sự kiện đã code/test nhưng flag mặc định tắt đến khi quy trình tiếp
+  nhận/hold/expiry sẵn sàng. Thanh toán, đổi/hủy, download tài liệu, NFT và đăng
+  bán giữ trạng thái chưa khả dụng, không phát sinh giao dịch giả.
+- Còn gate phát hành: cấu hình/kiểm Google cùng Flutter, rate limit qua topology
+  Vercel–Railway, bản đồ/quota provider, thiết bị thật và quy trình vận hành.
+  Không đánh dấu rollout/rollback rehearsal hoàn tất từ test local.
+
+Chi tiết API/schema, môi trường, quyết định phiên/retry và cách chạy ở
+[USER-BACKEND-INTEGRATION](USER-BACKEND-INTEGRATION.md). Kế hoạch 22/10 và các mốc
+bên dưới được giữ làm tài liệu lịch sử; các số liệu mock/QA cũ không mô tả bản user mới.
+
 ## Trở lại Railway production — 26/10/2026
 
 - Backend đã trở lại `https://xland-server-production.up.railway.app`; Railway

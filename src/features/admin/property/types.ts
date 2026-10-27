@@ -84,6 +84,11 @@ export interface PropertyBookingSummary {
 }
 
 export interface PropertyAggregate extends Row {
+  has_subplots?: boolean;
+  parent_property_id?: string | null;
+  is_corner?: boolean;
+  parent?: {id:string;code:string;title:string} | null;
+  subdivision?: {total:number;allocated_area_m2:string;remaining_area_m2:string;listed:number;sold:number;pending:number};
   id: string;
   code: string;
   title: string;
@@ -127,4 +132,4 @@ export interface PropertyAggregate extends Row {
   bookings: PropertyBookingSummary[];
 }
 
-export type StudioTab = "basic" | "media" | "legal" | "documents" | "amenities";
+export type StudioTab = "basic" | "media" | "legal" | "documents" | "amenities" | "children";

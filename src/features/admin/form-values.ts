@@ -2,7 +2,7 @@ import type {Field,Row} from "./api";
 import {label} from "./labels";
 
 export function initial(fields:Field[],data:Row={}):Row{
-  return Object.fromEntries(fields.map(f=>{
+  const res: Row = Object.fromEntries(fields.map(f=>{
     let value=data[f.name]??f.defaultValue;
     if(value==null)value=f.type==="boolean"?false:"";
     if(f.name==="is_illustrative"&&data[f.name]===undefined)value=false;
@@ -12,6 +12,10 @@ export function initial(fields:Field[],data:Row={}):Row{
     if(f.type==="jsonb")value=JSON.stringify(value||[],null,2);
     return [f.name,value];
   }));
+  if (data && "_version" in data && data._version !== undefined) {
+    res._version = data._version;
+  }
+  return res;
 }
 
 export function serialize(fields:Field[],draft:Row,original?:Row):Row{

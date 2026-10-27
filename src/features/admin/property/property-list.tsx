@@ -3,16 +3,35 @@ import Link from "next/link";
 import {useState} from "react";
 import {api, errorText, type Row} from "../api";
 import {formatted} from "../labels";
+import {ConfirmModal} from "../confirm-modal";
 
 interface PropertyListProps {
   items: Row[];
   onItemUpdated?: (updated: Row) => void;
+  canDelete?: boolean;
 }
 
-export function PropertyList({items: initialItems, onItemUpdated}: PropertyListProps) {
+export function PropertyList({items: initialItems, onItemUpdated, canDelete = true}: PropertyListProps) {
   const [items, setItems] = useState<Row[]>(initialItems);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [deleteTarget, setDeleteTarget] = useState<Row | null>(null);
+
+  async function handleDelete() {
+    if (!deleteTarget) return;
+    const id = String(deleteTarget.id);
+    setBusyId(id);
+    setError("");
+    try {
+      await api(`properties/${id}`, "DELETE");
+      setItems(items.filter(r => r.id !== id));
+      setDeleteTarget(null);
+    } catch (err) {
+      setError(errorText(err));
+    } finally {
+      setBusyId(null);
+    }
+  }
 
   async function handleToggleStatus(row: Row) {
     const id = String(row.id);
@@ -62,6 +81,7 @@ export function PropertyList({items: initialItems, onItemUpdated}: PropertyListP
                   <div className="admin-prop-cell">
                     <div>
                       <span className="admin-code-tag">{String(row.code ?? "—")}</span>
+                      {row.has_subplots===true && <span className="admin-badge">Nhiều lô đất con</span>}{!!row.parent_property_id && <span className="admin-badge">Lô con</span>}
                       <strong className="admin-prop-title">{String(row.title ?? "—")}</strong>
                     </div>
                   </div>
@@ -90,19 +110,41 @@ export function PropertyList({items: initialItems, onItemUpdated}: PropertyListP
                   </span>
                 </td>
                 <td>
-                  <Link
-                    className="admin-button secondary small"
-                    href={`/admin/properties/${id}`}
-                    style={{textDecoration: "none"}}
-                  >
-                    Mở Studio →
-                  </Link>
+                  <div style={{display: "flex", gap: "8px", alignItems: "center"}}>
+                    <Link
+                      className="admin-button secondary small"
+                      href={`/admin/properties/${id}`}
+                      style={{textDecoration: "none"}}
+                    >
+                      Mở Studio →
+                    </Link>
+                    {canDelete && (
+                      <button
+                        type="button"
+                        className="admin-button secondary small admin-delete-btn"
+                        onClick={() => setDeleteTarget(row)}
+                        disabled={isBusy}
+                      >
+                        Xóa
+                      </button>
+                    )}
+                  </div>
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      <ConfirmModal
+        isOpen={!!deleteTarget}
+        title="Xác nhận xóa lô đất"
+        message={deleteTarget ? `Bạn có chắc chắn muốn xóa lô đất "${deleteTarget.code ?? ""} - ${deleteTarget.title ?? ""}"? Thao tác này sẽ xóa vĩnh viễn và không thể hoàn tác.` : ""}
+        confirmLabel="Xác nhận xóa"
+        isLoading={busyId === deleteTarget?.id}
+        onConfirm={handleDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </div>
   );
 }

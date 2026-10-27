@@ -1,5 +1,6 @@
 import {describe, it, expect} from "vitest";
 import type {PropertyMediaItem} from "../../src/features/admin/property/types";
+import {initial, serialize} from "../../src/features/admin/form-values";
 
 describe("Property Studio Features (Phase 2)", () => {
   it("computes sort orders correctly when setting a media item as cover", () => {
@@ -38,6 +39,27 @@ describe("Property Studio Features (Phase 2)", () => {
     expect(subEntityToTab["documents"]).toBe("documents");
     expect(subEntityToTab["amenities"]).toBe("amenities");
     expect(subEntityToTab["properties"]).toBeUndefined();
+  });
+
+  it("preserves _version in initial form values and root property payload", () => {
+    const fields = [
+      {name: "code", type: "text", required: true, readonly: false, defaultValue: null, precision: null, scale: null},
+      {name: "title", type: "text", required: true, readonly: false, defaultValue: null, precision: null, scale: null},
+    ];
+    const property = {
+      id: "p-1",
+      code: "ST1",
+      title: "Đất Làng Nghĩa",
+      _version: "998877",
+    };
+
+    const draft = initial(fields, property);
+    expect(draft._version).toBe("998877");
+
+    const serialized = serialize(fields, draft, property);
+    const rootPayload: Record<string, unknown> = {_version: draft._version ?? property._version, ...serialized};
+    expect(rootPayload._version).toBe("998877");
+    expect(rootPayload.title).toBe("Đất Làng Nghĩa");
   });
 });
 
@@ -171,4 +193,43 @@ describe("RBAC & Permissions (Phase 4)", () => {
     expect(canPerformAction("delete", false)).toBe(false);
     expect(canPerformAction("delete", true)).toBe(true);
   });
+
+  it("identifies fullstack deletable entities versus protected system entities", () => {
+    const deletableEntities = [
+      "properties",
+      "consultants",
+      "clubs",
+      "events",
+      "videos",
+      "slots",
+      "support",
+      "media",
+      "legal",
+      "documents",
+      "amenities",
+    ];
+
+    const protectedEntities = ["audit", "users", "bookings", "registrations"];
+
+    function isEntityDeletable(entity: string, isSuperAdmin: boolean): boolean {
+      if (!isSuperAdmin) return false;
+      return deletableEntities.includes(entity);
+    }
+
+    // Super Admin can delete all supported business entities
+    for (const entity of deletableEntities) {
+      expect(isEntityDeletable(entity, true)).toBe(true);
+    }
+
+    // Moderator cannot delete any entity
+    for (const entity of deletableEntities) {
+      expect(isEntityDeletable(entity, false)).toBe(false);
+    }
+
+    // Even Super Admin cannot delete protected entities (audit log, users, bookings directly)
+    for (const entity of protectedEntities) {
+      expect(isEntityDeletable(entity, true)).toBe(false);
+    }
+  });
 });
+
