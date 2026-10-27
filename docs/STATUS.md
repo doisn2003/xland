@@ -1,5 +1,14 @@
 # Trạng thái Xland
 
+## Sửa treo form câu lạc bộ và sự kiện — 27/10/2026
+
+- Tái hiện trực tiếp trong in-app browser lỗi React `Maximum update depth exceeded` tại `/admin/events/new`; tab `/admin/clubs/new` ban đầu không phản hồi. Nguyên nhân: effect tải workspace phụ thuộc `loaded.locations`, trong khi loader tạo mảng rỗng mới mỗi lần tải ngoài module lô đất, dẫn đến `setLoaded` và effect kích hoạt nhau liên tục.
+- Sửa khung quản trị chung: metadata cache dùng `useRef`; effect chỉ theo route/query/retry, giữ abort và xử lý lỗi. Route dùng chuỗi ổn định, dữ liệu bản ghi vẫn tải mới sau lưu. Đồng thời hết vòng lặp ở các form/module quản trị dùng chung khung này.
+- Đã thao tác trực tiếp hai form trong cùng trình duyệt localhost: nhập nhiều trường, đổi select, thêm mục media và nhập mô tả, không có lỗi JavaScript mới. Dữ liệu nhập trực tiếp chỉ là draft chưa lưu.
+- Hai E2E mới clubs/events đạt: nhập liên tục, không mất draft, thêm/xóa mục, checkbox/select, POST tạo **201**, reload và đối chiếu dữ liệu API, điều hướng tiếp sang form tư vấn viên. Chạy Express/PostgreSQL QA cô lập; 5 chiều rộng 360/390/430/768/1440, reduced motion, overflow và Axe đạt.
+- `pnpm check` trên workspace hiện tại đạt đầy đủ: lint/typecheck, **46 unit**, production build, **21/21 E2E** Chromium desktop/mobile và WebKit mobile. Bản sửa không thay backend/schema hoặc dữ liệu nghiệp vụ.
+- [Nguyên nhân và bằng chứng QA](qa/2026-10-27-community-freeze/README.md). Commit bản sửa chỉ gồm workspace loader, bài kiểm tra hồi quy và tài liệu/ảnh của lỗi này; các thay đổi tính năng đang có trong working tree được giữ nguyên.
+
 ## Một hồ sơ — nhiều lô đất — 27/10/2026
 
 - Đã triển khai liên thông PostgreSQL, API admin/user, website admin/user và Flutter. Lô con dùng cùng entity/hồ sơ/editor; hỗ trợ lồng nhau nhiều cấp, giá và diện tích riêng, mặt tiền, lô góc, nội dung kế thừa tại thời điểm tạo.

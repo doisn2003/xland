@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import {useEffect,useState,type FormEvent} from "react";
+import {useEffect,useRef,useState,type FormEvent} from "react";
 import {useRouter,useSearchParams} from "next/navigation";
 import useSWR from "swr";
 import {api,AdminError,errorText,type Row} from "./api";
@@ -25,7 +25,10 @@ export function AdminWorkspace({segments,displayName:initialDisplayName}:{segmen
   const [menu,setMenu]=useState(false),[loaded,setLoaded]=useState<Loaded|null>(null),[isPending,setIsPending]=useState(false),[error,setError]=useState(""),[retry,setRetry]=useState(0),[logoutBusy,setLogoutBusy]=useState(false);
   const [deleteTarget,setDeleteTarget]=useState<{entity:string;id:string;title:string}|null>(null);
   const [deleting,setDeleting]=useState(false);
-  const query=params.toString();
+  const query=params.toString(),route=segments.join("/");
+  // Metadata is a cache for the next navigation, not a reason to load again.
+  // Non-property routes return a fresh locations array on every load.
+  const metadataCache=useRef<Partial<Pick<Loaded,"catalog"|"locations">>>({});
 
   const {data:sessionData}=useSWR('admin-session',()=>api<{profile:{displayName:string};role:string;roles?:string[]}>('session'),{revalidateOnFocus:false,dedupingInterval:60000});
   const displayName=sessionData?.profile?.displayName??initialDisplayName??"Quản trị viên";
@@ -45,9 +48,6 @@ export function AdminWorkspace({segments,displayName:initialDisplayName}:{segmen
       setDeleting(false);
     }
   }
-
-  const cachedCatalog=loaded?.catalog;
-  const cachedLocations=loaded?.locations;
 
   // Protect forbidden routes for moderators
   useEffect(() => {
@@ -79,11 +79,12 @@ export function AdminWorkspace({segments,displayName:initialDisplayName}:{segmen
     async function load(){
       setIsPending(true);
       try{
-        const data=await loadWorkspace(segments,query,controller.signal,{
-          catalog:cachedCatalog,
-          locations:cachedLocations,
-        });
-        if(!controller.signal.aborted){setLoaded(data);setError("");}
+        const data=await loadWorkspace(route?route.split("/"):[],query,controller.signal,metadataCache.current);
+        if(!controller.signal.aborted){
+          metadataCache.current.catalog=data.catalog;
+          if(data.locations.length)metadataCache.current.locations=data.locations;
+          setLoaded(data);setError("");
+        }
       }catch(e){
         if(!controller.signal.aborted){
           if(e instanceof AdminError&&e.status===401){
@@ -96,7 +97,7 @@ export function AdminWorkspace({segments,displayName:initialDisplayName}:{segmen
     }
     void load();
     return ()=>controller.abort();
-  },[query,retry,segments,router,cachedCatalog,cachedLocations]);
+  },[query,retry,route,router]);
   async function logout(){
     setLogoutBusy(true);
     try{
