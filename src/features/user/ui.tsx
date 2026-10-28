@@ -137,7 +137,7 @@ export function PropertyCard({ property }: { property: Property }) {
           />
         </div>
         <p className="location">
-          {property.districtName} · {property.provinceName}
+          {property.communeName || property.districtName} · {property.provinceName}
         </p>
         <h3 className="card-title">
           <Link href={`/lo-dat/${property.id}`}>{property.title}</Link>
@@ -147,7 +147,7 @@ export function PropertyCard({ property }: { property: Property }) {
           <span>
             {property.roadWidthM !== null
               ? "Đường " + decimal(property.roadWidthM, "m")
-              : categories[property.landType]}
+              : categories[property.category]}
           </span>
         </div>
         <div className="card-bottom">

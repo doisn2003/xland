@@ -7,6 +7,7 @@ export const propertyKeys = [
   "category",
   "provinceCode",
   "districtCode",
+  "communeCode",
   "minPriceVnd",
   "maxPriceVnd",
   "areaBands",

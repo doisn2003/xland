@@ -136,19 +136,19 @@ export function Catalog({
               </select>
             </label>
             <label>
-              Quận / Huyện
+              Xã / phường / đặc khu
               <select
-                name="districtCode"
+                name="communeCode"
                 key={province}
                 defaultValue={
                   province === params.get("provinceCode")
-                    ? (params.get("districtCode") ?? "")
+                    ? (params.get("communeCode") ?? "")
                     : ""
                 }
                 disabled={!province}
               >
-                <option value="">Tất cả quận / huyện</option>
-                {locations?.districts.map((d) => (
+                <option value="">Tất cả xã / phường</option>
+                {locations?.communes.map((d) => (
                   <option key={d.code} value={d.code}>
                     {d.label}
                   </option>
@@ -199,23 +199,6 @@ export function Catalog({
                 <option value="below_100">Dưới 100 m²</option>
                 <option value="from_100_to_200">100–200 m²</option>
                 <option value="above_200">Trên 200 m²</option>
-              </select>
-            </label>
-            <label>
-              Mục đích sử dụng
-              <select
-                name="landTypes"
-                multiple
-                size={3}
-                defaultValue={params.get("landTypes")?.split(",") ?? []}
-              >
-                {Object.entries(categories)
-                  .filter(([v]) => v !== "industrial")
-                  .map(([v, l]) => (
-                    <option key={v} value={v}>
-                      {l}
-                    </option>
-                  ))}
               </select>
             </label>
             <label>

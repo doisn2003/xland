@@ -94,8 +94,12 @@ export interface PropertyAggregate extends Row {
   title: string;
   province: string;
   province_code: string;
-  district: string;
-  district_code: string;
+  district: string | null;
+  district_code: string | null;
+  commune_code?: string | null;
+  commune_name?: string | null;
+  address_detail?: string | null;
+  old_address?: string | null;
   catalog_version: string;
   region: "north" | "central" | "south";
   category: "residential" | "industrial" | "agricultural" | "other";

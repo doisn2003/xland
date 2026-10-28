@@ -1,0 +1,53 @@
+import {test,expect} from '@playwright/test';
+import {mkdirSync} from 'node:fs';
+import AxeBuilder from '@axe-core/playwright';
+
+test('new property chooses mode first, current Quang Ninh address and one land type',async({page})=>{
+  await page.goto('/admin/login');
+  await page.getByLabel('Tên đăng nhập').fill('admin');await page.getByLabel('Mật khẩu',{exact:true}).fill('123456');
+  await page.getByRole('button',{name:'Đăng nhập',exact:true}).click();await expect(page).not.toHaveURL(/login/);
+  await page.goto('/admin/properties/new');
+  const mode=page.getByRole('switch',{name:'Nhiều lô đất con'});
+  await expect(mode).toHaveAttribute('aria-checked','false');
+  expect((await mode.boundingBox())!.y).toBeLessThan((await page.locator('#code').boundingBox())!.y);
+  await page.locator('#code').fill('FORM-WEB-'+Date.now());await page.locator('#title').fill('Khu đất mới Quảng Ninh');
+  await mode.focus();await page.keyboard.press('Space');await expect(mode).toHaveAttribute('aria-checked','true');
+  await expect(page.locator('#title')).toHaveValue('Khu đất mới Quảng Ninh');
+  await expect(page.locator('#land_type')).toHaveCount(0);
+  await expect(page.locator('#category')).toHaveAccessibleName('Loại đất *');
+  await page.locator('#category').selectOption('industrial');
+  await expect(page.locator('#province_code option')).toHaveCount(35);
+  await page.getByLabel('Tìm tỉnh / thành phố',{exact:true}).fill('quang ninh');
+  await page.locator('#province_code').selectOption('22');
+  await expect(page.locator('#commune_code option')).toHaveCount(55);
+  await page.getByLabel('Tìm xã / phường / đặc khu',{exact:true}).fill('ha long');
+  await page.locator('#commune_code').selectOption({label:'Phường Hạ Long'});
+  await page.getByLabel('Tìm tỉnh / thành phố',{exact:true}).fill('ha noi');
+  await page.locator('#province_code').selectOption('01');await expect(page.locator('#commune_code')).toHaveValue('');
+  await page.getByLabel('Tìm tỉnh / thành phố',{exact:true}).fill('quang ninh');await page.locator('#province_code').selectOption('22');
+  await page.getByLabel('Tìm xã / phường / đặc khu',{exact:true}).fill('van don');await page.locator('#commune_code').selectOption({label:'Đặc khu Vân Đồn'});
+  await page.locator('#address_detail').fill('Khu phố 1');
+  await page.locator('#old_address').fill('Thị trấn Cái Rồng, huyện Vân Đồn, tỉnh Quảng Ninh');
+  await page.locator('#price_total').fill('9007199254740993');await page.locator('#area_m2').fill('1000');
+  await expect(page.locator('#consultant_id option')).not.toHaveCount(1);await page.locator('#consultant_id').selectOption({index:1});
+  await page.emulateMedia({reducedMotion:'reduce'});mkdirSync('docs/qa/2026-10-27-property-form',{recursive:true});
+  for(const width of [360,390,430,768,1440]){
+    await page.setViewportSize({width,height:1000});
+    await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();window.scrollTo(0,0);});
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    await page.screenshot({path:`docs/qa/2026-10-27-property-form/create-${width}.png`,fullPage:true});
+  }
+  expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations).toEqual([]);
+  const created=page.waitForResponse(r=>r.url().endsWith('/admin/api/properties')&&r.request().method()==='POST');
+  await page.getByRole('button',{name:'Tạo hồ sơ và mở studio'}).click();
+  const response=await created;expect(response.status()).toBe(201);
+  const {data}=await response.json();expect(data.has_subplots).toBe(true);expect(data.category).toBe('industrial');expect(data.land_type).toBe('other');
+  expect(data.district_code).toBeNull();expect(data.commune_name).toBe('Đặc khu Vân Đồn');
+  await expect(page.getByRole('heading',{name:'Một hồ sơ, nhiều lô đất'})).toBeVisible();
+  await mode.click();await expect(mode).toHaveAttribute('aria-checked','false');
+  await expect(page.locator('#category')).toHaveValue('industrial');await expect(page.locator('#old_address')).toHaveValue(data.old_address);
+  await page.locator('#old_address').fill('');await page.getByRole('button',{name:'Lưu thay đổi',exact:true}).first().click();
+  await expect(page.getByText('Đã lưu thông tin lô đất thành công.')).toBeVisible();
+  await page.reload();await expect(page.locator('#old_address')).toHaveValue('');
+  await mode.click();await expect(page.getByRole('heading',{name:'Một hồ sơ, nhiều lô đất'})).toBeVisible();
+});

@@ -22,7 +22,9 @@ test('subdivision studio creates inherited child and opens full property editor'
   mkdirSync('docs/qa/2026-10-27-subplots',{recursive:true});
   for(const width of [360,390,430,768,1440]){
     await page.setViewportSize({width,height:1000});
-    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+    await page.evaluate(()=>{(document.activeElement as HTMLElement)?.blur();window.scrollTo(0,0);});
+    const overflowing=await page.evaluate(()=>[...document.querySelectorAll('body *')].filter(e=>e.getBoundingClientRect().right>innerWidth+1).slice(0,12).map(e=>({tag:e.tagName,cls:e.className,right:e.getBoundingClientRect().right})));
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),JSON.stringify(overflowing)).toBe(true);
     await page.screenshot({path:`docs/qa/2026-10-27-subplots/admin-${width}.png`,fullPage:true});
   }
   expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations).toEqual([]);

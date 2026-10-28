@@ -6,6 +6,7 @@ import useSWR from "swr";
 import {api, errorText, type Catalog, type Row} from "../api";
 import {ConfirmModal} from "../confirm-modal";
 import type {PropertyAggregate, StudioTab} from "./types";
+import {PropertyMode} from "./mode-switch";
 import {ChildrenTab} from "./children-tab";
 import {BasicTab} from "./basic-tab";
 import {MediaTab} from "./media-tab";
@@ -38,6 +39,7 @@ export function PropertyStudio({
   });
   const [actionError, setActionError] = useState("");
   const [statusBusy, setStatusBusy] = useState(false);
+  const [basicDirty,setBasicDirty]=useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
@@ -54,11 +56,12 @@ export function PropertyStudio({
 
   // Sync tab with URL search parameter without full Next.js page transition
   const handleSelectTab = useCallback((newTab: StudioTab) => {
-    setTab(newTab);
+    if(basicDirty&&newTab!=="basic"){setActionError("Lưu thông tin đang chỉnh sửa trước khi chuyển phần quản lý.");return;}
+    setActionError("");setTab(newTab);
     const url = new URL(window.location.href);
     url.searchParams.set("tab", newTab);
     window.history.replaceState({}, "", url.toString());
-  }, []);
+  }, [basicDirty]);
 
   // Listen to browser back/forward navigation
   useEffect(() => {
@@ -130,6 +133,11 @@ export function PropertyStudio({
 
   return (
     <div className="admin-studio">
+      <PropertyMode multiple={!!aggregate.has_subplots} busy={statusBusy} disabledReason={basicDirty?"Lưu thông tin đang chỉnh sửa trước khi đổi kiểu hồ sơ.":aggregate.has_subplots&&(aggregate.subdivision?.total??0)>0?"Chuyển các lô con sang hồ sơ khác trước khi tắt chế độ nhiều lô.":undefined} onChange={async value=>{
+        setStatusBusy(true);setActionError("");
+        try{await api(`properties/${aggregate.id}`,"PATCH",{_version:aggregate._version,has_subplots:value});await mutate();handleSelectTab(value?"children":"basic");}
+        catch(e){setActionError(errorText(e));}finally{setStatusBusy(false);}
+      }}/>
       {/* Studio Header Bar */}
       <div className="admin-studio-header">
         <div className="admin-studio-top">
@@ -192,7 +200,7 @@ export function PropertyStudio({
             <h1 className="admin-studio-title">{aggregate.title}</h1>
             <p className="admin-studio-sub">
               {aggregate.province} · {aggregate.area_m2} m² ·{" "}
-              {Number(aggregate.price_total).toLocaleString("vi-VN")} đ
+              {BigInt(aggregate.price_total).toLocaleString("vi-VN")} đ
               {aggregate.consultant_name && ` · Phụ trách: ${aggregate.consultant_name}`}
             </p>
           </div>
@@ -201,17 +209,6 @@ export function PropertyStudio({
         {actionError && <p className="admin-error" role="alert">{actionError}</p>}
 
         {aggregate.parent && <Link className="admin-text-link" href={`/admin/properties/${aggregate.parent.id}?tab=children`}>↑ {aggregate.parent.code} · {aggregate.parent.title}</Link>}
-        <div className="admin-subdivision-toggle">
-          <div><strong>Nhiều lô đất con</strong><p>Bật để mở studio phân lô và quản lý riêng từng lô.</p></div>
-          <button type="button" role="switch" aria-label="Nhiều lô đất con" aria-checked={!!aggregate.has_subplots} className="admin-toggle-switch" disabled={statusBusy || (!!aggregate.has_subplots && (aggregate.subdivision?.total??0)>0)} onClick={async()=>{
-            setStatusBusy(true);setActionError("");
-            try {
-              await api(`properties/${aggregate.id}`, "PATCH", {_version:aggregate._version,has_subplots:!aggregate.has_subplots});
-              await mutate();handleSelectTab(aggregate.has_subplots?"basic":"children");
-            } catch(e) {setActionError(errorText(e));} finally {setStatusBusy(false);}
-          }}><span>{aggregate.has_subplots?"Bật":"Tắt"}</span></button>
-        </div>
-        {!!aggregate.has_subplots && (aggregate.subdivision?.total??0)>0 && <p className="admin-studio-sub">Chuyển các lô con sang hồ sơ khác trước khi tắt chế độ nhiều lô.</p>}
         {/* Tab Navigation (0ms instant tab change) */}
         <nav className="admin-studio-tabs" aria-label="Các phần quản lý lô đất">
           {aggregate.has_subplots && <button type="button" className={`admin-studio-tab ${activeTab === "children" ? "is-active" : ""}`} onClick={()=>handleSelectTab("children")}>Các lô đất con <span className="admin-tab-count">{aggregate.subdivision?.total??0}</span></button>}
@@ -261,8 +258,8 @@ export function PropertyStudio({
       <div className="admin-studio-content">
         {activeTab === "children" && <ChildrenTab key={aggregate.id} property={aggregate} onUpdated={updated=>void mutate(updated,false)}/>}
         {activeTab === "basic" && (
-          <BasicTab
-            key={`${aggregate.id}-${aggregate._version}`}
+          <BasicTab onDirtyChange={setBasicDirty}
+            key={aggregate.id}
             property={aggregate}
             catalog={catalog}
             locations={locations}

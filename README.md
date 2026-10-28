@@ -1,5 +1,9 @@
 # Xland
 
+**Production 28/10/2026:** user `https://xland-alpha.vercel.app`, admin `/admin`,
+cùng backend Railway. Xem [trạng thái hiện hành](docs/STATUS.md) và
+[runbook backend](../../../xland-server/docs/PRODUCTION.md).
+
 **Cập nhật 26/10/2026:** website user dùng API thật của `xland-server`, cùng tài khoản và dữ liệu với Flutter. Xem [hướng dẫn tích hợp](docs/USER-BACKEND-INTEGRATION.md) và [kết quả kiểm tra](docs/STATUS.md). Admin tại `/admin` giữ API và phiên riêng; tài liệu ở [ADMIN](docs/ADMIN.md).
 
 Website mobile first, tiếng Việt: danh mục/chi tiết UUID, tài khoản, nội dung đã lưu, video/bình luận/theo dõi, người đăng/chuyên gia, hỗ trợ, lịch xem, cộng đồng và tài chính. Mock data, store demo, reset và giao dịch NFT giả đã được gỡ khỏi mã ứng dụng. Booking và đăng ký sự kiện có feature flag; thanh toán, đổi/hủy, tải tài liệu, NFT và đăng bán giữ trạng thái chưa khả dụng theo backend.
@@ -79,6 +83,6 @@ React, TypeScript và ESLint giữ nhánh của template Next.js đã chọn. ES
 
 Đọc STATUS → USER-BACKEND-INTEGRATION → kế hoạch tích hợp. Tài liệu và scripts chụp UI 1A/1B còn được giữ để đối chiếu lịch sử; đường dẫn slug/store demo trong chúng không áp dụng cho bản API. Ảnh QA hiện tại được tạo bởi `tests/e2e/backend-user.spec.ts`; xem ảnh trước khi cập nhật biên bản nghiệm thu.
 
-Frontend Vercel với Node 24.x, install `pnpm install --frozen-lockfile`, build `pnpm build`, preset Next.js. Chưa triển khai bản tích hợp user trong lượt này. Giữ metadata `noindex` đến khi nội dung/policy đủ điều kiện phát hành; đây không phải cơ chế xác thực.
+Frontend Vercel với Node 24.x (runtime pnpm khóa 24.21.0), install `pnpm install --frozen-lockfile`, build `pnpm build`, preset Next.js. Cấu hình production user/admin được bổ sung ngày 28/10/2026; xem STATUS và biên bản rollout để đối chiếu deployment. Giữ metadata `noindex` đến khi nội dung/policy đủ điều kiện phát hành; đây không phải cơ chế xác thực.
 
 Backend Express/PostgreSQL/Railway là nguồn dữ liệu. Website không có ví, smart contract hoặc xử lý thu tiền thật.

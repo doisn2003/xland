@@ -1,8 +1,8 @@
 "use client";
 import {useState, type FormEvent} from "react";
 import {api, errorText, type Catalog, type Row} from "../api";
-import {FormField} from "../controls";
-import {initial, serialize} from "../form-values";
+import {PropertyFields,propertyPayload} from "./fields";
+import {initial} from "../form-values";
 import type {PropertyAggregate} from "./types";
 
 interface BasicTabProps {
@@ -10,9 +10,10 @@ interface BasicTabProps {
   catalog: Catalog;
   locations: Row[];
   onUpdated: (updated: PropertyAggregate) => void;
+  onDirtyChange?:(dirty:boolean)=>void;
 }
 
-export function BasicTab({property, catalog, locations, onUpdated}: BasicTabProps) {
+export function BasicTab({property, catalog, locations, onUpdated,onDirtyChange}: BasicTabProps) {
   const entityConfig = catalog["properties"];
   const fields = entityConfig?.fields ?? [];
 
@@ -32,7 +33,7 @@ export function BasicTab({property, catalog, locations, onUpdated}: BasicTabProp
     setSuccess(false);
 
     try {
-      const serialized = serialize(fields, draft, property);
+      const serialized = propertyPayload(fields, draft, property);
       // Exclude nested arrays and readonly fields from root property update
       const currentVersion = draft._version ?? property._version;
       const rootPayload: Row = {_version: currentVersion};
@@ -46,7 +47,7 @@ export function BasicTab({property, catalog, locations, onUpdated}: BasicTabProp
       const nextAggregate = {...property, ...updated, _version: updated._version};
       setDraft({...initial(fields, nextAggregate), _version: updated._version});
       onUpdated(nextAggregate);
-      setSuccess(true);
+      setSuccess(true);onDirtyChange?.(false);
       setTimeout(() => setSuccess(false), 4000);
     } catch (err) {
       setError(errorText(err));
@@ -70,20 +71,7 @@ export function BasicTab({property, catalog, locations, onUpdated}: BasicTabProp
       {error && <p className="admin-error" role="alert">{error}</p>}
       {success && <p className="admin-success" role="status">Đã lưu thông tin lô đất thành công.</p>}
 
-      <div className="admin-form-grid">
-        {fields
-          .filter(f => !f.readonly && !["has_subplots", "media", "legal_items", "documents", "amenities", "slots", "bookings"].includes(f.name))
-          .map(f => (
-            <FormField
-              key={f.name}
-              field={f}
-              draft={draft}
-              setDraft={setDraft}
-              locations={locations}
-              uploadBusy={setUploadBusy}
-            />
-          ))}
-      </div>
+      <PropertyFields fields={fields} draft={draft} setDraft={fn=>{setDraft(fn);onDirtyChange?.(true);}} locations={locations} uploadBusy={setUploadBusy}/>
 
       <div className="admin-form-actions">
         <button type="submit" className="admin-button" disabled={saving || uploadBusy}>

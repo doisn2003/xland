@@ -30,7 +30,7 @@ export function PropertyDetail({ initial }: { initial: Property }) {
   return (
     <UserShell
       title={property.title}
-      intro={`${property.districtName} · ${property.provinceName} · ${regions[property.region]}`}
+      intro={[property.addressDetail,property.communeName,property.communeCode?null:property.districtName,property.provinceName,regions[property.region]].filter(Boolean).join(" · ")}
     >
       <ErrorNotice error={error} />
       {property.parentPropertyId && <Link className="text-link" href={`/lo-dat/${property.parentPropertyId}`}>↑ Xem mảnh đất cha</Link>}
@@ -63,7 +63,6 @@ export function PropertyDetail({ initial }: { initial: Property }) {
                 ["Đường tiếp cận", decimal(property.roadWidthM, "m")],
                 ["Hướng", property.direction ?? "Chưa có thông tin"],
                 ["Loại đất", categories[property.category]],
-                ["Mục đích sử dụng", categories[property.landType]],
                 ["Cập nhật", dateTime(property.updatedAt)],
               ].map(([name, value]) => (
                 <div key={name}>
@@ -72,6 +71,7 @@ export function PropertyDetail({ initial }: { initial: Property }) {
                 </div>
               ))}
             </dl>
+            {property.oldAddress?.trim() && <div className="user-old-address"><h3>Địa chỉ cũ</h3><p>{property.oldAddress}</p></div>}
             {property.highlights.length > 0 && (
               <ul className="user-list">
                 {property.highlights.map((h, i) => (

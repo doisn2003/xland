@@ -102,7 +102,9 @@ export function decode(value: unknown, type: string): unknown {
   const raw = record(value),
     result: Record<string, unknown> = {};
   for (const [key, fieldType] of Object.entries(schema)) {
-    const field = type === "Property" && raw[key] === undefined && ["parentPropertyId", "hasSubplots", "isCorner"].includes(key)
+    const field = raw[key] === undefined && ((type === "Property" && ["communeCode","communeName","addressDetail","oldAddress"].includes(key)) || (type === "PropertyFilter" && key === "communeCode")) ? null :
+      type === "FilterCatalog" && key === "communes" && raw[key] === undefined ? [] :
+      type === "Property" && raw[key] === undefined && ["parentPropertyId", "hasSubplots", "isCorner"].includes(key)
       ? (key === "parentPropertyId" ? null : false) :
       type === "UserProfile" && key === "address" && raw[key] === undefined ? null :
       type === "AuthorProfile" && key === "author"

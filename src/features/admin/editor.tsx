@@ -4,6 +4,8 @@ import {useState,type FormEvent} from "react";
 import {useRouter} from "next/navigation";
 import {api,AdminError,errorText,type Catalog,type Row} from "./api";
 import {FormField} from "./controls";
+import {PropertyMode} from "./property/mode-switch";
+import {PropertyFields,propertyDraft,propertyPayload} from "./property/fields";
 import {ConfirmModal} from "./confirm-modal";
 import {initial,serialize} from "./form-values";
 import {formatted,label} from "./labels";
@@ -11,7 +13,7 @@ import {formatted,label} from "./labels";
 export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{entity:string;catalog:Catalog;record:Row|null;locations:Row[];property?:string;isSuperAdmin?:boolean}){
   const config=catalog[entity]!;const router=useRouter();
   const mediaFields=catalog.media!.fields.filter(f=>!["property_id","kind","usage"].includes(f.name));
-  const [draft,setDraft]=useState(()=>initial(config.fields,record??(property?{property_id:property}:{})));
+  const [draft,setDraft]=useState(()=>entity==="properties"?propertyDraft(config.fields,record,locations):initial(config.fields,record??(property?{property_id:property}:{})));
   const [media,setMedia]=useState(()=>initial(mediaFields,(record?.media as Row)??{sort_order:"0",is_illustrative:false}));
   const [contact,setContact]=useState<Row>((record?.contact as Row)??{phone:"",email_contact:""});
   const [reason,setReason]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false),[uploads,setUploads]=useState(0);
@@ -44,7 +46,7 @@ export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{
   }
   async function submit(event:FormEvent){event.preventDefault();setBusy(true);setError("");
     try{
-      const data=serialize(config.fields,draft,record??undefined);
+      const data=entity==="properties"?propertyPayload(config.fields,draft,record??undefined):serialize(config.fields,draft,record??undefined);
       if(entity==="videos"){
         delete data.media_id;
         data.media={...serialize(mediaFields,media,record?.media as Row|undefined),...(record?{_version:(record.media as Row)._version}:{})};
@@ -54,7 +56,7 @@ export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{
       if(entity==="bookings")data.reason=reason;
       if(record)data._version=record._version;
       const saved=await api<Row>(entity+(record?`/${record.id}`:""),record?"PATCH":"POST",data);
-      router.push(`/admin/${entity}/${saved.id}?saved=${saved._version}`);router.refresh();
+      router.push(`/admin/${entity}/${saved.id}?saved=${saved._version}${entity==="properties"&&saved.has_subplots?"&tab=children":""}`);router.refresh();
     }catch(e){setError(errorText(e)+(e instanceof AdminError&&e.field?` (${label(e.field)})`:""));setBusy(false);}
   }
   async function handleSaveRoles(){
@@ -72,8 +74,9 @@ export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{
     <div className="admin-page-heading"><div><Link className="admin-text-link" href={`/admin/${entity}`}>← {config.title}</Link><h1>{record?(readonly?"Chi tiết hồ sơ":"Chỉnh sửa hồ sơ"):"Thêm "+config.title.toLowerCase()}</h1><p>Trường có dấu <span className="admin-required">*</span> là bắt buộc. Thời gian hiển thị theo giờ Việt Nam.</p></div></div>
     {entity==="properties"&&record&&<nav className="admin-related" aria-label="Hồ sơ liên quan">{["media","legal","documents","amenities","slots","videos","bookings"].map(key=><Link key={key} href={`/admin/${key}?filter=property_id&value=${record.id}`}>{catalog[key]!.title}</Link>)}</nav>}
     <form onSubmit={submit} className="admin-panel admin-editor">
+      {entity==="properties"&&<PropertyMode multiple={draft.has_subplots===true} busy={busy} onChange={value=>setDraft(v=>({...v,has_subplots:value}))}/>}
       {!readonly&&<><div className="admin-section-title"><h2>Thông tin {config.title.toLowerCase()}</h2><p>{entity==="bookings"?"Chuyển trạng thái cần lý do. Xác nhận và hoàn tất cần tiền cọc được xác minh.":"Thông tin được lưu vào hệ thống Xland."}</p></div>
-      <div className="admin-form-grid">{active.map(f=><FormField key={f.name} field={f} draft={draft} setDraft={setDraft} locations={locations} uploadBusy={uploadBusy}/>)}</div></>}
+      <>{entity==="properties"?<PropertyFields fields={config.fields} draft={draft} setDraft={setDraft} locations={locations} uploadBusy={uploadBusy}/>:<div className="admin-form-grid">{active.map(f=><FormField key={f.name} field={f} draft={draft} setDraft={setDraft} locations={locations} uploadBusy={uploadBusy}/>)}</div>}</></>}
       {entity==="videos"&&<section className="admin-form-section"><h2>Tệp video & ảnh bìa</h2><p>Chọn video của lô đất đang đăng. Upload xong, điền mô tả và thời lượng trước khi lưu.</p><div className="admin-form-grid">{mediaFields.filter(f=>!f.readonly).map(f=><FormField key={f.name} field={f} draft={{...media,kind:"video"}} setDraft={setMedia} uploadBusy={uploadBusy}/>)}</div>{!!media.public_url&&<video className="admin-video" src={String(media.public_url)} controls preload="metadata" aria-label="Xem trước video"/>}</section>}
       {entity==="consultants"&&<section className="admin-form-section"><h2>Thông tin liên hệ</h2><div className="admin-form-grid"><label>Điện thoại<input type="tel" value={String(contact.phone??"")} onChange={e=>setContact({...contact,phone:e.target.value})}/></label><label>Email<input type="email" value={String(contact.email_contact??"")} onChange={e=>setContact({...contact,email_contact:e.target.value})}/></label></div></section>}
       {entity==="bookings"&&<section className="admin-form-section"><label htmlFor="reason">Lý do cập nhật lịch hẹn{draft.status!==record?.status&&<span className="admin-required"> *</span>}</label><textarea id="reason" value={reason} required={draft.status!==record?.status} onChange={e=>setReason(e.target.value)} rows={3} maxLength={2000}/></section>}
@@ -138,7 +141,7 @@ export function Editor({entity,catalog,record,locations,property,isSuperAdmin}:{
             )}
           </div>
           <button className="admin-button" disabled={busy||uploads>0||deleting}>
-            {uploads>0?"Đang tải tệp…":busy?"Đang lưu…":"Lưu hồ sơ"}
+            {uploads>0?"Đang tải tệp…":busy?"Đang lưu…":entity==="properties"&&!record?(draft.has_subplots?"Tạo hồ sơ và mở studio":"Tạo lô đất"):"Lưu hồ sơ"}
           </button>
         </div>
       )}

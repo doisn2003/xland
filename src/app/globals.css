@@ -2197,3 +2197,5 @@ button:disabled,
   .visit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .visit-card:has(.visit-form) { grid-column: 1 / -1; }
 }
+
+.user-old-address{margin:20px 0;padding:16px 18px;border-left:3px solid #9b8759;border-radius:0 10px 10px 0;background:#f5f3ed;overflow-wrap:anywhere}.user-old-address h3{margin:0 0 8px;font-size:15px}.user-old-address p{margin:0;line-height:1.65}

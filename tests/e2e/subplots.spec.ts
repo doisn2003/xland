@@ -8,6 +8,8 @@ test('parent badge, 2x2 children, pagination and recursive detail',async({page},
   await expect(page.locator('.property-card .subplot-badge')).toHaveText('Nhiều lô đất con');
   await page.locator('.property-card h3 a').click();
   await expect(page).toHaveURL('/lo-dat/'+s.parentId);
+  await expect(page.locator('.user-old-address')).toContainText('Phường Bạch Đằng, thành phố Hạ Long, tỉnh Quảng Ninh');
+  await expect(page.locator('.user-facts')).toContainText('Đất công nghiệp');
   await expect(page.locator('.user-child-grid .property-card')).toHaveCount(4);
   const boxes=await page.locator('.user-child-grid .property-card').evaluateAll(nodes=>nodes.map(n=>{const r=n.getBoundingClientRect();return{x:r.x,y:r.y};}));
   expect(boxes[0]!.y).toBe(boxes[1]!.y);expect(boxes[1]!.x).toBeGreaterThan(boxes[0]!.x);expect(boxes[2]!.y).toBeGreaterThan(boxes[0]!.y);

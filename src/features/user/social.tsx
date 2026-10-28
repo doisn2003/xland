@@ -29,21 +29,20 @@ export function Share({ path }: { path: string }) {
         type="button"
         onClick={async () => {
           setError(null);
+          setCopied(false);
           try {
             const value = entity(
               record(await request(path + "/share")).data,
               "ShareLink",
             );
             setLink(value);
-            if (navigator.share) {
+            if (navigator.clipboard?.writeText) {
               try {
-                await navigator.share({ title: value.title, url: value.url });
-              } catch (e) {
-                if (!(e instanceof Error && e.name === "AbortError")) throw e;
+                await navigator.clipboard.writeText(value.url);
+                setCopied(true);
+              } catch {
+                setCopied(false);
               }
-            } else if (navigator.clipboard) {
-              await navigator.clipboard.writeText(value.url);
-              setCopied(true);
             }
           } catch (e) {
             setError(e);

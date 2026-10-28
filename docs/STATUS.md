@@ -1,5 +1,32 @@
 # Trạng thái Xland
 
+## Production đồng bộ — 28/10/2026
+
+- Website user và admin cùng dùng Railway: `/api/v1` và `/api/v1/admin`, origin
+  `https://xland-alpha.vercel.app`. Đã bổ sung biến production user trên Vercel;
+  Google dùng web client cùng dự án mobile, đã bổ sung authorized JavaScript origin.
+- Sửa nguyên nhân các deployment Vercel gần đây thất bại: `devEngines.runtime`
+  lệch specifier lockfile. Khóa lại Node **24.21.0** và xác nhận
+  `pnpm install --frozen-lockfile` đạt bằng pnpm 11.25.0.
+- `pnpm check` đạt: lint/typecheck, **46 unit**, production build và **21/21 E2E**.
+  **5/5 admin E2E** đạt; cập nhật bài cũ theo tỉnh–xã hiện hành, kiểm response 201
+  và dữ liệu lưu thật. QA browser dùng budget đăng nhập riêng sau suite HTTP
+  trong DB cô lập; không nới limiter production.
+- Backend đạt 31 unit, integration/contract, 292 HTTP admin checks và 19 auth tests.
+  Test expiry đã kiểm hết hạn thực, không giả định phiên chỉ tồn tại 24 giờ;
+  runner auth không còn che exit code thất bại. Schema cũ fail readiness rõ ràng.
+- Flutter: analyze và **262 test đạt**, 7 opt-in skip. APK production **0.2.6+9**
+  đã build bằng certificate hiện có; API Railway có trong cả ARM64/x86_64.
+  Hướng dẫn APK/IPA ở repo mobile `docs/PRODUCTION_BUILD.md`; chưa có Apple Team
+  và iOS OAuth client, nên IPA/Universal Links iOS chưa nghiệm thu.
+- Backend mới đã deploy Railway thành công dù provider còn cảnh báo hóa đơn quá hạn.
+  Booking/event write, SMS, thanh toán/NFT giữ policy hiện hành. Không reset/seed
+  dataset dùng chung. Đây vẫn là dataset pilot, chưa phải nghiệm thu dữ liệu thương mại.
+- Commit/deployment và kiểm tra live cuối nằm trong biên bản workspace
+  `brain/reports/production-20261028/README.md`; không suy kết quả live từ test local.
+
+Các mốc bên dưới được giữ để đối chiếu lịch sử.
+
 ## Sửa treo form câu lạc bộ và sự kiện — 27/10/2026
 
 - Tái hiện trực tiếp trong in-app browser lỗi React `Maximum update depth exceeded` tại `/admin/events/new`; tab `/admin/clubs/new` ban đầu không phản hồi. Nguyên nhân: effect tải workspace phụ thuộc `loaded.locations`, trong khi loader tạo mảng rỗng mới mỗi lần tải ngoài module lô đất, dẫn đến `setLoaded` và effect kích hoạt nhau liên tục.
@@ -8,6 +35,19 @@
 - Hai E2E mới clubs/events đạt: nhập liên tục, không mất draft, thêm/xóa mục, checkbox/select, POST tạo **201**, reload và đối chiếu dữ liệu API, điều hướng tiếp sang form tư vấn viên. Chạy Express/PostgreSQL QA cô lập; 5 chiều rộng 360/390/430/768/1440, reduced motion, overflow và Axe đạt.
 - `pnpm check` trên workspace hiện tại đạt đầy đủ: lint/typecheck, **46 unit**, production build, **21/21 E2E** Chromium desktop/mobile và WebKit mobile. Bản sửa không thay backend/schema hoặc dữ liệu nghiệp vụ.
 - [Nguyên nhân và bằng chứng QA](qa/2026-10-27-community-freeze/README.md). Commit bản sửa chỉ gồm workspace loader, bài kiểm tra hồi quy và tài liệu/ảnh của lỗi này; các thay đổi tính năng đang có trong working tree được giữ nguyên.
+
+## Sửa form lô đất, địa chỉ hiện hành và lỗi toggle — 27/10/2026
+
+- Đã hợp nhất giao diện thành **một Loại đất**; `category` là nguồn chính, `land_type` chỉ còn projection tương thích client cũ. Database/API chặn giá trị mâu thuẫn. Web/mobile hiển thị đúng đất công nghiệp.
+- Form tạo mặc định địa giới hiện hành, đủ **34 tỉnh/thành và 3.321 xã/phường/đặc khu**, có tìm không dấu và chọn phụ thuộc. Quảng Ninh có 54 đơn vị cấp xã. Mã/phiên bản/miền được xử lý nội bộ; không còn yêu cầu admin tự điền cặp tên–mã.
+- Thêm **Địa chỉ cũ** tùy chọn, hiển thị trên Tổng quan website và Flutter; để trống thì ẩn. Hồ sơ cũ giữ nguyên vị trí, có thể chuyển sang địa giới mới bằng lựa chọn rõ ràng. Lô con kế thừa cả địa chỉ hiện hành và địa chỉ cũ.
+- Switch **Nhiều lô đất con** ở đầu form tạo và studio, có trạng thái bật/tắt, keyboard, bảo toàn draft. Tạo hồ sơ nhiều lô mở studio ngay; không tắt khi còn con, không đổi mode khi thông tin đang sửa chưa lưu.
+- **Đã sửa môi trường localhost thực tế**: backup 43 bảng, restore thử 2.080 dòng khớp digest và rehearsal bằng role managed non-superuser; migrate database mock đến 0023, giữ 23 hồ sơ; restart API localhost:3005. Website admin/user localhost cùng dùng API mới. Đã đối soát 0018/0019 từng được chạy thủ công nhưng thiếu ledger; thêm cầu nối quyền sở hữu function cho managed PostgreSQL, không giữ quyền CREATE cho runtime admin.
+- Smoke trên **localhost:3000**: form có 34 tỉnh/thành, Quảng Ninh có 54 xã/phường/đặc khu; tạo multi-estate **201**, PATCH tắt/bật **200/200**, user thấy địa chỉ cũ từ API thật. Hồ sơ probe ở trạng thái chờ duyệt đã xóa sau kiểm tra; giữ audit theo quy tắc hệ thống. Không sửa nghiệp vụ của hồ sơ đang có.
+- Website **`pnpm check` đạt trong một lượt**: lint/typecheck/build, **46 unit**, **21/21 E2E** Chromium desktop/mobile và WebKit mobile. Hai E2E admin form/studio riêng đạt; xem ảnh 360/390/430/768/1440, kiểm overflow, keyboard, reduced motion, Axe.
+- Backend: lint/typecheck/build, **31 unit**, **292 HTTP admin checks**, **2 contract suites** đạt; replay migration, 44 bảng FORCE RLS. Flutter: **42 test trong 5 file liên quan** và analyze đạt.
+- Giới hạn: integration rộng vẫn dừng tại `foundation.test.ts:101` (test kỳ vọng hết hạn phiên 401, policy hiện có trả 200); đây là lỗi đã ghi từ lượt trước. Không thay chính sách phiên hoặc bỏ assertion. Chưa deploy source lên Railway/Vercel, chưa build/phát hành lại Flutter hoặc nghiệm thu thiết bị thật. Database mock dùng chung đã nâng cấp; client từ xa cần backend mới để nhận các trường mới.
+- [Schema/API/nguồn địa giới/rollout](../../../xland-server/docs/PROPERTY_FORM.md); [ảnh và QA form](qa/2026-10-27-property-form/README.md).
 
 ## Một hồ sơ — nhiều lô đất — 27/10/2026
 

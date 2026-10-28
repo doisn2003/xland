@@ -1,7 +1,7 @@
 export const categories = {
   residential: "Đất ở",
-  industrial: "Công nghiệp",
-  agricultural: "Nông nghiệp",
+  industrial: "Đất công nghiệp",
+  agricultural: "Đất nông nghiệp",
   other: "Khác",
 };
 export const regions = {
